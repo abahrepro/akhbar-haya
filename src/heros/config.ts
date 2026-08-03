@@ -17,22 +17,22 @@ export const hero: Field = {
       name: 'type',
       type: 'select',
       defaultValue: 'lowImpact',
-      label: 'Type',
+      label: 'نوع الواجهة',
       options: [
         {
-          label: 'None',
+          label: 'بدون',
           value: 'none',
         },
         {
-          label: 'High Impact',
+          label: 'واجهة كبيرة',
           value: 'highImpact',
         },
         {
-          label: 'Medium Impact',
+          label: 'واجهة متوسطة',
           value: 'mediumImpact',
         },
         {
-          label: 'Low Impact',
+          label: 'واجهة بسيطة',
           value: 'lowImpact',
         },
       ],

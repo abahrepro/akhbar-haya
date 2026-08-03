@@ -30,11 +30,13 @@ export const Media: CollectionConfig = {
   fields: [
     {
       name: 'alt',
+      label: 'النص البديل (للوصولية)',
       type: 'text',
       //required: true,
     },
     {
       name: 'caption',
+      label: 'تعليق الصورة',
       type: 'richText',
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {

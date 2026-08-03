@@ -69,7 +69,7 @@ export const Pages: CollectionConfig<'pages'> = {
       tabs: [
         {
           fields: [hero],
-          label: 'Hero',
+          label: 'الواجهة',
         },
         {
           fields: [
@@ -83,11 +83,11 @@ export const Pages: CollectionConfig<'pages'> = {
               },
             },
           ],
-          label: 'Content',
+          label: 'المحتوى',
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: 'تحسين محركات البحث',
           fields: [
             OverviewField({
               titlePath: 'meta.title',

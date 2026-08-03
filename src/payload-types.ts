@@ -194,7 +194,7 @@ export interface Page {
             url?: string | null;
             label: string;
             /**
-             * Choose how the link should be rendered.
+             * اختر شكل عرض الرابط.
              */
             appearance?: ('default' | 'outline') | null;
           };
@@ -530,7 +530,7 @@ export interface CallToActionBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * اختر شكل عرض الرابط.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -580,7 +580,7 @@ export interface ContentBlock {
           url?: string | null;
           label: string;
           /**
-           * Choose how the link should be rendered.
+           * اختر شكل عرض الرابط.
            */
           appearance?: ('default' | 'outline') | null;
         };
@@ -833,7 +833,7 @@ export interface Form {
 export interface Redirect {
   id: number;
   /**
-   * You will need to rebuild the website when changing this field.
+   * يتطلب تغيير هذا الحقل إعادة بناء الموقع.
    */
   from: string;
   to?: {

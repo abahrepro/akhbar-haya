@@ -23,6 +23,7 @@ export const Users: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      label: 'الاسم',
       type: 'text',
     },
   ],
