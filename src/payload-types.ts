@@ -427,7 +427,7 @@ export interface Category {
   title: string;
   description?: string | null;
   /**
-   * لون مميّز للقسم، مثال: #0f7c3e
+   * لون مميّز للقسم، مثال: #026938
    */
   color?: string | null;
   /**

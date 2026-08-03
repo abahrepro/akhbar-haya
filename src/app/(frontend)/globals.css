@@ -92,15 +92,15 @@
 
 :root {
   /* ===== هوية أخبار حياة ===== */
-  --brand: #0f7c3e;
-  --brand-deep: #0a5b2c;
-  --brand-tint: #e8f3ec;
+  --brand: #026938;
+  --brand-deep: #014d29;
+  --brand-tint: #e6f2ea;
   --gold: #b8863b;
   --alert: #d8352a;
   --ink-soft: #3c4a43;
 
   /* ===== ألوان الأقسام ===== */
-  --cat-jordan: #0f7c3e;
+  --cat-jordan: #026938;
   --cat-palestine: #8a2e4d;
   --cat-world: #2563a8;
   --cat-economy: #b8863b;
@@ -116,19 +116,19 @@
   --card-foreground: #14201a;
   --popover: #ffffff;
   --popover-foreground: #14201a;
-  --primary: #0f7c3e;
+  --primary: #026938;
   --primary-foreground: #ffffff;
   --secondary: #eef3ef;
   --secondary-foreground: #14201a;
   --muted: #eef3ef;
   --muted-foreground: #697a70;
-  --accent: #e8f3ec;
-  --accent-foreground: #0a5b2c;
+  --accent: #e6f2ea;
+  --accent-foreground: #014d29;
   --destructive: #d8352a;
   --destructive-foreground: #ffffff;
   --border: #e2eae4;
   --input: #e2eae4;
-  --ring: #0f7c3e;
+  --ring: #026938;
   --radius: 0.75rem;
   --success: #0f8a7e;
   --warning: #b8863b;

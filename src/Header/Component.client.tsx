@@ -234,7 +234,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
           )}
         >
           <div className="mb-4 flex items-center justify-between">
-            <BrandLogo />
+            <BrandLogo height={38} />
             <button
               onClick={() => setMenuOpen(false)}
               aria-label="إغلاق"

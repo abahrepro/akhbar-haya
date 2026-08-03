@@ -38,8 +38,8 @@ export const Categories: CollectionConfig = {
       type: 'text',
       label: 'لون القسم (Hex)',
       admin: {
-        description: 'لون مميّز للقسم، مثال: #0f7c3e',
-        placeholder: '#0f7c3e',
+        description: 'لون مميّز للقسم، مثال: #026938',
+        placeholder: '#026938',
       },
     },
     {
