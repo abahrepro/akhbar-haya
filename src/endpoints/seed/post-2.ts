@@ -36,7 +36,6 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
           {
             type: 'block',
             fields: {
-              id: 'c9b66ddebbd228dc4453832e',
               blockName: 'Disclaimer',
               blockType: 'banner',
               content: {
@@ -92,7 +91,6 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
                       format: '',
                       indent: 0,
                       textFormat: 1,
-                      textStyle: '',
                       version: 1,
                     },
                   ],
@@ -143,13 +141,11 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
             format: '',
             indent: 0,
             textFormat: 0,
-            textStyle: '',
             version: 1,
           },
           {
             type: 'block',
             fields: {
-              id: '78c4bb601180748c9812e3bb',
               blockName: '',
               blockType: 'mediaBlock',
               media: blockImage.id,
@@ -174,13 +170,11 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
             format: '',
             indent: 0,
             textFormat: 0,
-            textStyle: '',
             version: 1,
           },
           {
             type: 'block',
             fields: {
-              id: '2d208ab2627144a99eb364de',
               blockName: 'Dynamic components',
               blockType: 'banner',
               content: {
@@ -204,7 +198,6 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
                       format: '',
                       indent: 0,
                       textFormat: 0,
-                      textStyle: '',
                       version: 1,
                     },
                   ],

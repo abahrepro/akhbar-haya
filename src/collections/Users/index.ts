@@ -23,5 +23,4 @@ export const Users: CollectionConfig = {
     },
   ],
   timestamps: true,
-  versions: false,
 }

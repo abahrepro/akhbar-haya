@@ -17,7 +17,6 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
           {
             type: 'block',
             fields: {
-              id: 'c0b95a3a35552be1d84822a5',
               blockName: 'Disclaimer',
               blockType: 'banner',
               content: {
@@ -73,7 +72,6 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
                       format: '',
                       indent: 0,
                       textFormat: 1,
-                      textStyle: '',
                       version: 1,
                     },
                   ],
@@ -142,13 +140,11 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
             format: '',
             indent: 0,
             textFormat: 0,
-            textStyle: '',
             version: 1,
           },
           {
             type: 'block',
             fields: {
-              id: 'ab20dc67888df0b281f03b14',
               blockName: '',
               blockType: 'mediaBlock',
               media: blockImage.id,
@@ -192,7 +188,6 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
             format: '',
             indent: 0,
             textFormat: 0,
-            textStyle: '',
             version: 1,
           },
           {
@@ -212,13 +207,11 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
             format: '',
             indent: 0,
             textFormat: 0,
-            textStyle: '',
             version: 1,
           },
           {
             type: 'block',
             fields: {
-              id: '29a96ff97a5cb723668a0bb3',
               blockName: 'Dynamic components',
               blockType: 'banner',
               content: {
@@ -242,7 +235,6 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
                       format: '',
                       indent: 0,
                       textFormat: 0,
-                      textStyle: '',
                       version: 1,
                     },
                   ],

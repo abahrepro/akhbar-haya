@@ -62,28 +62,7 @@ export default buildConfig({
       url: process.env.DATABASE_URL || 'file:./akhbar-hayat.db',
     },
   }),
-  collections: [
-    {
-      slug: 'folders',
-      folders: true,
-      admin: {
-        useAsTitle: 'name',
-      },
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-          label: 'Folder Name',
-        },
-      ],
-    },
-    Pages,
-    Posts,
-    Media,
-    Categories,
-    Users,
-  ],
+  collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,
