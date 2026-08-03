@@ -151,6 +151,13 @@ const run = async () => {
     'posts',
     'posts_rels',
     'posts_gallery',
+    // جداول الإصدارات — لوحة التحكّم تقرأ منها (تستعلم دائماً بوضع المسودّة)
+    '_posts_v',
+    '_posts_v_rels',
+    '_posts_v_version_gallery',
+    '_posts_v_version_populated_authors',
+    '_pages_v',
+    '_pages_v_rels',
     'pages_rels',
     'categories_breadcrumbs',
     'search',
