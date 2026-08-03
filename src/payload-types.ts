@@ -277,6 +277,10 @@ export interface Post {
     description?: string | null;
   };
   publishedAt?: string | null;
+  /**
+   * مُرحَّل من الموقع القديم — يُستخدم للحفاظ على الرابط.
+   */
+  wpId?: number | null;
   type?: ('news' | 'opinion' | 'photo' | 'video') | null;
   /**
    * يظهر في شريط العاجل والتنبيه المنبثق.
@@ -1267,6 +1271,7 @@ export interface PostsSelect<T extends boolean = true> {
         description?: T;
       };
   publishedAt?: T;
+  wpId?: T;
   type?: T;
   breaking?: T;
   featured?: T;

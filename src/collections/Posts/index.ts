@@ -257,6 +257,20 @@ export const Posts: CollectionConfig<'posts'> = {
         ],
       },
     },
+    // مُعرّف الخبر في ووردبريس — مفتاح الترحيل ويحفظ الرابط القديم
+    {
+      name: 'wpId',
+      type: 'number',
+      label: 'معرّف ووردبريس',
+      index: true,
+      unique: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        condition: (data) => Boolean(data?.wpId),
+        description: 'مُرحَّل من الموقع القديم — يُستخدم للحفاظ على الرابط.',
+      },
+    },
     {
       name: 'type',
       type: 'select',
@@ -326,7 +340,18 @@ export const Posts: CollectionConfig<'posts'> = {
         },
       ],
     },
-    slugField(),
+    slugField({
+      // الافتراضي يمسح كل ما ليس [A-Za-z0-9_-] فيمحو العربية بالكامل.
+      // هذه النسخة تُبقي الحروف العربية واللاتينية والأرقام.
+      slugify: ({ valueToSlugify }) =>
+        String(valueToSlugify ?? '')
+          .trim()
+          .replace(/[\s_]+/g, '-')
+          .replace(/[^\p{L}\p{N}-]+/gu, '')
+          .replace(/-{2,}/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .toLowerCase(),
+    }),
   ],
   hooks: {
     afterChange: [revalidatePost],
