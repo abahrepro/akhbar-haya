@@ -69,6 +69,15 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   }
 }
 
+/**
+ * نولّد مسبقاً الصفحات الأولى فقط.
+ * الأرشيف يتجاوز ١٤٥ ألف خبر أي أكثر من ١٤٥٠٠ صفحة ترقيم —
+ * بناؤها كلها يستنزف وقت البناء واتصالات قاعدة البيانات بلا فائدة تُذكر.
+ */
+export const dynamicParams = true
+
+const PREBUILT_PAGES = 20
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const { totalDocs } = await payload.count({
@@ -76,13 +85,9 @@ export async function generateStaticParams() {
     overrideAccess: false,
   })
 
-  const totalPages = Math.ceil(totalDocs / 10)
+  const totalPages = Math.min(Math.ceil(totalDocs / 10), PREBUILT_PAGES)
 
-  const pages: { pageNumber: string }[] = []
-
-  for (let i = 1; i <= totalPages; i++) {
-    pages.push({ pageNumber: String(i) })
-  }
-
-  return pages
+  return Array.from({ length: Math.max(0, totalPages) }, (_, i) => ({
+    pageNumber: String(i + 1),
+  }))
 }

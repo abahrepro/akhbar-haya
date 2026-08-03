@@ -47,6 +47,8 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
+    "tests",
+    "src/migration",
     "node_modules"
   ]
 }

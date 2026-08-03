@@ -59,6 +59,9 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL,
+      // البناء يشغّل عدة عمّال متوازين؛ مجمّع صغير لكل عامل يمنع استنفاد اتصالات الخادم
+      max: Number(process.env.DB_POOL_MAX ?? 8),
+      idleTimeoutMillis: 30_000,
     },
   }),
   collections: [Pages, Posts, Media, Categories, Tags, Users],
