@@ -91,80 +91,90 @@
 }
 
 :root {
-  --background: oklch(100% 0 0deg);
-  --foreground: oklch(14.5% 0 0deg);
-  --card: oklch(96.5% 0.005 265deg);
-  --card-foreground: oklch(14.5% 0 0deg);
-  --popover: oklch(100% 0 0deg);
-  --popover-foreground: oklch(14.5% 0 0deg);
-  --primary: oklch(20.5% 0 0deg);
-  --primary-foreground: oklch(98.5% 0 0deg);
-  --secondary: oklch(97% 0 0deg);
-  --secondary-foreground: oklch(20.5% 0 0deg);
-  --muted: oklch(97% 0 0deg);
-  --muted-foreground: oklch(55.6% 0 0deg);
-  --accent: oklch(97% 0 0deg);
-  --accent-foreground: oklch(20.5% 0 0deg);
-  --destructive: oklch(57.7% 0.245 27.325deg);
-  --destructive-foreground: oklch(57.7% 0.245 27.325deg);
-  --border: oklch(92.2% 0 0deg);
-  --input: oklch(92.2% 0 0deg);
-  --ring: oklch(70.8% 0 0deg);
-  --chart-1: oklch(64.6% 0.222 41.116deg);
-  --chart-2: oklch(60% 0.118 184.704deg);
-  --chart-3: oklch(39.8% 0.07 227.392deg);
-  --chart-4: oklch(82.8% 0.189 84.429deg);
-  --chart-5: oklch(76.9% 0.188 70.08deg);
-  --radius: 0.625rem;
-  --sidebar: oklch(98.5% 0 0deg);
-  --sidebar-foreground: oklch(14.5% 0 0deg);
-  --sidebar-primary: oklch(20.5% 0 0deg);
-  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
-  --sidebar-accent: oklch(97% 0 0deg);
-  --sidebar-accent-foreground: oklch(20.5% 0 0deg);
-  --sidebar-border: oklch(92.2% 0 0deg);
-  --sidebar-ring: oklch(70.8% 0 0deg);
-  --success: oklch(78% 0.08 200deg);
-  --warning: oklch(89% 0.1 75deg);
-  --error: oklch(75% 0.15 25deg);
+  /* ===== هوية أخبار حياة ===== */
+  --brand: #0f7c3e;
+  --brand-deep: #0a5b2c;
+  --brand-tint: #e8f3ec;
+  --gold: #b8863b;
+  --alert: #d8352a;
+  --ink-soft: #3c4a43;
+
+  /* ===== ألوان الأقسام ===== */
+  --cat-jordan: #0f7c3e;
+  --cat-palestine: #8a2e4d;
+  --cat-world: #2563a8;
+  --cat-economy: #b8863b;
+  --cat-sports: #0f8a7e;
+  --cat-technology: #5b6cc9;
+  --cat-opinion: #6d4aa7;
+  --cat-photo: #b5603a;
+
+  /* ===== رموز الواجهة ===== */
+  --background: #f5f8f6;
+  --foreground: #14201a;
+  --card: #ffffff;
+  --card-foreground: #14201a;
+  --popover: #ffffff;
+  --popover-foreground: #14201a;
+  --primary: #0f7c3e;
+  --primary-foreground: #ffffff;
+  --secondary: #eef3ef;
+  --secondary-foreground: #14201a;
+  --muted: #eef3ef;
+  --muted-foreground: #697a70;
+  --accent: #e8f3ec;
+  --accent-foreground: #0a5b2c;
+  --destructive: #d8352a;
+  --destructive-foreground: #ffffff;
+  --border: #e2eae4;
+  --input: #e2eae4;
+  --ring: #0f7c3e;
+  --radius: 0.75rem;
+  --success: #0f8a7e;
+  --warning: #b8863b;
+  --error: #d8352a;
 }
 
 [data-theme='dark'] {
-  --background: oklch(14.5% 0 0deg);
-  --foreground: oklch(98.5% 0 0deg);
-  --card: oklch(17% 0 0deg);
-  --card-foreground: oklch(98.5% 0 0deg);
-  --popover: oklch(14.5% 0 0deg);
-  --popover-foreground: oklch(98.5% 0 0deg);
-  --primary: oklch(98.5% 0 0deg);
-  --primary-foreground: oklch(20.5% 0 0deg);
-  --secondary: oklch(26.9% 0 0deg);
-  --secondary-foreground: oklch(98.5% 0 0deg);
-  --muted: oklch(26.9% 0 0deg);
-  --muted-foreground: oklch(70.8% 0 0deg);
-  --accent: oklch(26.9% 0 0deg);
-  --accent-foreground: oklch(98.5% 0 0deg);
-  --destructive: oklch(39.6% 0.141 25.723deg);
-  --destructive-foreground: oklch(63.7% 0.237 25.331deg);
-  --border: oklch(26.9% 0 0deg);
-  --input: oklch(26.9% 0 0deg);
-  --ring: oklch(43.9% 0 0deg);
-  --chart-1: oklch(48.8% 0.243 264.376deg);
-  --chart-2: oklch(69.6% 0.17 162.48deg);
-  --chart-3: oklch(76.9% 0.188 70.08deg);
-  --chart-4: oklch(62.7% 0.265 303.9deg);
-  --chart-5: oklch(64.5% 0.246 16.439deg);
-  --sidebar: oklch(20.5% 0 0deg);
-  --sidebar-foreground: oklch(98.5% 0 0deg);
-  --sidebar-primary: oklch(48.8% 0.243 264.376deg);
-  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
-  --sidebar-accent: oklch(26.9% 0 0deg);
-  --sidebar-accent-foreground: oklch(98.5% 0 0deg);
-  --sidebar-border: oklch(26.9% 0 0deg);
-  --sidebar-ring: oklch(43.9% 0 0deg);
-  --success: oklch(28% 0.1 200deg);
-  --warning: oklch(35% 0.08 70deg);
-  --error: oklch(45% 0.1 25deg);
+  /* ===== هوية أخبار حياة — الوضع الليلي ===== */
+  --brand: #38b46e;
+  --brand-deep: #2a8d54;
+  --brand-tint: #163024;
+  --gold: #d3a75a;
+  --alert: #e8564b;
+  --ink-soft: #c2cfc7;
+
+  --cat-jordan: #38b46e;
+  --cat-palestine: #c9557c;
+  --cat-world: #5b9ae0;
+  --cat-economy: #d3a75a;
+  --cat-sports: #35c0b1;
+  --cat-technology: #8b98e8;
+  --cat-opinion: #a37fd6;
+  --cat-photo: #d6845e;
+
+  --background: #0d1411;
+  --foreground: #e9f1ec;
+  --card: #141d18;
+  --card-foreground: #e9f1ec;
+  --popover: #141d18;
+  --popover-foreground: #e9f1ec;
+  --primary: #38b46e;
+  --primary-foreground: #06120b;
+  --secondary: #1a251f;
+  --secondary-foreground: #e9f1ec;
+  --muted: #1a251f;
+  --muted-foreground: #93a49a;
+  --accent: #163024;
+  --accent-foreground: #a7e5c1;
+  --destructive: #e8564b;
+  --destructive-foreground: #ffffff;
+  --border: #24322b;
+  --input: #24322b;
+  --ring: #38b46e;
+  --success: #35c0b1;
+  --warning: #d3a75a;
+  --error: #e8564b;
 }
 
 @theme inline {
@@ -207,6 +217,13 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  /* هوية أخبار حياة */
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-tint: var(--brand-tint);
+  --color-gold: var(--gold);
+  --color-alert: var(--alert);
+  --color-ink-soft: var(--ink-soft);
 }
 
 @layer base {
@@ -233,4 +250,106 @@ html {
 html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
+}
+
+/* ===================== حركات هوية أخبار حياة ===================== */
+
+/* شريط آخر الأخبار المتحرك */
+.ah-ticker-tag {
+  margin-inline-start: -1rem;
+  padding-inline-start: 1.5rem;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+}
+.ah-ticker-move {
+  animation: ah-slide 34s linear infinite;
+}
+.ah-ticker-track:hover .ah-ticker-move {
+  animation-play-state: paused;
+}
+@keyframes ah-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* زر البث المباشر — توهّج نابض */
+.ah-live-glow {
+  animation: ah-glow 2.4s ease-out infinite;
+}
+@keyframes ah-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(216, 53, 42, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(216, 53, 42, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(216, 53, 42, 0);
+  }
+}
+
+/* موجات الصوت داخل زر البث */
+.ah-eq i {
+  display: block;
+  width: 2.5px;
+  height: 100%;
+  border-radius: 2px;
+  background: #fff;
+  transform-origin: bottom;
+  animation: ah-eq 1s ease-in-out infinite;
+}
+.ah-eq i:nth-child(1) {
+  animation-delay: -0.2s;
+}
+.ah-eq i:nth-child(2) {
+  animation-delay: -0.6s;
+}
+.ah-eq i:nth-child(3) {
+  animation-delay: -0.9s;
+}
+.ah-eq i:nth-child(4) {
+  animation-delay: -0.4s;
+}
+@keyframes ah-eq {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ah-ticker-move,
+  .ah-live-glow,
+  .ah-eq i {
+    animation: none;
+  }
+  .ah-eq i {
+    transform: scaleY(0.7);
+  }
+}
+
+/* درج قائمة الموبايل — ينزلق من جهة اليمين في RTL */
+.ah-drawer {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  transform: translateX(100%);
+  transition: transform 0.32s cubic-bezier(0.2, 0.75, 0.3, 1);
+}
+[dir='rtl'] .ah-drawer {
+  transform: translateX(100%);
+}
+[dir='ltr'] .ah-drawer {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  transform: translateX(-100%);
+}
+.ah-drawer.is-open {
+  transform: translateX(0);
 }

@@ -1,9 +1,51 @@
-import { HeaderClient } from './Component.client'
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 import React from 'react'
 
-export async function Header() {
-  const headerData = await getCachedGlobal('header', 1)()
+import { HeaderClient, type NavItem, type TickerItem } from './Component.client'
+import { formatGregorian, formatHijri } from '@/utilities/formatArabicDate'
 
-  return <HeaderClient data={headerData} />
+export async function Header() {
+  const payload = await getPayload({ config: configPromise })
+
+  const [categories, latest] = await Promise.all([
+    payload.find({
+      collection: 'categories',
+      where: { showInNav: { equals: true } },
+      sort: 'order',
+      limit: 10,
+      depth: 0,
+      select: { title: true, slug: true },
+    }),
+    payload.find({
+      collection: 'posts',
+      where: { _status: { equals: 'published' } },
+      sort: '-publishedAt',
+      limit: 6,
+      depth: 0,
+      select: { title: true, slug: true },
+    }),
+  ])
+
+  const navItems: NavItem[] = [
+    { label: 'الرئيسية', href: '/' },
+    ...categories.docs
+      .filter((c) => Boolean(c.slug))
+      .map((c) => ({ label: c.title, href: `/category/${c.slug}` })),
+  ]
+
+  const ticker: TickerItem[] = latest.docs
+    .filter((p) => Boolean(p.title && p.slug))
+    .map((p) => ({ title: p.title as string, href: `/posts/${p.slug}` }))
+
+  const now = new Date()
+
+  return (
+    <HeaderClient
+      navItems={navItems}
+      ticker={ticker}
+      gregorianDate={formatGregorian(now)}
+      hijriDate={formatHijri(now)}
+    />
+  )
 }
