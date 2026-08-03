@@ -277,6 +277,7 @@ export interface Post {
     description?: string | null;
   };
   publishedAt?: string | null;
+  createdBy?: (number | null) | User;
   /**
    * مُرحَّل من الموقع القديم — يُستخدم للحفاظ على الرابط.
    */
@@ -485,7 +486,11 @@ export interface Tag {
  */
 export interface User {
   id: number;
-  name?: string | null;
+  name: string;
+  /**
+   * مدير: كل شيء · رئيس تحرير: ينشر ويحذف ويدير التصنيفات · محرّر: ينشر بلا حذف · مساهم: مسودات فقط.
+   */
+  role: 'admin' | 'editorInChief' | 'editor' | 'contributor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1279,6 +1284,7 @@ export interface PostsSelect<T extends boolean = true> {
         description?: T;
       };
   publishedAt?: T;
+  createdBy?: T;
   wpId?: T;
   views?: T;
   type?: T;
@@ -1433,6 +1439,7 @@ export interface TagsSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

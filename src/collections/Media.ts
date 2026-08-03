@@ -9,7 +9,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 import { anyone } from '../access/anyone'
-import { authenticated } from '../access/authenticated'
+import { canDelete, isStaff } from '../access/roles'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,10 +25,10 @@ export const Media: CollectionConfig = {
     group: 'المحتوى',
   },
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: isStaff,
+    delete: canDelete,
     read: anyone,
-    update: authenticated,
+    update: isStaff,
   },
   fields: [
     {

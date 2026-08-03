@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
-import { authenticated } from '../access/authenticated'
+import { canManageTaxonomy } from '../access/roles'
 import { slugField } from 'payload'
 
 export const Categories: CollectionConfig = {
@@ -11,10 +11,10 @@ export const Categories: CollectionConfig = {
     plural: 'الأقسام',
   },
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: canManageTaxonomy,
+    delete: canManageTaxonomy,
     read: anyone,
-    update: authenticated,
+    update: canManageTaxonomy,
   },
   admin: {
     group: 'التصنيفات',

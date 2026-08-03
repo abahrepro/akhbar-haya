@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { canManageTaxonomy } from '../../access/roles'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
@@ -28,10 +28,10 @@ export const Pages: CollectionConfig<'pages'> = {
     plural: 'الصفحات',
   },
   access: {
-    create: authenticated,
-    delete: authenticated,
+    create: canManageTaxonomy,
+    delete: canManageTaxonomy,
     read: authenticatedOrPublished,
-    update: authenticated,
+    update: canManageTaxonomy,
   },
   // This config controls what's populated by default when a page is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property

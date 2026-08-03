@@ -9,8 +9,7 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
-import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { canDelete, isStaff, readPosts, updatePosts } from '../../access/roles'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
@@ -34,10 +33,10 @@ export const Posts: CollectionConfig<'posts'> = {
     plural: 'الأخبار',
   },
   access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticatedOrPublished,
-    update: authenticated,
+    create: isStaff,
+    delete: canDelete,
+    read: readPosts,
+    update: updatePosts,
   },
   // This config controls what's populated by default when a post is referenced
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
@@ -242,6 +241,20 @@ export const Posts: CollectionConfig<'posts'> = {
             }
             return value
           },
+        ],
+      },
+    },
+    // صاحب الخبر — يُضبط تلقائياً ويُستخدم لتقييد صلاحية المساهم
+    {
+      name: 'createdBy',
+      type: 'relationship',
+      relationTo: 'users',
+      label: 'أنشأه',
+      admin: { position: 'sidebar', readOnly: true },
+      hooks: {
+        beforeChange: [
+          ({ operation, req, value }) =>
+            operation === 'create' && req.user ? req.user.id : value,
         ],
       },
     },
