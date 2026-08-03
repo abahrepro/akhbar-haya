@@ -74,12 +74,22 @@ export default async function HomePage() {
    * الاستعلام الواحد المشترك كان يترك الأقسام الصغيرة فارغة لأن
    * الأخبار الأحدث تتركّز في قسمين أو ثلاثة.
    */
-  const [heroRes, ...sectionResults] = await Promise.all([
+  const [heroRes, featuredRes, ...sectionResults] = await Promise.all([
     payload.find({
       collection: 'posts',
       where: { _status: { equals: 'published' } },
       sort: '-publishedAt',
       limit: 12,
+      depth: 1,
+      select: POST_SELECT,
+    }),
+    // الخبر المميّز يُجلب مستقلاً كي يظهر في الهيرو ولو لم يكن ضمن الأحدث
+    payload.find({
+      collection: 'posts',
+      where: {
+        and: [{ _status: { equals: 'published' } }, { featured: { equals: true } }],
+      },
+      limit: 1,
       depth: 1,
       select: POST_SELECT,
     }),
@@ -101,7 +111,10 @@ export default async function HomePage() {
 
   const heroDocs = heroRes.docs as Post[]
   const all: NewsItem[] = heroDocs.map((p) => toNewsItem(p))
-  const featuredIds = new Set(heroDocs.filter((p) => p.featured).map((p) => p.id))
+
+  /** الخبر المُعلَّم «مميّز» — واحد فقط، ويحلّ محلّ الأحدث في مكان الهيرو */
+  const featuredDoc = (featuredRes.docs as Post[])[0]
+  const featuredItem = featuredDoc ? toNewsItem(featuredDoc) : null
 
   /** نتائج الأقسام مفهرسة بالـ slug */
   const bySection = new Map<string, NewsItem[]>()
@@ -129,10 +142,13 @@ export default async function HomePage() {
   }
 
   const breaking = all.find((p) => p.breaking)
-  const featured = all.filter((p) => featuredIds.has(p.id as number))
-  const heroPool = featured.length >= 5 ? featured : all
-  const lead = heroPool[0]
-  const heroSide = heroPool.slice(1, 5)
+
+  /**
+   * مكان الهيرو الكبير: الخبر المميّز إن وُجد، وإلا الأحدث.
+   * البطاقات الأربع بجانبه: الأحدث بعده.
+   */
+  const lead = featuredItem ?? all[0]
+  const heroSide = all.filter((p) => p.id !== lead?.id).slice(0, 4)
   const used = new Set<NewsItem['id']>([lead?.id, ...heroSide.map((h) => h.id)])
 
   /** أخبار القسم بعد استبعاد ما ظهر في الواجهة، مقصوصة للعدد المطلوب */

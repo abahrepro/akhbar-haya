@@ -15,6 +15,7 @@ import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
+import { exclusiveFeatured } from './hooks/exclusiveFeatured'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
 import {
@@ -314,8 +315,11 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'checkbox',
       label: 'مميّز (يظهر في الهيرو)',
       defaultValue: false,
+      index: true,
       admin: {
         position: 'sidebar',
+        description:
+          'خبر واحد فقط يكون مميّزاً. تعليم خبر جديد يُلغي التعليم عن السابق تلقائياً. إن لم يُعلَّم أي خبر، يظهر الأحدث.',
       },
     },
     // حقل داخلي لتتبّع من كتب الخبر — لا يُعرض للجمهور
@@ -367,7 +371,7 @@ export const Posts: CollectionConfig<'posts'> = {
     }),
   ],
   hooks: {
-    afterChange: [revalidatePost],
+    afterChange: [revalidatePost, exclusiveFeatured],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },

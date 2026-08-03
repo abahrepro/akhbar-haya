@@ -291,6 +291,9 @@ export interface Post {
    * يظهر في شريط العاجل والتنبيه المنبثق.
    */
   breaking?: boolean | null;
+  /**
+   * خبر واحد فقط يكون مميّزاً. تعليم خبر جديد يُلغي التعليم عن السابق تلقائياً. إن لم يُعلَّم أي خبر، يظهر الأحدث.
+   */
   featured?: boolean | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
