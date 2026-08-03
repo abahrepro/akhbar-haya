@@ -272,6 +272,18 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
+      name: 'views',
+      type: 'number',
+      label: 'عدد المشاهدات',
+      defaultValue: 0,
+      index: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        description: 'يُحتسب تلقائياً؛ القيمة الأولية مُرحَّلة من الموقع القديم.',
+      },
+    },
+    {
       name: 'type',
       type: 'select',
       label: 'نوع الخبر',

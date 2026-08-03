@@ -29,6 +29,15 @@ export const Tags: CollectionConfig = {
       required: true,
     },
     slugField({
+      // الافتراضي يمسح الحروف العربية؛ هذه النسخة تُبقيها
+      slugify: ({ valueToSlugify }) =>
+        String(valueToSlugify ?? '')
+          .trim()
+          .replace(/[\s_]+/g, '-')
+          .replace(/[^\p{L}\p{N}-]+/gu, '')
+          .replace(/-{2,}/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .toLowerCase(),
       position: undefined,
     }),
   ],
