@@ -80,6 +80,21 @@ export const Posts: CollectionConfig<'posts'> = {
               name: 'heroImage',
               type: 'upload',
               relationTo: 'media',
+              label: 'الصورة الرئيسية',
+            },
+            {
+              name: 'heroCaption',
+              type: 'text',
+              label: 'تعليق الصورة الرئيسية',
+            },
+            {
+              name: 'excerpt',
+              type: 'textarea',
+              label: 'المقتطف',
+              maxLength: 300,
+              admin: {
+                description: 'وصف مختصر يظهر في البطاقات ونتائج البحث ووصف SEO.',
+              },
             },
             {
               name: 'content',
@@ -98,6 +113,36 @@ export const Posts: CollectionConfig<'posts'> = {
               }),
               label: false,
               required: true,
+            },
+            {
+              name: 'gallery',
+              type: 'array',
+              label: 'معرض الصور',
+              admin: {
+                description: 'للأخبار من نوع «صورة وخبر».',
+                condition: (data) => data?.type === 'photo',
+              },
+              fields: [
+                { name: 'image', type: 'upload', relationTo: 'media', required: true },
+                { name: 'caption', type: 'text', label: 'التعليق' },
+              ],
+            },
+            {
+              name: 'videoUrl',
+              type: 'text',
+              label: 'رابط الفيديو',
+              admin: {
+                description: 'رابط يوتيوب أو ملف فيديو — للأخبار من نوع «فيديو».',
+                condition: (data) => data?.type === 'video',
+              },
+            },
+            {
+              name: 'videoDuration',
+              type: 'text',
+              label: 'مدة الفيديو (مثال 3:24)',
+              admin: {
+                condition: (data) => data?.type === 'video',
+              },
             },
           ],
           label: 'Content',
@@ -123,11 +168,22 @@ export const Posts: CollectionConfig<'posts'> = {
             {
               name: 'categories',
               type: 'relationship',
+              label: 'الأقسام',
               admin: {
                 position: 'sidebar',
               },
               hasMany: true,
               relationTo: 'categories',
+            },
+            {
+              name: 'tags',
+              type: 'relationship',
+              label: 'الوسوم',
+              admin: {
+                position: 'sidebar',
+              },
+              hasMany: true,
+              relationTo: 'tags',
             },
           ],
           label: 'Meta',
@@ -182,8 +238,44 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
+      name: 'type',
+      type: 'select',
+      label: 'نوع الخبر',
+      defaultValue: 'news',
+      options: [
+        { label: 'خبر', value: 'news' },
+        { label: 'مقال رأي', value: 'opinion' },
+        { label: 'صورة وخبر', value: 'photo' },
+        { label: 'فيديو', value: 'video' },
+      ],
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'breaking',
+      type: 'checkbox',
+      label: 'خبر عاجل',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'يظهر في شريط العاجل والتنبيه المنبثق.',
+      },
+    },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      label: 'مميّز (يظهر في الهيرو)',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    // حقل داخلي لتتبّع من كتب الخبر — لا يُعرض للجمهور
+    {
       name: 'authors',
       type: 'relationship',
+      label: 'الكاتب (داخلي)',
       admin: {
         position: 'sidebar',
       },
