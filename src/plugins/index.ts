@@ -113,6 +113,8 @@ export const plugins: Plugin[] = [
       },
       admin: {
         group: 'إعدادات',
+        // فهرس البحث يُبنى ويُحدَّث تلقائياً — لا حاجة لعرضه للمحرّرين
+        hidden: true,
       },
       fields: ({ defaultFields }) => {
         return [...defaultFields, ...searchFields]

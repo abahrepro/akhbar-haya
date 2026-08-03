@@ -1,0 +1,122 @@
+.ah-nav {
+  --ah-brand: #026938;
+  --ah-brand-deep: #014d29;
+  --ah-alert: #d8352a;
+  --ah-gold: #b8863b;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--theme-elevation-150);
+
+  /* ===== زر خبر جديد ===== */
+  &__new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1rem;
+    border-radius: 10px;
+    background: var(--ah-brand);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+      background 0.15s,
+      transform 0.12s;
+
+    &:hover {
+      background: var(--ah-brand-deep);
+      transform: translateY(-1px);
+      color: #fff;
+    }
+  }
+
+  &__plus {
+    font-size: 1.05rem;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  /* ===== العدّادات ===== */
+  &__counters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.35rem;
+  }
+
+  &__counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    padding: 0.5rem 0.25rem;
+    border-radius: 9px;
+    border: 1px solid var(--theme-elevation-150);
+    background: var(--theme-elevation-50);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color 0.15s,
+      background 0.15s;
+
+    &:hover {
+      border-color: var(--ah-brand);
+      background: var(--theme-elevation-100);
+      color: inherit;
+    }
+  }
+
+  &__n {
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+
+    &--ok {
+      color: var(--ah-brand);
+    }
+
+    &--draft {
+      color: var(--ah-gold);
+    }
+
+    &--breaking {
+      color: var(--ah-alert);
+    }
+  }
+
+  &__label {
+    font-size: 0.66rem;
+    font-weight: 600;
+    opacity: 0.7;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* ===== رابط معاينة الموقع ===== */
+  &__site {
+    display: block;
+    padding: 0.5rem;
+    border-radius: 9px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.8;
+    border: 1px solid transparent;
+    transition:
+      opacity 0.15s,
+      border-color 0.15s;
+
+    &:hover {
+      opacity: 1;
+      border-color: var(--theme-elevation-150);
+      color: inherit;
+    }
+  }
+}
