@@ -387,3 +387,47 @@ body.ah-reading-mode .ah-hide-in-reading {
 body.ah-reading-mode #article-body {
   font-size: 20px;
 }
+
+/* ===== الصفحات الثابتة ===== */
+.ah-static h2 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 800;
+  margin: 30px 0 12px;
+}
+.ah-static p {
+  font-size: 16.5px;
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+.ah-static ul {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.ah-static li {
+  position: relative;
+  padding-inline-start: 24px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.ah-static li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 5px;
+  top: 11px;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--brand);
+  transform: rotate(45deg);
+}
+.ah-static a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
