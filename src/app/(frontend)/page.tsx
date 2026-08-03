@@ -37,34 +37,78 @@ const POST_SELECT = {
 } as const
 
 /** أخبار قسم معيّن حسب الـ slug */
-const bySlug = (posts: NewsItem[], slug: string) => posts.filter((p) => p.category?.slug === slug)
+/**
+ * أقسام الصفحة الرئيسية وعدد الأخبار المطلوب لكل منها.
+ * نجلب أكثر من الحاجة (`+5`) لأن بعض الأخبار الأحدث تُستهلك في واجهة الصفحة،
+ * فيبقى للقسم عدد كافٍ بعد استبعادها.
+ */
+const SECTIONS = [
+  { slug: 'jordan', limit: 5 },
+  { slug: 'palestine', limit: 4 },
+  { slug: 'economy', limit: 5 },
+  { slug: 'world', limit: 4 },
+  { slug: 'photo', limit: 4 },
+  { slug: 'technology', limit: 5 },
+  { slug: 'sports', limit: 4 },
+  { slug: 'opinion', limit: 4 },
+] as const
+
+/** هامش إضافي يُجلب ثم يُقصّ بعد استبعاد أخبار الواجهة */
+const SECTION_BUFFER = 5
 
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
 
-  const [postsRes, categoriesRes] = await Promise.all([
+  const categoriesRes = await payload.find({
+    collection: 'categories',
+    sort: 'order',
+    limit: 20,
+    depth: 0,
+    select: { title: true, slug: true, color: true },
+  })
+  const cats = categoriesRes.docs as Category[]
+  const catBySlug = (slug: string) => cats.find((c) => c.slug === slug)
+
+  /**
+   * كل قسم يُجلب باستعلام مستقل.
+   * الاستعلام الواحد المشترك كان يترك الأقسام الصغيرة فارغة لأن
+   * الأخبار الأحدث تتركّز في قسمين أو ثلاثة.
+   */
+  const [heroRes, ...sectionResults] = await Promise.all([
     payload.find({
       collection: 'posts',
       where: { _status: { equals: 'published' } },
       sort: '-publishedAt',
-      limit: 60,
+      limit: 12,
       depth: 1,
       select: POST_SELECT,
     }),
-    payload.find({
-      collection: 'categories',
-      sort: 'order',
-      limit: 12,
-      depth: 0,
-      select: { title: true, slug: true, color: true },
+    ...SECTIONS.map(({ slug, limit }) => {
+      const cat = cats.find((c) => c.slug === slug)
+      if (!cat) return Promise.resolve(null)
+      return payload.find({
+        collection: 'posts',
+        where: {
+          and: [{ _status: { equals: 'published' } }, { categories: { in: [cat.id] } }],
+        },
+        sort: '-publishedAt',
+        limit: limit + SECTION_BUFFER,
+        depth: 1,
+        select: POST_SELECT,
+      })
     }),
   ])
 
-  const docs = postsRes.docs as Post[]
-  const all: NewsItem[] = docs.map((p) => toNewsItem(p))
-  const featuredIds = new Set(docs.filter((p) => p.featured).map((p) => p.id))
-  const cats = categoriesRes.docs as Category[]
-  const catBySlug = (slug: string) => cats.find((c) => c.slug === slug)
+  const heroDocs = heroRes.docs as Post[]
+  const all: NewsItem[] = heroDocs.map((p) => toNewsItem(p))
+  const featuredIds = new Set(heroDocs.filter((p) => p.featured).map((p) => p.id))
+
+  /** نتائج الأقسام مفهرسة بالـ slug */
+  const bySection = new Map<string, NewsItem[]>()
+  SECTIONS.forEach(({ slug }, i) => {
+    const res = sectionResults[i]
+    bySection.set(slug, res ? (res.docs as Post[]).map(toNewsItem) : [])
+  })
 
   // حالة الموقع الجديد: لا أخبار منشورة بعد
   if (all.length === 0) {
@@ -90,16 +134,21 @@ export default async function HomePage() {
   const lead = heroPool[0]
   const heroSide = heroPool.slice(1, 5)
   const used = new Set<NewsItem['id']>([lead?.id, ...heroSide.map((h) => h.id)])
-  const rest = all.filter((p) => !used.has(p.id))
 
-  const jordan = bySlug(rest, 'jordan')
-  const palestine = bySlug(rest, 'palestine')
-  const economy = bySlug(rest, 'economy')
-  const world = bySlug(rest, 'world')
-  const photo = bySlug(rest, 'photo')
-  const tech = bySlug(rest, 'technology')
-  const sports = bySlug(rest, 'sports')
-  const opinion = bySlug(rest, 'opinion')
+  /** أخبار القسم بعد استبعاد ما ظهر في الواجهة، مقصوصة للعدد المطلوب */
+  const section = (slug: string) => {
+    const want = SECTIONS.find((s) => s.slug === slug)?.limit ?? 4
+    return (bySection.get(slug) ?? []).filter((p) => !used.has(p.id)).slice(0, want)
+  }
+
+  const jordan = section('jordan')
+  const palestine = section('palestine')
+  const economy = section('economy')
+  const world = section('world')
+  const photo = section('photo')
+  const tech = section('technology')
+  const sports = section('sports')
+  const opinion = section('opinion')
   const mostRead = all.slice(0, 5)
 
   return (
