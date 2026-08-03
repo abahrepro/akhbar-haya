@@ -54,9 +54,6 @@ export const Posts: CollectionConfig<'posts'> = {
   admin: {
     group: 'المحتوى',
     defaultColumns: ['title', 'categories', 'publishedAt', '_status'],
-    components: {
-      beforeListTable: ['@/components/PostCells/QuickFilters'],
-    },
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -79,12 +76,6 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'text',
       label: 'العنوان',
       required: true,
-      admin: {
-        components: {
-          // خلية غنية: صورة مصغّرة + العنوان + شارات
-          Cell: '@/components/PostCells/TitleCell',
-        },
-      },
     },
     {
       type: 'tabs',
@@ -242,9 +233,6 @@ export const Posts: CollectionConfig<'posts'> = {
           pickerAppearance: 'dayAndTime',
         },
         position: 'sidebar',
-        components: {
-          Cell: '@/components/PostCells/DateCell',
-        },
       },
       hooks: {
         beforeChange: [

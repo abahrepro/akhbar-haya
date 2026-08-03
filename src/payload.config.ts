@@ -27,20 +27,6 @@ export default buildConfig({
     supportedLanguages: { ar },
   },
   admin: {
-    meta: {
-      titleSuffix: ' — أخبار حياة',
-      description: 'لوحة تحكّم أخبار حياة',
-      icons: [{ rel: 'icon', type: 'image/svg+xml', url: '/favicon.svg' }],
-    },
-    components: {
-      graphics: {
-        Logo: '@/components/AdminBrand/Logo',
-        Icon: '@/components/AdminBrand/Icon',
-      },
-      beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard'],
-      beforeNavLinks: ['@/components/AdminNav/BeforeNavLinks'],
-    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
