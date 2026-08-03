@@ -1,4 +1,4 @@
-import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { postgresAdapter } from '@payloadcms/db-postgres'
 import { ar } from '@payloadcms/translations/languages/ar'
 import sharp from 'sharp'
 import path from 'path'
@@ -56,9 +56,9 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URL || 'file:./akhbar-hayat.db',
+  db: postgresAdapter({
+    pool: {
+      connectionString: process.env.DATABASE_URL,
     },
   }),
   collections: [Pages, Posts, Media, Categories, Tags, Users],

@@ -21,17 +21,24 @@ import { formatGregorian, formatTime } from '@/utilities/formatArabicDate'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getServerSideURL } from '@/utilities/getURL'
 
+/**
+ * نولّد مسبقاً أحدث الأخبار فقط.
+ * الأرشيف كامل (أكثر من ١٤٥ ألف خبر) يُبنى عند أول طلب ثم يُخزَّن،
+ * فبناء كل شيء مسبقاً يستغرق ساعات بلا فائدة تُذكر.
+ */
+export const dynamicParams = true
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const posts = await payload.find({
     collection: 'posts',
     draft: false,
-    limit: 1000,
+    limit: 500,
+    sort: '-publishedAt',
     overrideAccess: false,
-    pagination: false,
     select: { slug: true },
   })
-  return posts.docs.map(({ slug }) => ({ slug }))
+  return posts.docs.filter((p) => p.slug).map(({ slug }) => ({ slug: slug as string }))
 }
 
 type Args = { params: Promise<{ slug?: string }> }

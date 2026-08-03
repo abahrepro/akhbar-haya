@@ -19,39 +19,39 @@ export default async function SearchPage({ searchParams }: Args) {
   const query = q.trim()
   const payload = await getPayload({ config: configPromise })
 
-  let results: NewsItem[] = []
-  let total = 0
-
-  if (query) {
-    const res = await payload.find({
-      collection: 'posts',
-      where: {
-        and: [
-          { _status: { equals: 'published' } },
-          {
-            or: [
-              { title: { like: query } },
-              { excerpt: { like: query } },
-              { 'meta.description': { like: query } },
+  // الاستعلامان متوازيان — تنفيذهما تتابعاً كان يضاعف زمن الصفحة
+  const [searchRes, mostReadRes] = await Promise.all([
+    query
+      ? payload.find({
+          collection: 'posts',
+          where: {
+            and: [
+              { _status: { equals: 'published' } },
+              {
+                or: [
+                  { title: { like: query } },
+                  { excerpt: { like: query } },
+                  { 'meta.description': { like: query } },
+                ],
+              },
             ],
           },
-        ],
-      },
+          sort: '-publishedAt',
+          limit: 24,
+          depth: 1,
+        })
+      : Promise.resolve(null),
+    payload.find({
+      collection: 'posts',
+      where: { _status: { equals: 'published' } },
       sort: '-publishedAt',
-      limit: 24,
+      limit: 5,
       depth: 1,
-    })
-    results = (res.docs as Post[]).map(toNewsItem)
-    total = res.totalDocs
-  }
+    }),
+  ])
 
-  const mostReadRes = await payload.find({
-    collection: 'posts',
-    where: { _status: { equals: 'published' } },
-    sort: '-publishedAt',
-    limit: 5,
-    depth: 1,
-  })
+  const results: NewsItem[] = searchRes ? (searchRes.docs as Post[]).map(toNewsItem) : []
+  const total = searchRes?.totalDocs ?? 0
   const mostRead = (mostReadRes.docs as Post[]).map(toNewsItem)
 
   return (
