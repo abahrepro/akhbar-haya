@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
+import { thmanyahSans, thmanyahSerif } from '@/fonts'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -20,7 +19,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
+    <html
+      className={cn(thmanyahSans.variable, thmanyahSerif.variable)}
+      dir="rtl"
+      lang="ar"
+      suppressHydrationWarning
+    >
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
