@@ -17,6 +17,7 @@ export const Categories: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'التصنيفات',
     useAsTitle: 'title',
     defaultColumns: ['title', 'order', 'showInNav', 'slug'],
   },

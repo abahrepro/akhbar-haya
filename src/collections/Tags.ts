@@ -13,6 +13,7 @@ export const Tags: CollectionConfig = {
     update: authenticated,
   },
   admin: {
+    group: 'التصنيفات',
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug'],
   },

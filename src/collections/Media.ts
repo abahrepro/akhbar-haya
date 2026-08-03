@@ -21,6 +21,9 @@ export const Media: CollectionConfig = {
     plural: 'الوسائط',
   },
   folders: true,
+  admin: {
+    group: 'المحتوى',
+  },
   access: {
     create: authenticated,
     delete: authenticated,

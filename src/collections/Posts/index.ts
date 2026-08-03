@@ -52,6 +52,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
   },
   admin: {
+    group: 'المحتوى',
     defaultColumns: ['title', 'type', 'breaking', 'publishedAt', '_status'],
     livePreview: {
       url: ({ data, req }) =>
