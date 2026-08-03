@@ -2,10 +2,6 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 
-import './nav.scss'
-
-const baseClass = 'ah-nav'
-
 /** بداية اليوم بتوقيت عمّان */
 const startOfTodayISO = (): string => {
   const d = new Intl.DateTimeFormat('en-CA', {
@@ -17,10 +13,7 @@ const startOfTodayISO = (): string => {
   return `${d}T00:00:00.000Z`
 }
 
-/**
- * يُعرض أعلى الشريط الجانبي:
- * زر إنشاء خبر + عدّادات حيّة تنقل مباشرة للقوائم المفلترة.
- */
+/** إجراءات وعدّادات أعلى الشريط الجانبي */
 const BeforeNavLinks: React.FC = async () => {
   const payload = await getPayload({ config: configPromise })
 
@@ -42,49 +35,53 @@ const BeforeNavLinks: React.FC = async () => {
   ])
 
   const counters = [
-    {
-      label: 'منشور اليوم',
-      n: today.totalDocs,
-      href: '/admin/collections/posts',
-      tone: 'ok' as const,
-    },
+    { label: 'اليوم', n: today.totalDocs, href: '/admin/collections/posts', color: 'var(--ah-brand)' },
     {
       label: 'مسودات',
       n: drafts.totalDocs,
       href: '/admin/collections/posts?where[_status][equals]=draft',
-      tone: 'draft' as const,
+      color: 'var(--ah-gold)',
     },
     {
       label: 'عاجل',
       n: breaking.totalDocs,
       href: '/admin/collections/posts?where[breaking][equals]=true',
-      tone: 'breaking' as const,
+      color: 'var(--ah-alert)',
     },
   ]
 
   return (
-    <div className={baseClass}>
-      <a className={`${baseClass}__new`} href="/admin/collections/posts/create">
-        <span className={`${baseClass}__plus`}>+</span>
+    <div className="ah mb-3 flex flex-col gap-2.5 border-b border-[var(--ah-line)] pb-4">
+      <a
+        href="/admin/collections/posts/create"
+        className="flex items-center justify-center gap-1.5 rounded-[10px] bg-[var(--ah-brand)] px-4 py-2.5 text-sm font-extrabold text-white no-underline transition-all hover:-translate-y-px hover:bg-[var(--ah-brand-deep)]"
+      >
+        <span className="text-base leading-none">+</span>
         خبر جديد
       </a>
 
-      <div className={`${baseClass}__counters`}>
+      <div className="grid grid-cols-3 gap-1.5">
         {counters.map((c) => (
-          <a key={c.label} href={c.href} className={`${baseClass}__counter`}>
-            <span className={`${baseClass}__n ${baseClass}__n--${c.tone}`}>{c.n}</span>
-            <span className={`${baseClass}__label`}>{c.label}</span>
+          <a
+            key={c.label}
+            href={c.href}
+            className="flex flex-col items-center gap-0.5 rounded-[9px] border border-[var(--ah-line)] bg-[var(--ah-surface-2)] px-1 py-2 no-underline transition-colors hover:border-[var(--ah-brand)]"
+          >
+            <span className="text-[19px] font-extrabold leading-none tabular-nums" style={{ color: c.color }}>
+              {c.n}
+            </span>
+            <span className="text-[11px] font-semibold text-[var(--ah-muted)]">{c.label}</span>
           </a>
         ))}
       </div>
 
       <a
-        className={`${baseClass}__site`}
         href="/"
         target="_blank"
         rel="noopener noreferrer"
+        className="rounded-[9px] border border-transparent py-1.5 text-center text-[13px] font-bold text-[var(--ah-muted)] no-underline transition-colors hover:border-[var(--ah-line)] hover:text-[var(--ah-text)]"
       >
-        🌐 معاينة الموقع
+        معاينة الموقع ↗
       </a>
     </div>
   )

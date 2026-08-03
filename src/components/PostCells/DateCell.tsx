@@ -2,11 +2,9 @@
 
 import React from 'react'
 
-import './cells.scss'
-
-/** تاريخ النشر بصيغة عربية مقروءة + الوقت النسبي */
+/** تاريخ النشر بصيغة عربية على سطرين */
 export const DateCell: React.FC<{ cellData?: string | null }> = ({ cellData }) => {
-  if (!cellData) return <span className="ah-cell-date ah-cell-date--empty">—</span>
+  if (!cellData) return <span className="ah text-[var(--ah-muted)] opacity-50">—</span>
 
   const d = new Date(cellData)
   const date = new Intl.DateTimeFormat('ar-JO', {
@@ -23,9 +21,9 @@ export const DateCell: React.FC<{ cellData?: string | null }> = ({ cellData }) =
   }).format(d)
 
   return (
-    <span className="ah-cell-date">
-      <span className="ah-cell-date__d">{date}</span>
-      <span className="ah-cell-date__t">{time}</span>
+    <span className="ah flex flex-col gap-0.5 whitespace-nowrap">
+      <span className="text-[13px] font-semibold">{date}</span>
+      <span className="text-[11px] tabular-nums text-[var(--ah-muted)]">{time}</span>
     </span>
   )
 }

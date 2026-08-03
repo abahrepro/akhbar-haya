@@ -4,30 +4,25 @@ import React from 'react'
 
 import type { Media, Post } from '@/payload-types'
 import { formatRelative } from '@/utilities/formatArabicDate'
-import './index.scss'
-
-const baseClass = 'ah-dash'
+import { Badge, StatusBadge } from '@/components/AdminUI/Badge'
+import { Card, CardHeader } from '@/components/AdminUI/Card'
+import { Stat } from '@/components/AdminUI/Stat'
+import { AdminButton } from '@/components/AdminUI/AdminButton'
 
 /** بداية اليوم بتوقيت عمّان بصيغة ISO */
 const startOfTodayISO = (): string => {
-  const now = new Date()
-  const parts = new Intl.DateTimeFormat('en-CA', {
+  const d = new Intl.DateTimeFormat('en-CA', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
     timeZone: 'Asia/Amman',
-  }).format(now)
-  return `${parts}T00:00:00.000Z`
+  }).format(new Date())
+  return `${d}T00:00:00.000Z`
 }
 
 const thumbUrl = (post: Post): string | null => {
   const img = (typeof post.heroImage === 'object' ? post.heroImage : null) as Media | null
   return img?.sizes?.thumbnail?.url ?? img?.url ?? null
-}
-
-const STATUS_LABEL: Record<string, string> = {
-  published: 'منشور',
-  draft: 'مسودة',
 }
 
 const BeforeDashboard: React.FC = async () => {
@@ -40,7 +35,10 @@ const BeforeDashboard: React.FC = async () => {
       payload.count({
         collection: 'posts',
         where: {
-          and: [{ _status: { equals: 'published' } }, { publishedAt: { greater_than_equal: today } }],
+          and: [
+            { _status: { equals: 'published' } },
+            { publishedAt: { greater_than_equal: today } },
+          ],
         },
       }),
       payload.count({ collection: 'posts', where: { _status: { equals: 'draft' } } }),
@@ -58,11 +56,10 @@ const BeforeDashboard: React.FC = async () => {
       payload.find({
         collection: 'posts',
         sort: '-updatedAt',
-        limit: 8,
+        limit: 7,
         depth: 1,
         select: {
           title: true,
-          slug: true,
           heroImage: true,
           publishedAt: true,
           updatedAt: true,
@@ -82,103 +79,90 @@ const BeforeDashboard: React.FC = async () => {
       }),
     ])
 
-  const stats = [
-    { n: publishedToday.totalDocs, l: 'منشور اليوم', href: '/admin/collections/posts?limit=20' },
-    {
-      n: drafts.totalDocs,
-      l: 'مسودة معلّقة',
-      href: '/admin/collections/posts?where[_status][equals]=draft',
-      warn: drafts.totalDocs > 0,
-    },
-    { n: scheduled.totalDocs, l: 'مجدول للنشر', href: '/admin/collections/posts' },
-    { n: total.totalDocs, l: 'إجمالي الأخبار', href: '/admin/collections/posts' },
-  ]
-
   return (
-    <div className={baseClass}>
-      {/* ترحيب + إجراءات سريعة */}
-      <div className={`${baseClass}__top`}>
-        <div>
-          <h2 className={`${baseClass}__hi`}>لوحة تحكّم أخبار حياة</h2>
-          <p className={`${baseClass}__sub`}>
-            {breaking.totalDocs > 0
-              ? `يوجد ${breaking.totalDocs} خبر عاجل منشور حالياً.`
-              : 'لا يوجد خبر عاجل منشور حالياً.'}
+    <div className="ah mb-8 space-y-5" dir="rtl">
+      {/* ===== الترويسة ===== */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="m-0 text-2xl font-extrabold tracking-tight text-[var(--ah-text)]">
+            لوحة تحكّم أخبار حياة
+          </h2>
+          <p className="m-0 text-sm text-[var(--ah-muted)]">
+            {breaking.totalDocs > 0 ? (
+              <>
+                يوجد <b className="text-[var(--ah-alert)]">{breaking.totalDocs}</b> خبر عاجل منشور
+                حالياً.
+              </>
+            ) : (
+              'لا يوجد خبر عاجل منشور حالياً.'
+            )}
           </p>
         </div>
-        <div className={`${baseClass}__actions`}>
-          <a className={`${baseClass}__btn ${baseClass}__btn--breaking`} href="/admin/collections/posts/create">
-            <span className={`${baseClass}__dot`} />
+
+        <div className="flex flex-wrap items-center gap-2">
+          <AdminButton href="/admin/collections/posts/create" variant="alert">
+            <span className="inline-block size-[7px] animate-pulse rounded-full bg-white" />
             خبر عاجل
-          </a>
-          <a className={`${baseClass}__btn ${baseClass}__btn--primary`} href="/admin/collections/posts/create">
-            ✍️ خبر جديد
-          </a>
-          <a className={`${baseClass}__btn`} href="/" target="_blank" rel="noopener noreferrer">
-            🌐 معاينة الموقع
-          </a>
+          </AdminButton>
+          <AdminButton href="/admin/collections/posts/create" variant="primary">
+            خبر جديد
+          </AdminButton>
+          <AdminButton href="/" external>
+            معاينة الموقع
+          </AdminButton>
         </div>
       </div>
 
-      {/* بطاقات الأرقام */}
-      <div className={`${baseClass}__stats`}>
-        {stats.map((s) => (
-          <a
-            key={s.l}
-            href={s.href}
-            className={`${baseClass}__stat${s.warn ? ` ${baseClass}__stat--warn` : ''}`}
-          >
-            <span className={`${baseClass}__stat-n`}>{s.n}</span>
-            <span className={`${baseClass}__stat-l`}>{s.l}</span>
-          </a>
-        ))}
+      {/* ===== الأرقام ===== */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <Stat n={publishedToday.totalDocs} label="منشور اليوم" href="/admin/collections/posts" />
+        <Stat
+          n={drafts.totalDocs}
+          label="مسودة معلّقة"
+          tone={drafts.totalDocs > 0 ? 'gold' : 'default'}
+          href="/admin/collections/posts?where[_status][equals]=draft"
+        />
+        <Stat n={scheduled.totalDocs} label="مجدول للنشر" href="/admin/collections/posts" />
+        <Stat n={total.totalDocs} label="إجمالي الأخبار" href="/admin/collections/posts" />
       </div>
 
-      <div className={`${baseClass}__grid`}>
-        {/* آخر التعديلات */}
-        <section className={`${baseClass}__panel`}>
-          <div className={`${baseClass}__panel-h`}>
-            <h3>آخر ما جرى تعديله</h3>
-            <a href="/admin/collections/posts">عرض الكل ←</a>
-          </div>
+      {/* ===== اللوحات ===== */}
+      <div className="grid gap-4 lg:grid-cols-[1.6fr_1fr]">
+        <Card>
+          <CardHeader title="آخر ما جرى تعديله" href="/admin/collections/posts" />
           {recent.docs.length === 0 ? (
-            <p className={`${baseClass}__empty`}>لا توجد أخبار بعد.</p>
+            <p className="px-4 py-8 text-center text-sm text-[var(--ah-muted)]">
+              لا توجد أخبار بعد.
+            </p>
           ) : (
-            <ul className={`${baseClass}__list`}>
+            <ul className="m-0 list-none p-0">
               {recent.docs.map((p) => {
                 const post = p as Post
                 const thumb = thumbUrl(post)
+                const status = (post as unknown as { _status?: string })._status
                 return (
-                  <li key={post.id}>
-                    <a href={`/admin/collections/posts/${post.id}`}>
-                      <span className={`${baseClass}__thumb`}>
+                  <li key={post.id} className="border-t border-[var(--ah-line)] first:border-t-0">
+                    <a
+                      href={`/admin/collections/posts/${post.id}`}
+                      className="flex items-center gap-3 px-4 py-2.5 no-underline transition-colors hover:bg-[var(--ah-surface-3)]"
+                    >
+                      <span className="h-10 w-14 shrink-0 overflow-hidden rounded-lg bg-[var(--ah-line)]">
                         {thumb ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={thumb} alt="" />
+                          <img src={thumb} alt="" className="size-full object-cover" />
                         ) : (
-                          <span className={`${baseClass}__thumb-ph`} />
+                          <span className="block size-full bg-gradient-to-br from-[var(--ah-brand)] to-[var(--ah-brand-deep)] opacity-40" />
                         )}
                       </span>
-                      <span className={`${baseClass}__item-body`}>
-                        <span className={`${baseClass}__item-title`}>{post.title || '(بدون عنوان)'}</span>
-                        <span className={`${baseClass}__meta`}>
-                          <span
-                            className={`${baseClass}__pill ${baseClass}__pill--${
-                              (post as unknown as { _status?: string })._status === 'published'
-                                ? 'ok'
-                                : 'draft'
-                            }`}
-                          >
-                            {STATUS_LABEL[(post as unknown as { _status?: string })._status ?? 'draft'] ??
-                              'مسودة'}
-                          </span>
-                          {post.breaking && (
-                            <span className={`${baseClass}__pill ${baseClass}__pill--breaking`}>عاجل</span>
-                          )}
-                          {post.featured && (
-                            <span className={`${baseClass}__pill ${baseClass}__pill--star`}>مميّز</span>
-                          )}
-                          <span className={`${baseClass}__time`}>
+                      <span className="flex min-w-0 flex-col gap-1">
+                        <span className="line-clamp-1 text-sm font-bold text-[var(--ah-text)]">
+                          {post.title || '(بدون عنوان)'}
+                        </span>
+                        <span className="flex flex-wrap items-center gap-1.5">
+                          <StatusBadge status={status} publishedAt={post.publishedAt} />
+                          {post.breaking && <Badge tone="alert">عاجل</Badge>}
+                          {post.featured && <Badge tone="gold">مميّز</Badge>}
+                          <span className="text-[11px] text-[var(--ah-muted)]">
                             {post.updatedAt ? formatRelative(post.updatedAt) : ''}
                           </span>
                         </span>
@@ -189,23 +173,29 @@ const BeforeDashboard: React.FC = async () => {
               })}
             </ul>
           )}
-        </section>
+        </Card>
 
-        {/* مسودات تنتظر */}
-        <section className={`${baseClass}__panel`}>
-          <div className={`${baseClass}__panel-h`}>
-            <h3>مسودات تنتظر المراجعة</h3>
-            <a href="/admin/collections/posts?where[_status][equals]=draft">عرض الكل ←</a>
-          </div>
+        <Card>
+          <CardHeader
+            title="مسودات تنتظر المراجعة"
+            href="/admin/collections/posts?where[_status][equals]=draft"
+          />
           {pendingDrafts.docs.length === 0 ? (
-            <p className={`${baseClass}__empty`}>ممتاز — لا توجد مسودات معلّقة. 🎉</p>
+            <p className="px-4 py-8 text-center text-sm text-[var(--ah-muted)]">
+              ممتاز — لا توجد مسودات معلّقة.
+            </p>
           ) : (
-            <ul className={`${baseClass}__list ${baseClass}__list--plain`}>
+            <ul className="m-0 list-none p-0">
               {pendingDrafts.docs.map((p) => (
-                <li key={p.id}>
-                  <a href={`/admin/collections/posts/${p.id}`}>
-                    <span className={`${baseClass}__item-title`}>{p.title || '(بدون عنوان)'}</span>
-                    <span className={`${baseClass}__time`}>
+                <li key={p.id} className="border-t border-[var(--ah-line)] first:border-t-0">
+                  <a
+                    href={`/admin/collections/posts/${p.id}`}
+                    className="flex items-center justify-between gap-3 px-4 py-3 no-underline transition-colors hover:bg-[var(--ah-surface-3)]"
+                  >
+                    <span className="line-clamp-1 text-sm font-bold text-[var(--ah-text)]">
+                      {p.title || '(بدون عنوان)'}
+                    </span>
+                    <span className="shrink-0 text-[11px] text-[var(--ah-muted)]">
                       {p.updatedAt ? formatRelative(p.updatedAt) : ''}
                     </span>
                   </a>
@@ -213,7 +203,7 @@ const BeforeDashboard: React.FC = async () => {
               ))}
             </ul>
           )}
-        </section>
+        </Card>
       </div>
     </div>
   )

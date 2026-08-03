@@ -2,28 +2,17 @@
 
 import React from 'react'
 
-import './cells.scss'
+import { Badge, TypeBadge } from '@/components/AdminUI/Badge'
 
 type RowData = {
-  id?: number | string
   title?: string
   heroImage?: { url?: string; sizes?: { thumbnail?: { url?: string } } } | number | null
   breaking?: boolean | null
   featured?: boolean | null
   type?: string | null
-  _status?: string
 }
 
-const TYPE_BADGE: Record<string, { label: string; cls: string }> = {
-  photo: { label: '📷 صورة وخبر', cls: 'photo' },
-  video: { label: '🎥 فيديو', cls: 'video' },
-  opinion: { label: '✍️ رأي', cls: 'opinion' },
-}
-
-/**
- * خلية العنوان في جدول الأخبار:
- * صورة مصغّرة + العنوان + شارات (عاجل / مميّز / النوع).
- */
+/** خلية العنوان: صورة مصغّرة + العنوان + شارات */
 export const TitleCell: React.FC<{ cellData?: string; rowData?: RowData }> = ({
   cellData,
   rowData,
@@ -31,28 +20,25 @@ export const TitleCell: React.FC<{ cellData?: string; rowData?: RowData }> = ({
   const row = rowData ?? {}
   const hero = typeof row.heroImage === 'object' && row.heroImage !== null ? row.heroImage : null
   const thumb = hero?.sizes?.thumbnail?.url ?? hero?.url ?? null
-  const typeBadge = row.type ? TYPE_BADGE[row.type] : undefined
 
   return (
-    <div className="ah-cell-title">
-      <span className="ah-cell-title__thumb">
+    <div className="ah flex min-w-0 items-center gap-3">
+      <span className="h-9 w-13 shrink-0 overflow-hidden rounded-lg bg-[var(--ah-line)]">
         {thumb ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={thumb} alt="" loading="lazy" />
+          <img src={thumb} alt="" loading="lazy" className="size-full object-cover" />
         ) : (
-          <span className="ah-cell-title__thumb-ph" />
+          <span className="block size-full bg-gradient-to-br from-[var(--ah-brand)] to-[var(--ah-brand-deep)] opacity-35" />
         )}
       </span>
 
-      <span className="ah-cell-title__body">
-        <span className="ah-cell-title__text">{cellData || '(بدون عنوان)'}</span>
-        {(row.breaking || row.featured || typeBadge) && (
-          <span className="ah-cell-title__badges">
-            {row.breaking && <span className="ah-badge ah-badge--breaking">عاجل</span>}
-            {row.featured && <span className="ah-badge ah-badge--star">مميّز</span>}
-            {typeBadge && (
-              <span className={`ah-badge ah-badge--${typeBadge.cls}`}>{typeBadge.label}</span>
-            )}
+      <span className="flex min-w-0 flex-col gap-1">
+        <span className="line-clamp-2 font-bold leading-snug">{cellData || '(بدون عنوان)'}</span>
+        {(row.breaking || row.featured || row.type) && (
+          <span className="flex flex-wrap gap-1">
+            {row.breaking && <Badge tone="alert">عاجل</Badge>}
+            {row.featured && <Badge tone="gold">مميّز</Badge>}
+            <TypeBadge type={row.type} />
           </span>
         )}
       </span>

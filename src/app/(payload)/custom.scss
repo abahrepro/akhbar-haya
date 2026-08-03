@@ -1,53 +1,74 @@
 /* ===================================================================
-   هوية أخبار حياة داخل لوحة التحكّم
+   Tailwind داخل لوحة التحكّم — بدون preflight
+   نحمّل الثيم والـ utilities فقط حتى لا يُعاد ضبط ستايل Payload الداخلي.
    =================================================================== */
+@import 'tailwindcss/theme.css';
+@import 'tailwindcss/utilities.css';
 
+/* ===================================================================
+   رموز هوية أخبار حياة داخل اللوحة
+   =================================================================== */
 :root {
+  --ah-brand: #026938;
+  --ah-brand-deep: #014d29;
+  --ah-brand-tint: #e6f2ea;
+  --ah-alert: #d8352a;
+  --ah-gold: #b8863b;
+  --ah-radius: 10px;
+
   /* خط عربي مريح لواجهة اللوحة */
   --font-body:
     'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-serif: 'SF Arabic', Georgia, serif;
 }
 
-/* الأزرار الأساسية بلون الهوية */
+[data-theme='dark'] {
+  --ah-brand: #38b46e;
+  --ah-brand-deep: #2a8d54;
+  --ah-brand-tint: #163024;
+  --ah-alert: #e8564b;
+  --ah-gold: #d3a75a;
+}
+
+/* أسطح مشتركة لمكوّناتنا داخل اللوحة */
+.ah {
+  --ah-surface: var(--theme-elevation-0);
+  --ah-surface-2: var(--theme-elevation-50);
+  --ah-surface-3: var(--theme-elevation-100);
+  --ah-line: var(--theme-elevation-150);
+  --ah-text: var(--theme-elevation-800);
+  --ah-muted: var(--theme-elevation-500);
+}
+
+/* ===================================================================
+   لمسات على واجهة Payload نفسها
+   =================================================================== */
 .btn--style-primary {
-  background-color: #026938;
-  border-color: #026938;
+  background-color: var(--ah-brand);
+  border-color: var(--ah-brand);
 }
 .btn--style-primary:hover,
 .btn--style-primary:focus {
-  background-color: #014d29 !important;
-  border-color: #014d29 !important;
+  background-color: var(--ah-brand-deep) !important;
+  border-color: var(--ah-brand-deep) !important;
 }
 
-/* روابط التنقّل الجانبي */
 .nav__link:hover {
-  color: #026938;
+  color: var(--ah-brand);
 }
 
-/* شارات الحالة (منشور / مسودة) */
 .status {
   font-weight: 700;
 }
 
-/* تحسين قراءة العناوين العربية في الجداول والنماذج */
 .collection-list__wrap,
 .doc-header__title,
 .field-type {
   line-height: 1.7;
 }
 
-/* حقل النص الغني — محاذاة عربية افتراضية */
+/* محرّر النص الغني — محاذاة عربية افتراضية */
 .rich-text-lexical .ContentEditable__root {
   direction: rtl;
   text-align: right;
-}
-
-/* لوحة الترحيب */
-.before-dashboard {
-  margin-bottom: 1.5rem;
-}
-.before-dashboard__banner h4 {
-  margin: 0;
-  font-weight: 800;
 }
