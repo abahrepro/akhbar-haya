@@ -32,6 +32,7 @@
 
 /* أسطح مشتركة لمكوّناتنا داخل اللوحة */
 .ah {
+  --ah-card: var(--theme-elevation-0);
   --ah-surface: var(--theme-elevation-0);
   --ah-surface-2: var(--theme-elevation-50);
   --ah-surface-3: var(--theme-elevation-100);
