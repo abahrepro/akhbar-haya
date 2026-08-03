@@ -38,6 +38,18 @@ export const Media: CollectionConfig = {
       //required: true,
     },
     {
+      name: 'wpMediaId',
+      type: 'number',
+      label: 'معرّف وسائط ووردبريس',
+      index: true,
+      unique: true,
+      admin: {
+        readOnly: true,
+        condition: (data) => Boolean(data?.wpMediaId),
+        description: 'مُرحَّل من الموقع القديم.',
+      },
+    },
+    {
       name: 'caption',
       label: 'تعليق الصورة',
       type: 'richText',
