@@ -1,0 +1,53 @@
+/* ===================================================================
+   هوية أخبار حياة داخل لوحة التحكّم
+   =================================================================== */
+
+:root {
+  /* خط عربي مريح لواجهة اللوحة */
+  --font-body:
+    'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'SF Arabic', Georgia, serif;
+}
+
+/* الأزرار الأساسية بلون الهوية */
+.btn--style-primary {
+  background-color: #0f7c3e;
+  border-color: #0f7c3e;
+}
+.btn--style-primary:hover,
+.btn--style-primary:focus {
+  background-color: #0a5b2c !important;
+  border-color: #0a5b2c !important;
+}
+
+/* روابط التنقّل الجانبي */
+.nav__link:hover {
+  color: #0f7c3e;
+}
+
+/* شارات الحالة (منشور / مسودة) */
+.status {
+  font-weight: 700;
+}
+
+/* تحسين قراءة العناوين العربية في الجداول والنماذج */
+.collection-list__wrap,
+.doc-header__title,
+.field-type {
+  line-height: 1.7;
+}
+
+/* حقل النص الغني — محاذاة عربية افتراضية */
+.rich-text-lexical .ContentEditable__root {
+  direction: rtl;
+  text-align: right;
+}
+
+/* لوحة الترحيب */
+.before-dashboard {
+  margin-bottom: 1.5rem;
+}
+.before-dashboard__banner h4 {
+  margin: 0;
+  font-weight: 800;
+}

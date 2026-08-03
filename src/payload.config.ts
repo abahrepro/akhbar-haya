@@ -1,4 +1,5 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { ar } from '@payloadcms/translations/languages/ar'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -20,13 +21,23 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  // العربية هي لغة لوحة التحكّم الوحيدة — تفرض RTL بغضّ النظر عن لغة المتصفّح
+  i18n: {
+    fallbackLanguage: 'ar',
+    supportedLanguages: { ar },
+  },
   admin: {
+    meta: {
+      titleSuffix: ' — أخبار حياة',
+      description: 'لوحة تحكّم أخبار حياة',
+      icons: [{ rel: 'icon', type: 'image/svg+xml', url: '/favicon.svg' }],
+    },
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
+      graphics: {
+        Logo: '@/components/AdminBrand/Logo',
+        Icon: '@/components/AdminBrand/Icon',
+      },
       beforeLogin: ['@/components/BeforeLogin'],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below.
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {

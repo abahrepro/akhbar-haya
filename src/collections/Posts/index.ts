@@ -29,6 +29,10 @@ import { slugField } from 'payload'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
+  labels: {
+    singular: 'خبر',
+    plural: 'الأخبار',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -48,7 +52,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title', 'type', 'breaking', 'publishedAt', '_status'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -69,6 +73,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'title',
       type: 'text',
+      label: 'العنوان',
       required: true,
     },
     {
@@ -99,6 +104,7 @@ export const Posts: CollectionConfig<'posts'> = {
             {
               name: 'content',
               type: 'richText',
+              label: 'نص الخبر',
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
                   return [
@@ -111,7 +117,6 @@ export const Posts: CollectionConfig<'posts'> = {
                   ]
                 },
               }),
-              label: false,
               required: true,
             },
             {
@@ -145,13 +150,14 @@ export const Posts: CollectionConfig<'posts'> = {
               },
             },
           ],
-          label: 'Content',
+          label: 'المحتوى',
         },
         {
           fields: [
             {
               name: 'relatedPosts',
               type: 'relationship',
+              label: 'أخبار ذات صلة',
               admin: {
                 position: 'sidebar',
               },
@@ -186,11 +192,11 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'tags',
             },
           ],
-          label: 'Meta',
+          label: 'التصنيف',
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: 'تحسين محركات البحث',
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -220,6 +226,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'publishedAt',
       type: 'date',
+      label: 'تاريخ النشر',
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
