@@ -1,4 +1,4 @@
-import type { Access, FieldAccess } from 'payload'
+import type { Access, FieldAccess, Where } from 'payload'
 
 import type { User } from '@/payload-types'
 
@@ -59,7 +59,7 @@ export const canManageTaxonomy: Access = hasRole('admin', 'editorInChief')
  *  - المساهم: المنشور + مسوّداته هو
  *  - باقي الطاقم: كل شيء
  */
-export const readPosts: Access = ({ req: { user } }) => {
+export const readPosts: Access = ({ req: { user } }): boolean | Where => {
   const role = roleOf(user)
 
   if (role === 'admin' || role === 'editorInChief' || role === 'editor') return true
@@ -78,7 +78,7 @@ export const readPosts: Access = ({ req: { user } }) => {
  *  - المساهم: مسوّداته غير المنشورة فقط
  *  - باقي الطاقم: كل شيء
  */
-export const updatePosts: Access = ({ req: { user } }) => {
+export const updatePosts: Access = ({ req: { user } }): boolean | Where => {
   const role = roleOf(user)
 
   if (role === 'admin' || role === 'editorInChief' || role === 'editor') return true
@@ -92,5 +92,8 @@ export const updatePosts: Access = ({ req: { user } }) => {
   return false
 }
 
-/** الدخول إلى لوحة التحكّم — أي فرد من الطاقم */
-export const canAccessAdmin: Access = isStaff
+/** الدخول إلى لوحة التحكّم — أي فرد من الطاقم (يُرجع boolean فقط) */
+export const canAccessAdmin = ({ req }: { req: { user?: unknown } }): boolean => {
+  const r = roleOf(req.user)
+  return r !== null
+}
