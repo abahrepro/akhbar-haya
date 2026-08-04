@@ -52,10 +52,18 @@
 }
 
 @layer utilities {
+  /**
+   * حشوة فيزيائية صريحة لا `padding-inline`.
+   * قياسٌ من جهاز أندرويد أظهر الحشوة مطبّقة على جهة البداية وحدها
+   * (٣٩٤ ← ٣٧٨ يميناً، وصفر يساراً) فبدا المحتوى ملتصقاً بالحافة.
+   * القيمة متماثلة على الجهتين فلا حاجة أصلاً لخاصيّة تراعي اتجاه الكتابة.
+   */
   .container {
     width: 100%;
-    margin-inline: auto;
-    padding-inline: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   @variant sm {
@@ -67,7 +75,8 @@
   @variant md {
     .container {
       max-width: var(--breakpoint-md);
-      padding-inline: 2rem;
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
   }
 
