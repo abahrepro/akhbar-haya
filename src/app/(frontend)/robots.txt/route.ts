@@ -15,8 +15,15 @@ export async function GET() {
   const canonical = new URL(getServerSideURL()).host
   const host = (await headers()).get('host')?.split(':')[0] ?? ''
 
+  /**
+   * الراية الصريحة تسبق فحص المضيف: بيئة الاختبار تعمل حالياً بعنوانها
+   * الخاص في NEXT_PUBLIC_SERVER_URL، فتبدو لنفسها النطاق المعتمد.
+   * تُحذف من ‎.env‎ عند التحويل النهائي.
+   */
+  const staging = ['1', 'true', 'yes'].includes((process.env.ROBOTS_DISALLOW ?? '').toLowerCase())
+
   // نسمح للمضيف المعتمد وحده؛ ما عداه بيئة اختبار
-  if (host && host !== canonical && host !== `www.${canonical}`) {
+  if (staging || (host && host !== canonical && host !== `www.${canonical}`)) {
     return new Response(
       ['# بيئة اختبار — غير مخصّصة للفهرسة', 'User-agent: *', 'Disallow: /', ''].join('\n'),
       { headers: { 'content-type': 'text/plain; charset=utf-8', 'x-robots-tag': 'noindex' } },
