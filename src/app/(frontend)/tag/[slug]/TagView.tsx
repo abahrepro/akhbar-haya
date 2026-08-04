@@ -90,7 +90,7 @@ export const TagView: React.FC<{ slug: string; page: number }> = async ({ slug, 
         </p>
       </div>
 
-      <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="flex min-w-0 flex-col gap-10 lg:grid lg:items-start lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
           {items.length === 0 ? (
             <p className="py-16 text-center text-ink-soft">لا توجد أخبار بهذا الوسم حالياً.</p>

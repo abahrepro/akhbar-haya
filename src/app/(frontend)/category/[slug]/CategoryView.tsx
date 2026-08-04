@@ -123,7 +123,7 @@ export const CategoryView: React.FC<{ slug: string; page: number }> = async ({ s
       {items.length === 0 ? (
         <p className="py-16 text-center text-ink-soft">لا توجد أخبار في هذا القسم حالياً.</p>
       ) : (
-        <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="flex min-w-0 flex-col gap-10 lg:grid lg:items-start lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0">
             {lead && (
               <div className="mb-6">

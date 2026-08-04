@@ -189,7 +189,7 @@ export default async function HomePage() {
 
       <AdSlot source="google" size="970×90" name="Leaderboard" className="mb-10 h-[104px]" />
 
-      <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="flex min-w-0 flex-col gap-10 lg:grid lg:items-start lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
           {/* أخبار الأردن — مميّز + قائمة */}
           {jordan.length > 0 && (
