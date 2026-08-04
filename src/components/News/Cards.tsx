@@ -19,7 +19,7 @@ export const LeadCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     className="group relative block min-h-[460px] overflow-hidden rounded-[14px] shadow-sm transition hover:-translate-y-0.5 lg:min-h-[496px] @container"
   >
     <div className="absolute inset-0">
-      <NewsImage item={item} size="xlarge" />
+      <NewsImage item={item} size="medium" />
     </div>
     {item.breaking && <BreakingChip />}
     {item.type === 'video' && <PlayBadge size="lg" />}
@@ -37,11 +37,14 @@ export const LeadCard: React.FC<{ item: NewsItem }> = ({ item }) => (
   </Link>
 )
 
-/* ============ بطاقة هيرو جانبية ============ */
+/**
+ * بطاقة هيرو جانبية.
+ * على الهاتف تظهر بطاقتان جنب بعض بعرض ~١٦٥ بكسل، فارتفاع ٢٤١ يجعلها نحيلة جداً.
+ */
 export const HeroSideCard: React.FC<{ item: NewsItem }> = ({ item }) => (
   <Link
     href={item.href}
-    className="group relative block min-h-[241px] overflow-hidden rounded-[14px] shadow-sm transition hover:-translate-y-0.5 @container"
+    className="group relative block min-h-[146px] overflow-hidden rounded-[14px] shadow-sm transition hover:-translate-y-0.5 sm:min-h-[241px] @container"
   >
     <div className="absolute inset-0">
       <NewsImage item={item} size="medium" />
@@ -49,7 +52,7 @@ export const HeroSideCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.94)] via-[rgba(6,14,9,.35)] to-transparent p-3.5">
-      <h3 className="text-balance font-serif text-[clamp(15px,7.4cqi,22px)] font-bold leading-[1.32] text-white">
+      <h3 className="line-clamp-3 text-balance font-serif text-[clamp(14px,7.4cqi,22px)] font-bold leading-[1.32] text-white">
         {item.title}
       </h3>
     </div>
@@ -95,7 +98,7 @@ export const FeatureCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     className="group flex flex-col overflow-hidden rounded-[14px] border border-border bg-card shadow-sm transition hover:-translate-y-0.5 @container"
   >
     <div className="relative aspect-16/9 overflow-hidden">
-      <NewsImage item={item} size="large" />
+      <NewsImage item={item} size="medium" />
       {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
       {item.type === 'video' && <PlayBadge />}
     </div>
@@ -145,7 +148,7 @@ export const PhotoCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     className="group relative block min-h-[310px] overflow-hidden rounded-[14px] shadow-sm transition hover:-translate-y-0.5 @container"
   >
     <div className="absolute inset-0">
-      <NewsImage item={item} size="large" />
+      <NewsImage item={item} size="medium" />
     </div>
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.95)] via-[rgba(6,14,9,.4)] to-transparent p-4">
@@ -163,11 +166,12 @@ export const BentoCard: React.FC<{ item: NewsItem; large?: boolean }> = ({ item,
     href={item.href}
     className={cn(
       'group relative block overflow-hidden rounded-[14px] shadow-sm transition hover:-translate-y-0.5 @container',
-      large && 'sm:col-span-2 sm:row-span-2',
+      // العريضة تملأ عرض الشبكة وصفّين — على الهاتف تصير كالهيرو والأربع الباقية ٢×٢ تحتها
+      large && 'col-span-2 row-span-2',
     )}
   >
     <div className="absolute inset-0">
-      <NewsImage item={item} size={large ? 'large' : 'small'} />
+      <NewsImage item={item} size={large ? 'medium' : 'small'} />
     </div>
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}

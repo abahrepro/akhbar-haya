@@ -25,6 +25,8 @@ export const revalidate = 60
 const POST_SELECT = {
   title: true,
   slug: true,
+  // يبني الرابط المطابق لووردبريس — بدونه تعود الروابط لمعرّف Payload
+  wpId: true,
   excerpt: true,
   heroImage: true,
   categories: true,
@@ -176,7 +178,7 @@ export default async function HomePage() {
         <section className="mb-10 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
           <LeadCard item={lead} />
           {heroSide.length > 0 && (
-            <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-rows-2">
+            <div className="grid grid-cols-2 gap-3 sm:gap-3.5 lg:grid-rows-2">
               {heroSide.map((item) => (
                 <HeroSideCard key={item.id} item={item} />
               ))}
@@ -216,7 +218,7 @@ export default async function HomePage() {
                 href="/category/palestine"
                 color={catBySlug('palestine')?.color}
               />
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
                 {palestine.slice(0, 4).map((item) => (
                   <NewsCard key={item.id} item={item} />
                 ))}
@@ -257,7 +259,7 @@ export default async function HomePage() {
                 href="/category/world"
                 color={catBySlug('world')?.color}
               />
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
                 {world.slice(0, 4).map((item) => (
                   <NewsCard key={item.id} item={item} />
                 ))}
@@ -297,7 +299,7 @@ export default async function HomePage() {
                 href="/category/technology"
                 color={catBySlug('technology')?.color}
               />
-              <div className="grid auto-rows-[192px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid auto-rows-[192px] grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
                 {tech.slice(0, 5).map((item, i) => (
                   <BentoCard key={item.id} item={item} large={i === 0} />
                 ))}
@@ -313,7 +315,7 @@ export default async function HomePage() {
                 href="/category/sports"
                 color={catBySlug('sports')?.color}
               />
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
                 {sports.slice(0, 4).map((item) => (
                   <NewsCard key={item.id} item={item} />
                 ))}

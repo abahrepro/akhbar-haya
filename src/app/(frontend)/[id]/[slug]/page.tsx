@@ -1,6 +1,7 @@
 import configPromise from '@payload-config'
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
+import { permanentRedirect } from 'next/navigation'
 import Link from 'next/link'
 import { getPayload } from 'payload'
 import React, { cache } from 'react'
@@ -20,6 +21,7 @@ import RichText from '@/components/RichText'
 import { formatGregorian, formatTime } from '@/utilities/formatArabicDate'
 import { generateMeta } from '@/utilities/generateMeta'
 import { getServerSideURL } from '@/utilities/getURL'
+import { postHref, postNumber } from '@/utilities/postUrl'
 
 /**
  * نولّد مسبقاً أحدث الأخبار فقط.
@@ -36,12 +38,14 @@ export async function generateStaticParams() {
     limit: 500,
     sort: '-publishedAt',
     overrideAccess: false,
-    select: { slug: true },
+    select: { slug: true, wpId: true },
   })
-  return posts.docs.filter((p) => p.slug).map(({ slug }) => ({ slug: slug as string }))
+  return posts.docs
+    .filter((p) => p.slug)
+    .map((p) => ({ id: String(postNumber(p)), slug: p.slug as string }))
 }
 
-type Args = { params: Promise<{ slug?: string }> }
+type Args = { params: Promise<{ id?: string; slug?: string }> }
 
 /** تقدير وقت القراءة من محتوى Lexical */
 const readingMinutes = (content: Post['content']): number => {
@@ -52,12 +56,17 @@ const readingMinutes = (content: Post['content']): number => {
 
 export default async function PostPage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = '' } = await paramsPromise
+  const { id = '', slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const url = '/posts/' + decodedSlug
   const post = await queryPostBySlug({ slug: decodedSlug })
 
-  if (!post) return <PayloadRedirects url={url} />
+  if (!post) return <PayloadRedirects url={`/${id}/${decodedSlug}`} />
+
+  // الاسم اللطيف هو المُعرّف الحقيقي؛ الرقم للتوافق مع روابط ووردبريس.
+  // أي رقم آخر يعني نسخة ثانية من الصفحة نفسها — نحوّلها للرابط المعتمد.
+  const url = postHref(post)
+  // ترويسة Location تقبل ASCII فقط، والعناوين عربية — فنرمّزها
+  if (id !== String(postNumber(post))) permanentRedirect(encodeURI(url))
 
   const payload = await getPayload({ config: configPromise })
   const category = (post.categories?.[0] as Category | undefined) ?? undefined
@@ -182,7 +191,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
             {hero && (
               <figure className="my-6">
                 <div className="relative aspect-16/9 overflow-hidden rounded-[14px] shadow-sm">
-                  <Media resource={hero} size="xlarge" fill imgClassName="object-cover" />
+                  <Media resource={hero} size="medium" fill imgClassName="object-cover" />
                 </div>
                 {post.heroCaption && (
                   <figcaption className="ah-hide-in-reading mt-2.5 border-s-[3px] border-border ps-2.5 text-[13px] text-muted-foreground">
@@ -209,7 +218,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                   return (
                     <figure key={g.id ?? i}>
                       <div className="relative aspect-16/9 overflow-hidden rounded-[14px] shadow-sm">
-                        <Media resource={img} size="large" fill imgClassName="object-cover" />
+                        <Media resource={img} size="medium" fill imgClassName="object-cover" />
                       </div>
                       <figcaption className="mt-2 flex items-center justify-between gap-3 border-s-[3px] border-brand ps-2.5 text-[13.5px] text-muted-foreground">
                         <span>{g.caption}</span>

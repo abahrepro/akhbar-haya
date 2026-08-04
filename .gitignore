@@ -25,3 +25,15 @@ node_modules/
 *.db
 *.db-journal
 *.db.bak
+
+# أرشيف صور ووردبريس الخام — ١٥ جيجا، مصدره النسخة الاحتياطية لا المستودع
+wp-media/
+
+# نسخ SQLite الاحتياطية من مرحلة ما قبل Postgres
+*.db
+*.db-shm
+*.db-wal
+*.db.backup-*
+
+# ذاكرة بناء TypeScript
+tsconfig.tsbuildinfo

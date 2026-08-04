@@ -65,37 +65,41 @@ export const Media: CollectionConfig = {
     staticDir: path.resolve(dirname, '../../public/media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
+    // تحويل كل الصور إلى WebP — أصغر بنحو ٣٠٪ ومدعوم في كل المتصفّحات الحديثة
+    formatOptions: { format: 'webp', options: { quality: 82 } },
     imageSizes: [
+      /**
+       * أربعة أحجام فقط.
+       * ٩٧٪ من صور الأرشيف بين ٧٠٠ و١٠٠٠ بكسل، فالأحجام الأكبر كانت
+       * تنتج نسخاً متطابقة تضاعف التخزين بلا أي مكسب بصري.
+       * withoutEnlargement يمنع تضخيم ما هو أصغر من المقاس المطلوب.
+       */
       {
         name: 'thumbnail',
         width: 300,
-      },
-      {
-        name: 'square',
-        width: 500,
-        height: 500,
+        withoutEnlargement: true,
+        formatOptions: { format: 'webp', options: { quality: 80 } },
       },
       {
         name: 'small',
         width: 600,
+        withoutEnlargement: true,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
       {
         name: 'medium',
-        width: 900,
+        width: 1000,
+        withoutEnlargement: true,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
-      {
-        name: 'large',
-        width: 1400,
-      },
-      {
-        name: 'xlarge',
-        width: 1920,
-      },
+      // للمشاركة على وسائل التواصل — نسبة ثابتة تتطلب قصّاً
       {
         name: 'og',
         width: 1200,
         height: 630,
         crop: 'center',
+        withoutEnlargement: true,
+        formatOptions: { format: 'webp', options: { quality: 80 } },
       },
     ],
   },

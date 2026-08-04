@@ -2,6 +2,7 @@ import { getServerSideSitemap } from 'next-sitemap'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import { postHref } from '@/utilities/postUrl'
 
 const getPostsSitemap = unstable_cache(
   async () => {
@@ -35,7 +36,7 @@ const getPostsSitemap = unstable_cache(
       ? results.docs
           .filter((post) => Boolean(post?.slug))
           .map((post) => ({
-            loc: `${SITE_URL}/posts/${post?.slug}`,
+            loc: `${SITE_URL}${postHref(post)}`,
             lastmod: post.updatedAt || dateFallback,
           }))
       : []

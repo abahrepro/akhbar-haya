@@ -1,4 +1,5 @@
 import type { Category, Media, Post } from '@/payload-types'
+import { postHref } from '@/utilities/postUrl'
 
 /** الشكل المبسّط الذي تستهلكه بطاقات الأخبار */
 export type NewsItem = {
@@ -34,7 +35,7 @@ export const toNewsItem = (post: Post): NewsItem => ({
   id: post.id,
   title: post.title,
   slug: post.slug ?? '',
-  href: `/posts/${post.slug}`,
+  href: postHref(post),
   excerpt: post.excerpt ?? post.meta?.description ?? null,
   image: asMedia(post.heroImage) ?? asMedia(post.meta?.image),
   imageAlt: post.title,

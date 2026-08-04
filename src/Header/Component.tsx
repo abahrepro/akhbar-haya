@@ -4,6 +4,7 @@ import React from 'react'
 
 import { HeaderClient, type NavItem, type TickerItem } from './Component.client'
 import { formatGregorian, formatHijri } from '@/utilities/formatArabicDate'
+import { postHref } from '@/utilities/postUrl'
 
 export async function Header() {
   const payload = await getPayload({ config: configPromise })
@@ -23,7 +24,7 @@ export async function Header() {
       sort: '-publishedAt',
       limit: 6,
       depth: 0,
-      select: { title: true, slug: true },
+      select: { title: true, slug: true, wpId: true },
     }),
   ])
 
@@ -36,7 +37,7 @@ export async function Header() {
 
   const ticker: TickerItem[] = latest.docs
     .filter((p) => Boolean(p.title && p.slug))
-    .map((p) => ({ title: p.title as string, href: `/posts/${p.slug}` }))
+    .map((p) => ({ title: p.title as string, href: postHref(p) }))
 
   const now = new Date()
 
