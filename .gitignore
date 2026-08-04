@@ -37,3 +37,6 @@ wp-media/
 
 # ذاكرة بناء TypeScript
 tsconfig.tsbuildinfo
+
+# مجلد الوسائط — خارج public لأن Next يفهرس public عند الإقلاع
+/media/

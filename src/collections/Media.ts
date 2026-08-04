@@ -61,8 +61,14 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/media'),
+    /**
+     * خارج `public/` عمداً.
+     * Next يفهرس مجلد public عند الإقلاع، وأرشيفنا يتجاوز ٤٩٠ ألف ملف —
+     * يكفي لتفجير مكدّس الاستدعاءات، فينهار الخادم بعد ثوانٍ من جاهزيته.
+     * الملفات تُقدَّم عبر مسار Payload (`/api/media/file/...`) لا كأصول ثابتة،
+     * فالنقل لا يغيّر أي رابط.
+     */
+    staticDir: process.env.MEDIA_DIR || path.resolve(dirname, '../../media'),
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     // تحويل كل الصور إلى WebP — أصغر بنحو ٣٠٪ ومدعوم في كل المتصفّحات الحديثة

@@ -16,7 +16,7 @@ import fs from 'fs'
 import path from 'path'
 import { Client } from 'pg'
 
-const MEDIA_DIR = path.resolve(process.cwd(), 'public/media')
+const MEDIA_DIR = path.resolve(process.cwd(), 'media')
 const SQL_OUT = '/tmp/shorten-filenames.sql'
 
 /** أقصى طول للجذع بالبايتات — يترك مساحة للاحقة المقاس والامتداد */
