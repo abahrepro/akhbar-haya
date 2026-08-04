@@ -35,27 +35,46 @@ export const LayoutProbe: React.FC = () => {
   const measure = React.useCallback(() => {
     const d = document.documentElement
     const rows: Row[] = []
-    document.querySelectorAll('*').forEach((el) => {
+
+    /** عرض الصندوق الداخلي للأب بعد طرح حشوته */
+    const innerOf = (el: Element) => {
+      const r = el.getBoundingClientRect()
+      const cs = getComputedStyle(el)
+      return {
+        left: r.left + parseFloat(cs.paddingLeft || '0') + parseFloat(cs.borderLeftWidth || '0'),
+        right: r.right - parseFloat(cs.paddingRight || '0') - parseFloat(cs.borderRightWidth || '0'),
+      }
+    }
+
+    // العنصر الذي يتجاوز صندوق أبيه هو المتسبّب، حتى لو قصّه جدّ أعلى
+    document.querySelectorAll('main *').forEach((el) => {
       const r = el.getBoundingClientRect()
       if (r.width === 0 || r.height === 0) return
-      if (r.right > d.clientWidth + 1 || r.left < -1) {
-        // العناصر المقصوصة لا تسبّب تمريراً — نعزلها لتظهر الحقيقية
+      const p = el.parentElement
+      if (!p) return
+      const inner = innerOf(p)
+      const spill = Math.round(Math.max(inner.left - r.left, r.right - inner.right))
+      if (spill > 1) {
         rows.push({
           tag: el.tagName.toLowerCase(),
-          cls: (el.className || '').toString().slice(0, 44),
+          cls: (el.className || '').toString().slice(0, 40),
           w: Math.round(r.width),
           l: Math.round(r.left),
-          r: Math.round(r.right),
-          clipped: isClipped(el),
+          r: spill,
+          clipped: false,
         })
       }
     })
+
     const box = (sel: string) => {
       const el = document.querySelector(sel)
       if (!el) return 'none'
       const r = el.getBoundingClientRect()
-      return `${Math.round(r.left)}..${Math.round(r.right)} (w=${Math.round(r.width)})`
+      const cs = getComputedStyle(el)
+      return `${Math.round(r.left)}..${Math.round(r.right)} pad ${cs.paddingLeft}/${cs.paddingRight}`
     }
+
+    rows.sort((a, b) => b.r - a.r)
     setData({
       client: d.clientWidth,
       scroll: d.scrollWidth,
@@ -63,11 +82,10 @@ export const LayoutProbe: React.FC = () => {
       over: d.scrollWidth - d.clientWidth,
       boxes: [
         `container ${box('main.container')}`,
+        `grid      ${box('main.container > div')}`,
         `article   ${box('article')}`,
-        `body      ${box('body')}`,
-        `header    ${box('header')}`,
       ],
-      rows: rows.filter((x) => !x.clipped).slice(0, 10),
+      rows: rows.slice(0, 8),
     })
   }, [])
 
@@ -109,8 +127,8 @@ export const LayoutProbe: React.FC = () => {
             `overflow = ${data.over}px   ${data.over > 0 ? '<<< FOUND' : 'none'}`,
             `client ${data.client} / scroll ${data.scroll} / scrollX ${data.scrollX}`,
             ...data.boxes,
-            `--- unclipped offenders: ${data.rows.length} ---`,
-            ...data.rows.map((r) => `${r.tag} w=${r.w} l=${r.l} r=${r.r}\n  .${r.cls}`),
+            `--- spilling past parent: ${data.rows.length} ---`,
+            ...data.rows.map((r) => `SPILL ${r.r}px  ${r.tag} w=${r.w} l=${r.l}\n  .${r.cls}`),
           ].join('\n')}
         </pre>
       )}
