@@ -219,7 +219,9 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
       </header>
 
       {/* ===== قائمة الموبايل ===== */}
-      <div className={cn('fixed inset-0 z-[90]', menuOpen ? 'visible' : 'invisible')}>
+      <div
+        className={cn('ah-drawer-layer fixed inset-0 z-[90]', menuOpen ? 'visible' : 'invisible')}
+      >
         <div
           onClick={() => setMenuOpen(false)}
           className={cn(
