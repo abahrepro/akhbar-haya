@@ -444,3 +444,26 @@ body.ah-reading-mode #article-body {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/**
+ * تحصين متن الخبر.
+ * ١٢١٢ خبراً مرحّلاً يحتوي روابط تتجاوز ستّين حرفاً، والرابط لا ينكسر
+ * تلقائياً فيمدّ الصفحة كلها ويزيح المحتوى — وهو ما ظهر على الهواتف.
+ * القواعد تحتاط أيضاً لجداول أو وسائط قد تصل من محرّر لاحقاً.
+ */
+#article-body {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+#article-body img,
+#article-body video,
+#article-body iframe {
+  max-width: 100%;
+  height: auto;
+}
+#article-body table,
+#article-body pre {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}

@@ -149,7 +149,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                   <span className="opacity-50">›</span>
                 </>
               )}
-              <span className="text-ink-soft">{post.title}</span>
+              <span className="min-w-0 break-words text-ink-soft">{post.title}</span>
             </nav>
 
             {category && (
