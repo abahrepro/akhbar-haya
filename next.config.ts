@@ -46,6 +46,28 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  /**
+   * صفحات HTML تُراجَع مع الخادم في كل زيارة.
+   *
+   * الافتراضي كان `s-maxage` سنةً كاملة مع `stale-while-revalidate`،
+   * فيعرض المتصفّح النسخة القديمة فوراً ويجدّد في الخلفية — القارئ يرى
+   * دائماً البناء السابق لا الحالي: الخبر العاجل يتأخّر، وكل إصلاح
+   * يبدو كأنه لم يصل. المراجعة رخيصة: ‏ETag موجود والردّ 304 بلا جسم.
+   * أصول ‎_next/static‎ لا يمسّها هذا — أسماؤها مبصومة وتخزينها سنة سليم.
+   */
+  async headers() {
+    return [
+      {
+        source: '/((?!_next/|api/).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=300',
+          },
+        ],
+      },
+    ]
+  },
   turbopack: {
     root: path.resolve(dirname),
   },
