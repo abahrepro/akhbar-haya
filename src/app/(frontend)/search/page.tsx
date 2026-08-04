@@ -8,15 +8,22 @@ import type { Post } from '@/payload-types'
 import { NewsImage, TimeStamp } from '@/components/News/Bits'
 import { Sidebar } from '@/components/News/Sidebar'
 import { toNewsItem, type NewsItem } from '@/components/News/types'
+import { ArchivePagination } from '@/components/News/ArchivePagination'
 import { SearchField } from './SearchField'
 
-type Args = { searchParams: Promise<{ q?: string }> }
+type Args = { searchParams: Promise<{ q?: string; page?: string }> }
+
+/** نتائج لكل صفحة */
+const PAGE_SIZE = 24
 
 const POPULAR = ['الملكية العقارية', 'مجلس النواب', 'أسعار الذهب', 'غزة', 'الطقس', 'كأس آسيا']
 
 export default async function SearchPage({ searchParams }: Args) {
-  const { q = '' } = await searchParams
+  const { q = '', page: rawPage } = await searchParams
   const query = q.trim()
+  // رقم صفحة تالف يعود للأولى — البحث لا يستحق صفحة خطأ
+  const parsed = Number(rawPage)
+  const page = Number.isInteger(parsed) && parsed > 0 ? parsed : 1
   const payload = await getPayload({ config: configPromise })
 
   // الاستعلامان متوازيان — تنفيذهما تتابعاً كان يضاعف زمن الصفحة
@@ -37,7 +44,8 @@ export default async function SearchPage({ searchParams }: Args) {
             ],
           },
           sort: '-publishedAt',
-          limit: 24,
+          limit: PAGE_SIZE,
+          page,
           depth: 1,
         })
       : Promise.resolve(null),
@@ -122,6 +130,14 @@ export default async function SearchPage({ searchParams }: Args) {
                   </Link>
                 ))}
               </div>
+            )}
+            {searchRes && (
+              <ArchivePagination
+                page={searchRes.page ?? page}
+                totalPages={searchRes.totalPages}
+                basePath={`/search?q=${encodeURIComponent(query)}`}
+                queryParam="page"
+              />
             )}
           </div>
           <Sidebar mostRead={mostRead} />

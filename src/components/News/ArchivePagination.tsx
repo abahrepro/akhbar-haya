@@ -14,12 +14,24 @@ export const ArchivePagination: React.FC<{
   totalPages: number
   /** جذر المسار بلا ترقيم، مثال: /category/رياضة */
   basePath: string
+  /**
+   * ترقيم بمعامل استعلام بدل مقطع مسار، مثال: `/search?q=غزة`.
+   * البحث يحمل استعلامه في الرابط أصلاً، فإقحام `/page/2` بينهما يشوّهه.
+   */
+  queryParam?: string
   className?: string
-}> = ({ page, totalPages, basePath, className }) => {
+}> = ({ page, totalPages, basePath, queryParam, className }) => {
   if (totalPages <= 1) return null
 
   // الصفحة الأولى تبقى على المسار الجذر — لا نريد نسختين لنفس المحتوى
-  const href = (n: number) => (n === 1 ? basePath : `${basePath}/page/${n}`)
+  const href = (n: number) => {
+    if (n === 1) return basePath
+    if (queryParam) {
+      const sep = basePath.includes('?') ? '&' : '?'
+      return `${basePath}${sep}${queryParam}=${n}`
+    }
+    return `${basePath}/page/${n}`
+  }
 
   // نافذة حول الصفحة الحالية، مع الأولى والأخيرة دائماً
   const nums = new Set<number>([1, totalPages])
