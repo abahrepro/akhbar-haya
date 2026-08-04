@@ -6,7 +6,9 @@ const SITE_URL =
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: SITE_URL,
-  generateRobotsTxt: true,
+  // robots.txt يُولَّد ديناميكياً في src/app/(frontend)/robots.txt
+  // ليمنع فهرسة نطاق الاختبار — ملف ثابت لا يميّز المضيف
+  generateRobotsTxt: false,
   exclude: ['/posts-sitemap.xml', '/pages-sitemap.xml', '/*', '/posts/*'],
   robotsTxtOptions: {
     policies: [
