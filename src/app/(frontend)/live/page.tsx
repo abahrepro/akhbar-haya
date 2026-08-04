@@ -64,7 +64,7 @@ export default async function LivePage() {
         <span className="text-ink-soft">البث المباشر</span>
       </nav>
 
-      <div className="mb-6 grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
+      <div className="mb-6 grid min-w-0 items-start gap-5 lg:grid-cols-[minmax(0,1fr)_340px]">
         {/* المشغّل */}
         <div className="overflow-hidden rounded-[14px] border border-border shadow-sm">
           <div className="relative aspect-video bg-linear-140 from-[#123047] to-[#05121f]">

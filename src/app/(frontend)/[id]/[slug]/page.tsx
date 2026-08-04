@@ -133,7 +133,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <main className="container py-6">
-        <div className="grid items-start gap-11 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid min-w-0 items-start gap-11 lg:grid-cols-[minmax(0,1fr)_320px]">
           <article className="min-w-0">
             {/* مسار التنقّل */}
             <nav className="ah-hide-in-reading mb-5 flex flex-wrap items-center gap-2 text-[13px] font-semibold text-muted-foreground">

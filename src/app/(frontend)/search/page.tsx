@@ -90,7 +90,7 @@ export default async function SearchPage({ searchParams }: Args) {
           </div>
         </div>
       ) : (
-        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0">
             {results.length === 0 ? (
               <div className="py-14 text-center">
