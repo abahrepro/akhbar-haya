@@ -464,6 +464,21 @@ body.ah-reading-mode #article-body {
   overflow-wrap: anywhere;
   word-break: break-word;
 }
+/**
+ * نصوص المتن ترث مقاس حاويتها إجبارياً.
+ * قياسٌ من الموقع الحي أظهر الفقرات مسمّرة على ١٦ بكسل مهما تغيّر مقاس
+ * ‏#article-body — فلا سلّم المقاسات وصلها ولا أزرار A+/A−. المعرّف مع
+ * اسم العنصر يمنح أسبقية تكفي لكسر أي قاعدة تثبّت مقاسها.
+ * العناوين خارج القائمة عمداً — لها سلّمها الخاص.
+ */
+#article-body p,
+#article-body li,
+#article-body blockquote,
+#article-body td,
+#article-body th,
+#article-body figcaption {
+  font-size: inherit;
+}
 #article-body img,
 #article-body video,
 #article-body iframe {
