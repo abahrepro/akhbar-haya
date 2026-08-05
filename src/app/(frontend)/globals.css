@@ -43,11 +43,11 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  /* thmanyah Sans — النصوص والواجهة */
-  --font-sans: var(--font-thmanyah-sans), 'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui,
+  /* الإسكندرية — عائلة واحدة للنصوص والعناوين، التمييز بالوزن */
+  --font-sans: var(--font-alexandria), 'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui,
     sans-serif;
-  /* thmanyah Serif Display — العناوين */
-  --font-serif: var(--font-thmanyah-serif), 'SF Arabic', Georgia, serif;
+  --font-serif: var(--font-alexandria), 'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui,
+    sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -243,7 +243,7 @@
     @apply bg-background text-foreground min-h-[100vh] flex flex-col;
     font-family: var(--font-sans);
   }
-  /* العناوين بخط thmanyah Serif Display */
+  /* العناوين — نفس العائلة، يميّزها الوزن */
   h1,
   h2,
   h3,

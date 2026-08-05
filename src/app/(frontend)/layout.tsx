@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
-import { thmanyahSans, thmanyahSerif } from '@/fonts'
+import { alexandria } from '@/fonts'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html
-      className={cn(thmanyahSans.variable, thmanyahSerif.variable)}
+      className={alexandria.variable}
       dir="rtl"
       lang="ar"
       suppressHydrationWarning
