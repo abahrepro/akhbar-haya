@@ -206,9 +206,9 @@ export default async function PostPage({ params: paramsPromise }: Args) {
             {/* المحتوى */}
             <div
               id="article-body"
-              className="prose prose-lg max-w-none text-[19px] leading-[1.9] sm:text-[21px] lg:text-[22.5px] lg:leading-[2] prose-headings:font-serif prose-a:text-brand"
+              className="prose prose-lg dark:prose-invert max-w-none text-[19px] leading-[1.9] sm:text-[21px] lg:text-[22.5px] lg:leading-[2] prose-headings:font-serif prose-a:text-brand"
             >
-              <RichText data={post.content} enableGutter={false} />
+              <RichText data={post.content} enableGutter={false} enableProse={false} />
             </div>
 
             {/* معرض الصور */}
