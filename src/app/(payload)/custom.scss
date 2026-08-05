@@ -327,3 +327,31 @@ select {
     }
   }
 }
+
+/* ===== تنبيه تبويب تحسين محرّكات البحث ===== */
+.ah-seo-note {
+  margin-block-end: calc(var(--base) * 0.8);
+  padding: 14px 16px;
+  border: 1px solid var(--ah-brand);
+  border-radius: 10px;
+  background: var(--ah-brand-tint);
+
+  strong {
+    display: block;
+    margin-block-end: 6px;
+    color: var(--ah-brand-deep);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--theme-elevation-700);
+  }
+
+  &__hint {
+    margin-block-start: 6px !important;
+    font-size: 0.82rem !important;
+    color: var(--theme-elevation-500) !important;
+  }
+}

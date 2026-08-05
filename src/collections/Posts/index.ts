@@ -205,6 +205,13 @@ export const Posts: CollectionConfig<'posts'> = {
               (user as { role?: string } | null)?.role === 'admin',
           },
           fields: [
+            {
+              name: 'seoNote',
+              type: 'ui',
+              admin: {
+                components: { Field: '@/components/AdminSeoNote#AdminSeoNote' },
+              },
+            },
             OverviewField({
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
