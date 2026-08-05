@@ -87,6 +87,7 @@ const run = async () => {
   const db = await mysql.createConnection({
     socketPath: process.env.MYSQL_SOCKET || '/tmp/mysql.sock',
     user: process.env.MYSQL_USER || process.env.USER || 'root',
+    password: process.env.MYSQL_PASSWORD || undefined,
     database: WP_DB,
     charset: 'utf8mb4',
   })
