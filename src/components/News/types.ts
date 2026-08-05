@@ -14,7 +14,6 @@ export type NewsItem = {
   publishedAt?: string | null
   type?: Post['type']
   breaking?: boolean | null
-  videoDuration?: string | null
 }
 
 const asMedia = (v: unknown): Media | null =>
@@ -43,5 +42,4 @@ export const toNewsItem = (post: Post): NewsItem => ({
   publishedAt: post.publishedAt,
   type: post.type,
   breaking: post.breaking,
-  videoDuration: post.videoDuration,
 })

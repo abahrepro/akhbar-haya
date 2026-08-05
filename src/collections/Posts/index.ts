@@ -134,23 +134,13 @@ export const Posts: CollectionConfig<'posts'> = {
                 { name: 'caption', type: 'text', label: 'التعليق' },
               ],
             },
-            {
-              name: 'videoUrl',
-              type: 'text',
-              label: 'رابط الفيديو',
-              admin: {
-                description:
-                  'رابط من يوتيوب أو فيسبوك أو إكس أو إنستغرام أو تيك توك — يظهر مشغّلاً أعلى الخبر. أو الصق الرابط داخل النص ليتحوّل مكانه.',
-              },
-            },
-            {
-              name: 'videoDuration',
-              type: 'text',
-              label: 'مدة الفيديو (مثال 3:24)',
-              admin: {
-                condition: (data) => data?.type === 'video',
-              },
-            },
+            /**
+             * حقلا الفيديو محذوفان من النموذج.
+             * الفيديو يعمل بلصق الرابط في المتن فيتحوّل مشغّلاً مكانه —
+             * وهو ما اعتاده المحرّرون. حقلٌ منفصل كرّر الوظيفة وأخفى
+             * الصورة الرئيسية حين يُملأ. العمودان يبقيان في قاعدة البيانات
+             * (لخبر واحد قيمة) فلا نفقد بيانات.
+             */
           ],
           label: 'المحتوى',
         },
@@ -255,8 +245,7 @@ export const Posts: CollectionConfig<'posts'> = {
       admin: { position: 'sidebar', readOnly: true },
       hooks: {
         beforeChange: [
-          ({ operation, req, value }) =>
-            operation === 'create' && req.user ? req.user.id : value,
+          ({ operation, req, value }) => (operation === 'create' && req.user ? req.user.id : value),
         ],
       },
     },

@@ -2,14 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import { cn } from '@/utilities/ui'
-import {
-  BreakingChip,
-  CategoryChip,
-  DurationChip,
-  NewsImage,
-  PlayBadge,
-  TimeStamp,
-} from './Bits'
+import { BreakingChip, CategoryChip, NewsImage, PlayBadge, TimeStamp } from './Bits'
 import type { NewsItem } from './types'
 
 /* ============ البطاقة الرئيسية الكبيرة (الهيرو) ============ */
@@ -72,12 +65,7 @@ export const NewsCard: React.FC<{ item: NewsItem; showExcerpt?: boolean }> = ({
       <NewsImage item={item} size="medium" />
       {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
       {item.breaking && <BreakingChip />}
-      {item.type === 'video' && (
-        <>
-          <PlayBadge />
-          <DurationChip duration={item.videoDuration} />
-        </>
-      )}
+      {item.type === 'video' && <PlayBadge />}
     </div>
     <div className="flex flex-1 flex-col gap-2 p-3.5">
       <h3 className="text-pretty font-serif text-[clamp(17.5px,7.2cqi,25px)] font-bold leading-[1.38] transition group-hover:text-brand">

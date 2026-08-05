@@ -17,7 +17,6 @@ import { ShareButtons } from '@/components/News/ShareButtons'
 import { Sidebar } from '@/components/News/Sidebar'
 import { toNewsItem } from '@/components/News/types'
 import { ViewPing } from '@/components/News/ViewPing'
-import { VideoEmbed, parseVideoUrl } from '@/components/News/VideoEmbed'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import RichText from '@/components/RichText'
 import { formatGregorian, formatTime } from '@/utilities/formatArabicDate'
@@ -190,13 +189,8 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
             <ReaderTools />
 
-            {/* مشغّل الفيديو يحلّ محلّ الصورة الرئيسية حين يوجد */}
-            {parseVideoUrl(post.videoUrl) ? (
-              <VideoEmbed url={post.videoUrl} className="my-6" />
-            ) : null}
-
             {/* الصورة الرئيسية */}
-            {!parseVideoUrl(post.videoUrl) && hero && (
+            {hero && (
               <figure className="my-6">
                 <div className="relative aspect-16/9 overflow-hidden rounded-[14px] shadow-sm">
                   <Media resource={hero} size="medium" fill imgClassName="object-cover" />

@@ -34,7 +34,6 @@ const POST_SELECT = {
   type: true,
   breaking: true,
   featured: true,
-  videoDuration: true,
   meta: true,
 } as const
 

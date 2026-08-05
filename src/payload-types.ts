@@ -254,11 +254,6 @@ export interface Post {
         id?: string | null;
       }[]
     | null;
-  /**
-   * رابط يوتيوب أو ملف فيديو — للأخبار من نوع «فيديو».
-   */
-  videoUrl?: string | null;
-  videoDuration?: string | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
   tags?: (number | Tag)[] | null;
@@ -1247,8 +1242,6 @@ export interface PostsSelect<T extends boolean = true> {
         caption?: T;
         id?: T;
       };
-  videoUrl?: T;
-  videoDuration?: T;
   relatedPosts?: T;
   categories?: T;
   tags?: T;
