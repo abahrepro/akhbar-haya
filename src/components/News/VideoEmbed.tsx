@@ -155,10 +155,12 @@ export const VideoEmbed: React.FC<{ url?: string | null; className?: string }> =
       )}
     >
       {/**
-       * تموضع مطلق لا `size-full`.
-       * الإطار داخل حاوية `aspect-ratio` لا يرث ارتفاعها فيتقلّص إلى
-       * ارتفاعه الافتراضي (١٥٠ بكسل) ويترك بقيّة الصندوق سواداً —
-       * وهو ما ظهر في أول اختبار: حاوية ٤٢٠×٧٤٧ وفيديو ٤٢٠×١٥٠.
+       * `inset-0` وحده — بلا ارتفاع نسبي.
+       * ارتفاع الحاوية مشتقّ من `aspect-ratio`، وهو ليس ارتفاعاً «محدّداً»
+       * تُحسب عليه النسب المئوية، فـ`height:100%` يعود إلى ارتفاع الإطار
+       * الافتراضي (١٥٠ بكسل) ويترك بقيّة الصندوق سواداً — قِيس على الخبر
+       * التجريبي: حاوية ٤٢٠×٧٤٧ وإطار ٤٢٠×١٥٠. تثبيت الجهات الأربع يمدّه
+       * دون حساب نسب.
        */}
       <iframe
         src={v.src}
@@ -166,7 +168,7 @@ export const VideoEmbed: React.FC<{ url?: string | null; className?: string }> =
         loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
-        className="absolute inset-0 h-full w-full border-0"
+        className="absolute inset-0 border-0"
       />
     </div>
   )
