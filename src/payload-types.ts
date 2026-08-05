@@ -280,7 +280,10 @@ export interface Post {
    * يُحتسب تلقائياً؛ القيمة الأولية مُرحَّلة من الموقع القديم.
    */
   views?: number | null;
-  type?: ('news' | 'opinion' | 'photo' | 'video') | null;
+  /**
+   * اتركه «خبر» إلا إذا كان الخبر فيديو أو معرض صور.
+   */
+  type?: ('news' | 'video' | 'photo') | null;
   /**
    * يظهر في شريط العاجل والتنبيه المنبثق.
    */

@@ -13,6 +13,7 @@ import { canDelete, isStaff, readPosts, updatePosts } from '../../access/roles'
 import { Banner } from '../../blocks/Banner/config'
 import { Code } from '../../blocks/Code/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { PhotoGallery } from '../../blocks/PhotoGallery/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { exclusiveFeatured } from './hooks/exclusiveFeatured'
@@ -111,7 +112,7 @@ export const Posts: CollectionConfig<'posts'> = {
                   return [
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock, PhotoGallery] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),
@@ -138,8 +139,8 @@ export const Posts: CollectionConfig<'posts'> = {
               type: 'text',
               label: 'رابط الفيديو',
               admin: {
-                description: 'رابط يوتيوب أو ملف فيديو — للأخبار من نوع «فيديو».',
-                condition: (data) => data?.type === 'video',
+                description:
+                  'رابط من يوتيوب أو فيسبوك أو إكس أو إنستغرام أو تيك توك — يظهر مشغّلاً أعلى الخبر. أو الصق الرابط داخل النص ليتحوّل مكانه.',
               },
             },
             {
