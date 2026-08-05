@@ -2,8 +2,12 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/fields/link'
 import { revalidateFooter } from './hooks/revalidateFooter'
+import { hideFromNonAdmins } from '@/access/roles'
 
 export const Footer: GlobalConfig = {
+  admin: {
+    hidden: hideFromNonAdmins,
+  },
   slug: 'footer',
   label: 'تذييل الموقع',
   access: {

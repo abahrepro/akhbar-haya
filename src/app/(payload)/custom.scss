@@ -1,0 +1,132 @@
+/**
+ * لوحة تحكّم أخبار حياة — تحسينات قابلية الاستخدام للمحرّرين.
+ *
+ * الفلسفة: لا نعيد بناء لوحة Payload — نكبّر ونوضّح ونلوّن بهوية الموقع.
+ * أي شيء أعمق من CSS ينكسر مع تحديثات Payload، وهذا الملف يصمد.
+ */
+
+:root {
+  --ah-brand: #026938;
+  --ah-brand-deep: #014d29;
+  --ah-brand-tint: #e6f2ea;
+}
+
+html[data-theme='dark'] {
+  --ah-brand: #38b46e;
+  --ah-brand-deep: #2a8d54;
+  --ah-brand-tint: #163024;
+}
+
+/* ===== الأزرار الأساسية بأخضر أخبار حياة بدل الأسود ===== */
+.btn--style-primary {
+  background: var(--ah-brand);
+  border-color: var(--ah-brand);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--ah-brand-deep);
+    border-color: var(--ah-brand-deep);
+  }
+}
+
+/* ===== الشريط الجانبي: عناصر أكبر وأوضح ===== */
+.nav {
+  a,
+  .nav-group__toggle {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  a {
+    padding-block: 8px;
+    border-radius: 8px;
+
+    &:hover {
+      background: var(--ah-brand-tint);
+      color: var(--ah-brand-deep);
+    }
+  }
+}
+
+.nav a[aria-current],
+.nav a.active {
+  color: var(--ah-brand);
+  font-weight: 700;
+}
+
+/* ===== شاشة استقبال الصحفيين ===== */
+.ah-welcome {
+  margin-block-end: calc(var(--base) * 1.5);
+
+  &__title {
+    margin: 0 0 calc(var(--base) * 0.75);
+    font-size: 1.6rem;
+  }
+
+  &__actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: calc(var(--base) * 0.6);
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 12px;
+    background: var(--theme-elevation-0);
+    text-decoration: none;
+    color: var(--theme-elevation-800);
+    transition: border-color 0.15s, transform 0.15s;
+
+    &:hover {
+      border-color: var(--ah-brand);
+      transform: translateY(-2px);
+    }
+
+    strong {
+      display: block;
+      font-size: 1.05rem;
+    }
+
+    small {
+      display: block;
+      margin-top: 2px;
+      color: var(--theme-elevation-500);
+      font-size: 0.85rem;
+    }
+
+    /* زر «خبر جديد» — الأبرز في الشاشة */
+    &--primary {
+      background: var(--ah-brand);
+      border-color: var(--ah-brand);
+      color: #fff;
+
+      small {
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      &:hover {
+        border-color: var(--ah-brand-deep);
+        background: var(--ah-brand-deep);
+      }
+    }
+  }
+
+  &__action-icon {
+    display: grid;
+    place-items: center;
+    inline-size: 44px;
+    block-size: 44px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--ah-brand-tint);
+    font-size: 20px;
+
+    .ah-welcome__action--primary & {
+      background: rgba(255, 255, 255, 0.16);
+    }
+  }
+}

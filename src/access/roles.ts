@@ -1,4 +1,4 @@
-import type { Access, FieldAccess, Where } from 'payload'
+import type { ClientUser, Access, FieldAccess, Where } from 'payload'
 
 import type { User } from '@/payload-types'
 
@@ -97,3 +97,11 @@ export const canAccessAdmin = ({ req }: { req: { user?: unknown } }): boolean =>
   const r = roleOf(req.user)
   return r !== null
 }
+
+/**
+ * يُخفي العنصر من الشريط الجانبي عن غير المدير.
+ * إخفاء عرضٍ فقط — التحكّم الفعلي يبقى في قواعد access.
+ * المحرّر يفتح اللوحة فيرى عمله وحده: الأخبار والوسائط والأقسام والوسوم.
+ */
+export const hideFromNonAdmins = ({ user }: { user: ClientUser | User | null }): boolean =>
+  (user as { role?: string } | null)?.role !== 'admin'

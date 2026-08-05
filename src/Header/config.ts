@@ -2,8 +2,12 @@ import type { GlobalConfig } from 'payload'
 
 import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
+import { hideFromNonAdmins } from '@/access/roles'
 
 export const Header: GlobalConfig = {
+  admin: {
+    hidden: hideFromNonAdmins,
+  },
   slug: 'header',
   label: 'رأس الموقع',
   access: {

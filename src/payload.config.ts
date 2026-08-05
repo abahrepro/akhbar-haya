@@ -27,6 +27,9 @@ export default buildConfig({
     supportedLanguages: { ar },
   },
   admin: {
+    components: {
+      beforeDashboard: ['@/components/AdminWelcome#AdminWelcome'],
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },

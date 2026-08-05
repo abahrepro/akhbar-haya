@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { canManageTaxonomy } from '../../access/roles'
+import { canManageTaxonomy, hideFromNonAdmins } from '../../access/roles'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
@@ -42,6 +42,7 @@ export const Pages: CollectionConfig<'pages'> = {
   },
   admin: {
     group: 'المحتوى',
+    hidden: hideFromNonAdmins,
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>

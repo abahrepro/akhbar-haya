@@ -9,6 +9,7 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
+import { hideFromNonAdmins } from '@/access/roles'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -33,6 +34,7 @@ export const plugins: Plugin[] = [
       },
       admin: {
         group: 'إعدادات',
+        hidden: hideFromNonAdmins,
       },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
@@ -72,6 +74,7 @@ export const plugins: Plugin[] = [
       },
       admin: {
         group: 'النماذج',
+        hidden: hideFromNonAdmins,
       },
     },
     formOverrides: {
@@ -81,6 +84,7 @@ export const plugins: Plugin[] = [
       },
       admin: {
         group: 'النماذج',
+        hidden: hideFromNonAdmins,
       },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
