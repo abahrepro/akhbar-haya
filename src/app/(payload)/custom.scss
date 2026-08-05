@@ -355,3 +355,95 @@ select {
     color: var(--theme-elevation-500) !important;
   }
 }
+
+/* ===== معاينة تحسين محرّكات البحث — عرضٌ فقط ===== */
+.ah-seo {
+  &__lead {
+    margin: 0 0 calc(var(--base) * 0.7);
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: var(--theme-elevation-600);
+  }
+
+  &__card {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 18px;
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 12px;
+    background: var(--theme-elevation-0);
+  }
+
+  &__img {
+    display: grid;
+    place-items: center;
+    inline-size: 200px;
+    aspect-ratio: 1.91;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 9px;
+    background: var(--theme-elevation-100);
+
+    img {
+      inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__img-empty {
+    padding: 8px;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--theme-elevation-450);
+  }
+
+  &__body {
+    min-inline-size: 0;
+    flex: 1;
+  }
+
+  &__label {
+    display: block;
+    margin-block-end: 3px;
+    font-size: 0.75rem;
+    color: var(--theme-elevation-450);
+  }
+
+  &__title {
+    margin: 0 0 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--ah-brand-deep);
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: var(--theme-elevation-700);
+
+    &--empty {
+      color: var(--theme-elevation-450);
+      font-style: italic;
+    }
+  }
+
+  &__foot {
+    margin-block-start: calc(var(--base) * 0.6);
+    font-size: 0.85rem;
+    color: var(--theme-elevation-500);
+  }
+}
+
+/* الشاشات الضيّقة: الصورة فوق النص */
+@media (max-width: 700px) {
+  .ah-seo__card {
+    flex-direction: column;
+  }
+  .ah-seo__img {
+    inline-size: 100%;
+  }
+}

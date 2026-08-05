@@ -20,13 +20,6 @@ import { exclusiveFeatured } from './hooks/exclusiveFeatured'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { autoExcerpt } from './hooks/autoExcerpt'
 
-import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from '@payloadcms/plugin-seo/fields'
 import { slugField } from 'payload'
 
 export const Posts: CollectionConfig<'posts'> = {
@@ -195,44 +188,20 @@ export const Posts: CollectionConfig<'posts'> = {
           name: 'meta',
           label: 'تحسين محركات البحث',
           /**
-           * للمدير وحده.
-           * العنوان والوصف يُشتقّان تلقائياً من عنوان الخبر ومقتطفه، وهما
-           * أفضل ما يُقدَّم لمحرّكات البحث في المحتوى الصحفي أصلاً. إبقاء
-           * التبويب أمام المحرّر يوحي بعملٍ مطلوبٍ لا لزوم له.
+           * عرضٌ فقط — بلا حقول إدخال.
+           * العنوان والوصف والصورة تُشتقّ لحظة عرض الصفحة من الخبر نفسه
+           * فتتبع أي تعديل عليه. خاناتُ إدخالٍ هنا كانت تطلب عملاً لا لزوم
+           * له، وتعرض مؤشّرات «مفقود» حمراء تقيس الخانة الفارغة لا ما يصل
+           * جوجل فعلاً. الحقول محذوفة من النموذج والأعمدة باقية في القاعدة.
            */
-          admin: {
-            condition: (_data, _sibling, { user }) =>
-              (user as { role?: string } | null)?.role === 'admin',
-          },
           fields: [
             {
-              name: 'seoNote',
+              name: 'seoPreview',
               type: 'ui',
               admin: {
                 components: { Field: '@/components/AdminSeoNote#AdminSeoNote' },
               },
             },
-            OverviewField({
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
-            }),
-            MetaTitleField({
-              hasGenerateFn: true,
-            }),
-            MetaImageField({
-              relationTo: 'media',
-            }),
-
-            MetaDescriptionField({}),
-            PreviewField({
-              // if the `generateUrl` function is configured
-              hasGenerateFn: true,
-
-              // field paths to match the target field for data
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-            }),
           ],
         },
       ],
