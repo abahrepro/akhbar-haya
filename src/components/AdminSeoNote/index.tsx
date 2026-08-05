@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormFields } from '@payloadcms/ui'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 /**
  * معاينة ما يصل محرّكات البحث ومنصّات التواصل — عرضٌ فقط.
@@ -35,10 +35,37 @@ export const AdminSeoNote: React.FC = () => {
   const shownDesc =
     rawDesc.length > DESC_LIMIT ? rawDesc.slice(0, DESC_LIMIT - 3).trimEnd() + '…' : rawDesc
 
-  const imgUrl =
+  /**
+   * الحقل يعطي كائن الصورة فور اختيارها، ومعرّفاً وحده في خبر محفوظ —
+   * فالمعاينة كانت تقول «لا صورة» في كل خبر قائم. نجلب المستند بالمعرّف.
+   */
+  const direct =
     hero && typeof hero === 'object'
       ? (hero.url ?? (hero.filename ? `/api/media/file/${hero.filename}` : undefined))
       : undefined
+
+  const [fetched, setFetched] = useState<string | undefined>()
+  const heroId = typeof hero === 'number' || typeof hero === 'string' ? hero : undefined
+
+  useEffect(() => {
+    if (!heroId) {
+      setFetched(undefined)
+      return
+    }
+    let alive = true
+    fetch(`/api/media/${heroId}?depth=0`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (!alive || !d) return
+        setFetched(d.sizes?.small?.url ?? d.url ?? undefined)
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [heroId])
+
+  const imgUrl = direct ?? fetched
 
   return (
     <div className="ah-seo">
