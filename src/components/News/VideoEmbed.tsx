@@ -149,18 +149,24 @@ export const VideoEmbed: React.FC<{ url?: string | null; className?: string }> =
   return (
     <div
       className={cn(
-        'not-prose my-6 overflow-hidden rounded-[14px] bg-black shadow-sm',
+        'not-prose relative my-6 overflow-hidden rounded-[14px] bg-black shadow-sm',
         ratio,
         className,
       )}
     >
+      {/**
+       * تموضع مطلق لا `size-full`.
+       * الإطار داخل حاوية `aspect-ratio` لا يرث ارتفاعها فيتقلّص إلى
+       * ارتفاعه الافتراضي (١٥٠ بكسل) ويترك بقيّة الصندوق سواداً —
+       * وهو ما ظهر في أول اختبار: حاوية ٤٢٠×٧٤٧ وفيديو ٤٢٠×١٥٠.
+       */}
       <iframe
         src={v.src}
         title={v.title}
         loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
-        className="size-full border-0"
+        className="absolute inset-0 h-full w-full border-0"
       />
     </div>
   )
