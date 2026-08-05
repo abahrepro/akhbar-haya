@@ -142,7 +142,14 @@ const run = async () => {
    * في كل تشغيل، لا على وسوم الأخبار الجديدة وحدها.
    */
   const tagKey = (s: string) =>
-    s.trim().replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' ')
+    s
+      .trim()
+      // الشرطة السفلية صيغة وسم اجتماعي لا حرفاً: «أسعار_الذهب» هو «أسعار الذهب»
+      .replace(/_/g, ' ')
+      .replace(/[أإآ]/g, 'ا')
+      .replace(/ة/g, 'ه')
+      .replace(/ى/g, 'ي')
+      .replace(/\s+/g, ' ')
   const tagByTitle = new Map(existingTags.docs.map((t) => [tagKey(t.title), t.id]))
   /** wp term_id → معرّفنا */
   const tagMap = new Map<number, number | string>()

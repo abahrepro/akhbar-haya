@@ -25,7 +25,9 @@ const APPLY = process.argv.includes('--apply')
 
 type Row = { id: number; title: string; n: number }
 
-const norm = (s: string) => s.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي')
+/** الشرطة السفلية صيغة وسم اجتماعي لا حرفاً: «أسعار_الذهب» هو «أسعار الذهب» */
+const norm = (s: string) =>
+  s.replace(/_/g, ' ').replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي')
 /** يزيل أل التعريف وحروف الجرّ والعطف للوصول إلى جذع الكلمة */
 const stem = (w: string) => w.replace(/^(?:[وفبكل]?ال|لل|[وفبك])/, '')
 
