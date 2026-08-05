@@ -39,7 +39,7 @@ const WHY = [
 export default function AdvertisePage() {
   return (
     <main className="container py-6">
-      <nav className="mb-4 flex items-center gap-2 text-[13px] font-semibold text-muted-foreground">
+      <nav className="mb-4 flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
         <Link href="/" className="transition hover:text-brand">
           الرئيسية
         </Link>
@@ -79,7 +79,7 @@ export default function AdvertisePage() {
             <div className="font-serif text-[clamp(26px,3.4vw,36px)] font-black tabular-nums text-brand">
               {s.n}
             </div>
-            <div className="mt-1 text-[13.5px] font-semibold text-muted-foreground">{s.l}</div>
+            <div className="mt-1 text-[13.5px] font-medium text-muted-foreground">{s.l}</div>
           </div>
         ))}
       </div>

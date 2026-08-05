@@ -68,7 +68,7 @@ export default async function SearchPage({ searchParams }: Args) {
         <h1 className="font-serif text-[clamp(26px,4vw,38px)] font-black">نتائج البحث</h1>
         <SearchField initial={query} />
         {query && (
-          <p className="mt-4 text-sm font-semibold text-muted-foreground">
+          <p className="mt-4 text-sm font-medium text-muted-foreground">
             نتائج البحث عن «{query}» — {total} خبراً
           </p>
         )}

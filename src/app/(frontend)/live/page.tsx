@@ -56,7 +56,7 @@ export default async function LivePage() {
 
   return (
     <main className="container py-6">
-      <nav className="mb-4 flex items-center gap-2 text-[13px] font-semibold text-muted-foreground">
+      <nav className="mb-4 flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
         <Link href="/" className="transition hover:text-brand">
           الرئيسية
         </Link>
@@ -87,7 +87,7 @@ export default async function LivePage() {
                 البث المباشر — قناة حياة
               </h1>
               {nowIdx >= 0 && (
-                <div className="mt-1 text-[13.5px] font-semibold text-muted-foreground">
+                <div className="mt-1 text-[13.5px] font-medium text-muted-foreground">
                   يبثّ الآن: {SCHEDULE[nowIdx].name}
                 </div>
               )}

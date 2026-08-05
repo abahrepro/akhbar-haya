@@ -138,7 +138,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
         <div className="flex min-w-0 flex-col gap-11 lg:grid lg:items-start lg:grid-cols-[minmax(0,1fr)_320px]">
           <article className="min-w-0">
             {/* مسار التنقّل */}
-            <nav className="ah-hide-in-reading mb-5 flex flex-wrap items-center gap-2 text-[13px] font-semibold text-muted-foreground">
+            <nav className="ah-hide-in-reading mb-5 flex flex-wrap items-center gap-2 text-[13px] font-medium text-muted-foreground">
               <Link href="/" className="transition hover:text-brand">
                 الرئيسية
               </Link>
@@ -169,7 +169,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
             {/* التاريخ والمشاركة — بدون اسم الكاتب */}
             <div className="mt-5 flex flex-wrap items-center gap-4 border-y border-border py-3.5">
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-muted-foreground">
                 <IconClock className="size-3 opacity-80" />
                 {post.publishedAt && (
                   <>
@@ -177,7 +177,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                   </>
                 )}
               </span>
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-muted-foreground">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="size-3" aria-hidden="true">
                   <path d="M13 3a9 9 0 1 0 8 8h-2a7 7 0 1 1-6-7V3z" />
                   <path d="M12 8v5l4 2 .8-1.6L13.5 12V8z" />
@@ -242,7 +242,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                   <Link
                     key={t.id}
                     href={`/tag/${t.slug}`}
-                    className="rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[13.5px] font-semibold text-ink-soft transition hover:border-brand hover:text-brand"
+                    className="rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[13.5px] font-medium text-ink-soft transition hover:border-brand hover:text-brand"
                   >
                     {t.title}
                   </Link>

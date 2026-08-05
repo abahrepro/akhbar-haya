@@ -67,7 +67,7 @@ export const TimeStamp: React.FC<{ date?: string | null; className?: string; onD
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 text-[12.5px] font-semibold',
+        'inline-flex items-center gap-1.5 text-[12.5px] font-medium',
         onDark ? 'text-white/80' : 'text-muted-foreground',
         className,
       )}

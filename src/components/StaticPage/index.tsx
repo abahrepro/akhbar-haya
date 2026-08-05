@@ -9,7 +9,7 @@ export const StaticPageShell: React.FC<{
   children: React.ReactNode
 }> = ({ title, lead, updated, children }) => (
   <main className="container mx-auto max-w-[820px] py-8">
-    <nav className="mb-4 flex items-center gap-2 text-[13px] font-semibold text-muted-foreground">
+    <nav className="mb-4 flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
       <Link href="/" className="transition hover:text-brand">
         الرئيسية
       </Link>

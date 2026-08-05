@@ -156,7 +156,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
                   <Link
                     key={i}
                     href={t.href}
-                    className="inline-flex items-center gap-10 text-[14.5px] font-semibold text-ink-soft transition after:size-[5px] after:rounded-full after:bg-brand after:opacity-60 after:content-[''] hover:text-brand"
+                    className="inline-flex items-center gap-10 text-[14.5px] font-medium text-ink-soft transition after:size-[5px] after:rounded-full after:bg-brand after:opacity-60 after:content-[''] hover:text-brand"
                   >
                     {t.title}
                   </Link>
