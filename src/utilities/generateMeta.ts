@@ -40,14 +40,23 @@ export const generateMeta = async (args: {
     (doc as Partial<Post>)?.heroImage,
   )
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | أخبار حياة'
-    : 'أخبار حياة | مصداقية الخبر'
+  /**
+   * حقلا الميتا فارغان في الأرشيف كلّه (١٤٥٬٧٤٨ خبراً)، فكانت كل صفحة
+   * تُرسل العنوان العام نفسه إلى محرّكات البحث وبلا وصف إطلاقاً — أي أن
+   * جوجل يرى الأرشيف كلّه صفحةً واحدة مكرّرة. عنوان الخبر ومقتطفه موجودان
+   * دائماً، فنشتقّ منهما ما لم يكتب المحرّر ميتا خاصّة.
+   */
+  const headline = doc?.meta?.title || doc?.title
+  const title = headline ? `${headline} | أخبار حياة` : 'أخبار حياة | مصداقية الخبر'
+
+  // الوصف: ميتا المحرّر، ثم المقتطف، وحدّه ١٦٠ حرفاً كما تقتطع نتائج البحث
+  const raw = doc?.meta?.description || (doc as Partial<Post>)?.excerpt || ''
+  const description = raw.length > 160 ? raw.slice(0, 157).trimEnd() + '…' : raw
 
   return {
-    description: doc?.meta?.description,
+    description: description || undefined,
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
+      description,
       images: ogImage
         ? [
             {
