@@ -133,7 +133,17 @@ const run = async () => {
   log(`وسوم مؤهّلة (${MIN_TAG_USES}+ استخدام): ${wpTags.length}`)
 
   const existingTags = await payload.find({ collection: 'tags', limit: 50000, depth: 0 })
-  const tagByTitle = new Map(existingTags.docs.map((t) => [t.title.trim(), t.id]))
+  /**
+   * المطابقة بالشكل الموحّد لا بالحرف.
+   *
+   * ووردبريس يحمل «الأردن» و«الاردن» وسمين منفصلين، وقد وُحّدا عندنا في
+   * وسم واحد. المطابقة الحرفية كانت ستعيد إنشاء الشكل المهمَل في أوّل
+   * مزامنة فينقسم الأرشيف من جديد — والمزامنة تمرّ على كل وسوم ووردبريس
+   * في كل تشغيل، لا على وسوم الأخبار الجديدة وحدها.
+   */
+  const tagKey = (s: string) =>
+    s.trim().replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/\s+/g, ' ')
+  const tagByTitle = new Map(existingTags.docs.map((t) => [tagKey(t.title), t.id]))
   /** wp term_id → معرّفنا */
   const tagMap = new Map<number, number | string>()
   let tagsCreated = 0
@@ -141,7 +151,7 @@ const run = async () => {
   for (const wt of wpTags) {
     const name = decodeEntities(wt.name).trim()
     if (!name) continue
-    let id = tagByTitle.get(name)
+    let id = tagByTitle.get(tagKey(name))
     if (!id) {
       try {
         const created = await payload.create({
@@ -150,7 +160,7 @@ const run = async () => {
           overrideAccess: true,
         })
         id = created.id
-        tagByTitle.set(name, id)
+        tagByTitle.set(tagKey(name), id)
         tagsCreated++
         if (tagsCreated % 500 === 0) log(`  وسوم أُنشئت: ${tagsCreated}`)
       } catch {

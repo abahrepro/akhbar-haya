@@ -1,6 +1,6 @@
 import configPromise from '@payload-config'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { getPayload } from 'payload'
 import React, { cache } from 'react'
 
@@ -24,9 +24,31 @@ export const queryTag = cache(async (slug: string) => {
   return (res.docs?.[0] as Tag | undefined) ?? null
 })
 
+/**
+ * الوسم الذي حلّ محلّ رابط قديم بعد دمج المكرّرات.
+ *
+ * «الاردن» دُمج في «الأردن»، ورابطه منشور في مواقع أخرى ومفهرس في جوجل.
+ * نطابق بالشكل الموحّد بدل تخزين قائمة روابط قديمة — فيغطّي ذلك أي صيغة
+ * همزة كتبها أحد، لا الصيغ التي صادف وجودها في الأرشيف وقت الدمج.
+ */
+const queryMergedInto = cache(async (slug: string) => {
+  const payload = await getPayload({ config: configPromise })
+  const { rows } = await payload.db.pool.query<{ slug: string }>(
+    `SELECT slug FROM tags
+     WHERE translate(slug, 'أإآىة', 'اااية') = translate($1, 'أإآىة', 'اااية')
+     LIMIT 1`,
+    [slug],
+  )
+  return rows[0]?.slug ?? null
+})
+
 export const TagView: React.FC<{ slug: string; page: number }> = async ({ slug, page }) => {
   const tag = await queryTag(slug)
-  if (!tag) notFound()
+  if (!tag) {
+    const target = await queryMergedInto(slug)
+    if (target && target !== slug) permanentRedirect(encodeURI(`/tag/${target}`))
+    notFound()
+  }
 
   const payload = await getPayload({ config: configPromise })
   const [postsRes, mostReadRes] = await Promise.all([
