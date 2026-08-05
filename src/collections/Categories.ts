@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { canManageTaxonomy } from '../access/roles'
 import { slugField } from 'payload'
+import { revalidateCategory, revalidateCategoryDelete } from './hooks/revalidateTaxonomy'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -20,6 +21,10 @@ export const Categories: CollectionConfig = {
     group: 'التصنيفات',
     useAsTitle: 'title',
     defaultColumns: ['title', 'order', 'showInNav', 'slug'],
+  },
+  hooks: {
+    afterChange: [revalidateCategory],
+    afterDelete: [revalidateCategoryDelete],
   },
   fields: [
     {

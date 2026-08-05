@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { canManageTaxonomy } from '../access/roles'
 import { slugField } from 'payload'
+import { revalidateTag, revalidateTagDelete } from './hooks/revalidateTaxonomy'
 
 export const Tags: CollectionConfig = {
   slug: 'tags',
@@ -20,6 +21,10 @@ export const Tags: CollectionConfig = {
   labels: {
     singular: 'وسم',
     plural: 'الوسوم',
+  },
+  hooks: {
+    afterChange: [revalidateTag],
+    afterDelete: [revalidateTagDelete],
   },
   fields: [
     {
