@@ -112,7 +112,7 @@ const main = async () => {
   const wordVariants = new Map<string, Map<string, number>>()
   for (const group of dupes) {
     for (const form of group) {
-      for (const w of form.title.split(/\s+/)) {
+      for (const w of form.title.split(/[\s_]+/)) {
         const k = norm(w)
         if (!wordVariants.has(k)) wordVariants.set(k, new Map())
         const m = wordVariants.get(k)!
@@ -126,8 +126,12 @@ const main = async () => {
   const plan = dupes
     .map((group) => {
       const forms = [...group].sort((a, b) => b.n - a.n)
+      /**
+       * الاسم الباقي يُكتب بمسافات دائماً. الشرطة السفلية أثر من صيغة
+       * الوسم الاجتماعي، وظهورها في عنوان صفحة الأرشيف يبدو خللاً.
+       */
       const ideal = forms[0].title
-        .split(/\s+/)
+        .split(/[\s_]+/)
         .map((w) => correctWord.get(norm(w)) ?? w)
         .join(' ')
       const winner = forms.find((f) => f.title === ideal) ?? forms[0]
