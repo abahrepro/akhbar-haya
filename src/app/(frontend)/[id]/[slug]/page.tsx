@@ -16,6 +16,7 @@ import { ReaderTools, ReadingProgress } from '@/components/News/ReaderTools'
 import { ShareButtons } from '@/components/News/ShareButtons'
 import { Sidebar } from '@/components/News/Sidebar'
 import { toNewsItem } from '@/components/News/types'
+import { ViewPing } from '@/components/News/ViewPing'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import RichText from '@/components/RichText'
 import { formatGregorian, formatTime } from '@/utilities/formatArabicDate'
@@ -125,6 +126,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
   return (
     <>
       <ReadingProgress />
+      <ViewPing id={post.id} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

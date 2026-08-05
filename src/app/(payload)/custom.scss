@@ -218,3 +218,112 @@ select {
     }
   }
 }
+
+/* ===== بطاقات الأرقام — بلغة shadcn ===== */
+.ah-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: calc(var(--base) * 0.6);
+  margin-block-start: calc(var(--base) * 0.9);
+}
+
+.ah-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 12px;
+  background: var(--theme-elevation-0);
+
+  &__label {
+    font-size: 0.82rem;
+    color: var(--theme-elevation-500);
+  }
+
+  &__value {
+    font-size: 1.85rem;
+    font-weight: 700;
+    line-height: 1.15;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__delta {
+    font-size: 0.78rem;
+
+    &.is-up {
+      color: var(--ah-brand);
+    }
+    &.is-down {
+      color: var(--theme-error-500);
+    }
+  }
+}
+
+/* ===== شبكة المخطط وآخر المنشور ===== */
+.ah-dash {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: calc(var(--base) * 0.6);
+  margin-block-start: calc(var(--base) * 0.6);
+}
+
+.ah-card {
+  padding: 18px 20px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 12px;
+  background: var(--theme-elevation-0);
+
+  &__title {
+    margin: 0 0 12px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--theme-elevation-500);
+  }
+}
+
+/* آخر ما نُشر */
+.ah-latest {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 9px;
+
+    &:not(:last-child) {
+      border-block-end: 1px solid var(--theme-elevation-100);
+    }
+  }
+
+  &__title {
+    color: var(--theme-text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    line-height: 1.5;
+
+    &:hover {
+      color: var(--ah-brand);
+    }
+  }
+
+  &__meta {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    color: var(--theme-elevation-450);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__view {
+    color: var(--ah-brand);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
