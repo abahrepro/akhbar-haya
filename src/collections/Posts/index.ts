@@ -18,6 +18,7 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { exclusiveFeatured } from './hooks/exclusiveFeatured'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { autoExcerpt } from './hooks/autoExcerpt'
 
 import {
   MetaDescriptionField,
@@ -92,15 +93,19 @@ export const Posts: CollectionConfig<'posts'> = {
             {
               name: 'heroCaption',
               type: 'text',
-              label: 'تعليق الصورة الرئيسية',
+              label: 'تعليق الصورة الرئيسية (اختياري)',
+              admin: {
+                description: 'مصدر الصورة أو شرحها — يظهر أسفلها مباشرة.',
+              },
             },
             {
               name: 'excerpt',
               type: 'textarea',
-              label: 'المقتطف',
+              label: 'المقتطف (اختياري)',
               maxLength: 300,
               admin: {
-                description: 'وصف مختصر يظهر في البطاقات ونتائج البحث ووصف SEO.',
+                description:
+                  'اتركه فارغاً — يُكتب تلقائياً من مطلع الخبر. يظهر في البطاقات ونتائج البحث ومعاينة المشاركة.',
               },
             },
             {
@@ -149,7 +154,7 @@ export const Posts: CollectionConfig<'posts'> = {
             {
               name: 'relatedPosts',
               type: 'relationship',
-              label: 'أخبار ذات صلة',
+              label: 'أخبار ذات صلة (اختياري)',
               admin: {
                 position: 'sidebar',
               },
@@ -189,6 +194,16 @@ export const Posts: CollectionConfig<'posts'> = {
         {
           name: 'meta',
           label: 'تحسين محركات البحث',
+          /**
+           * للمدير وحده.
+           * العنوان والوصف يُشتقّان تلقائياً من عنوان الخبر ومقتطفه، وهما
+           * أفضل ما يُقدَّم لمحرّكات البحث في المحتوى الصحفي أصلاً. إبقاء
+           * التبويب أمام المحرّر يوحي بعملٍ مطلوبٍ لا لزوم له.
+           */
+          admin: {
+            condition: (_data, _sibling, { user }) =>
+              (user as { role?: string } | null)?.role === 'admin',
+          },
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -370,6 +385,7 @@ export const Posts: CollectionConfig<'posts'> = {
     }),
   ],
   hooks: {
+    beforeChange: [autoExcerpt],
     afterChange: [revalidatePost, exclusiveFeatured],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
