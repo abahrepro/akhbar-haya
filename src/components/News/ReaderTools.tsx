@@ -47,8 +47,6 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
   const [readingMode, setReadingMode] = useState(false)
   const fontStep = useRef(0)
   const baseFont = useRef(0)
-  const [fontPct, setFontPct] = useState<number | null>(null)
-  const pctTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   // استعادة تفضيل حجم الخط من الزيارة السابقة
   useEffect(() => {
@@ -163,11 +161,7 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
         baseFont.current = parseFloat(getComputedStyle(el).fontSize) || 19
       }
       fontStep.current = Math.max(-2, Math.min(6, fontStep.current + dir))
-      const pct = applyFont(el, fontStep.current)
-      // نسبة تظهر لحظة الضغط — تأكيد مرئي بأن الزر استجاب
-      setFontPct(pct)
-      clearTimeout(pctTimer.current)
-      pctTimer.current = setTimeout(() => setFontPct(null), 1400)
+      applyFont(el, fontStep.current)
       try {
         localStorage.setItem('ah-font-step', String(fontStep.current))
       } catch {
@@ -228,11 +222,6 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
         >
           +A
         </button>
-        {fontPct !== null && (
-          <span className="rounded-full bg-brand px-2.5 py-1 text-[13px] font-bold text-white">
-            {fontPct}٪
-          </span>
-        )}
       </div>
 
       <button onClick={cycleColor} className={cn(btn, colorMode !== 0 && btnActive)}>
