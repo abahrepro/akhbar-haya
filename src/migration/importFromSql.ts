@@ -20,7 +20,7 @@ import config from '@payload-config'
 
 import { htmlToLexical } from './htmlToLexical'
 
-const DB = 'akhbarhayat_wp'
+const DB = process.env.WP_DB || 'akhbarhayat_wp'
 const PREFIX = 'EzeDJuKb_'
 const REPORT = '/tmp/sql-migration.txt'
 const CHUNK = 500

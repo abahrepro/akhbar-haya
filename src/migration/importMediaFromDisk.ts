@@ -18,9 +18,9 @@ import mysql from 'mysql2/promise'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-const WP_DB = 'akhbarhayat_wp'
+const WP_DB = process.env.WP_DB || 'akhbarhayat_wp'
 const PREFIX = 'EzeDJuKb_'
-const MEDIA_DIR = path.resolve(process.cwd(), 'wp-media')
+const MEDIA_DIR = process.env.WP_MEDIA_DIR || path.resolve(process.cwd(), 'wp-media')
 const REPORT = '/tmp/media-disk-report.txt'
 const BATCH = 500
 /** عدد الصور المُعالَجة في آنٍ واحد — معالجة الصور تستهلك المعالج بشدّة */
