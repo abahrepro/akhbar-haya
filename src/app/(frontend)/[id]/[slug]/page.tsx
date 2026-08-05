@@ -161,7 +161,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
               </span>
             )}
 
-            <h1 className="text-balance font-serif text-[clamp(28px,4.4vw,46px)] font-black leading-[1.24]">
+            <h1 className="text-pretty font-serif text-[clamp(28px,4.4vw,46px)] font-black leading-[1.24]">
               {post.title}
             </h1>
 

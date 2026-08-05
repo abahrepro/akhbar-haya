@@ -67,7 +67,7 @@ export const NativeAd: React.FC<{
       <span className="self-start rounded-full border border-brand/30 bg-card px-2.5 py-0.5 text-[10.5px] font-extrabold text-brand-deep">
         محتوى مدعوم · من خلالنا
       </span>
-      <h3 className="text-balance font-serif text-xl font-extrabold leading-[1.35]">{title}</h3>
+      <h3 className="text-pretty font-serif text-xl font-extrabold leading-[1.35]">{title}</h3>
       <span className="text-[12.5px] font-semibold text-muted-foreground">برعاية: {sponsor}</span>
       <button className="mt-1 self-start rounded-full bg-brand px-4 py-2 text-[13.5px] font-bold text-white transition hover:bg-brand-deep">
         {cta} ←

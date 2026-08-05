@@ -117,7 +117,7 @@ export default async function SearchPage({ searchParams }: Args) {
                           {item.category.title}
                         </span>
                       )}
-                      <h3 className="text-balance font-serif text-[clamp(17px,2.4vw,21px)] font-bold leading-[1.4] transition group-hover:text-brand">
+                      <h3 className="text-pretty font-serif text-[clamp(17px,2.4vw,21px)] font-bold leading-[1.4] transition group-hover:text-brand">
                         {item.title}
                       </h3>
                       {item.excerpt && (

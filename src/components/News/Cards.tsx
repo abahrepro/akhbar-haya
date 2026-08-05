@@ -29,7 +29,7 @@ export const LeadCard: React.FC<{ item: NewsItem }> = ({ item }) => (
           {item.category.title}
         </span>
       )}
-      <h2 className="text-balance font-serif text-[clamp(25px,6.4cqi,48px)] font-black leading-[1.22] text-white">
+      <h2 className="text-pretty font-serif text-[clamp(25px,6.4cqi,48px)] font-black leading-[1.22] text-white">
         {item.title}
       </h2>
       <TimeStamp date={item.publishedAt} className="mt-3" onDark />
@@ -52,7 +52,7 @@ export const HeroSideCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.94)] via-[rgba(6,14,9,.35)] to-transparent p-3.5">
-      <h3 className="line-clamp-3 text-balance font-serif text-[clamp(14px,7.4cqi,22px)] font-bold leading-[1.32] text-white">
+      <h3 className="line-clamp-3 text-pretty font-serif text-[clamp(14px,7.4cqi,22px)] font-bold leading-[1.32] text-white">
         {item.title}
       </h3>
     </div>
@@ -80,7 +80,7 @@ export const NewsCard: React.FC<{ item: NewsItem; showExcerpt?: boolean }> = ({
       )}
     </div>
     <div className="flex flex-1 flex-col gap-2 p-3.5">
-      <h3 className="text-balance font-serif text-[clamp(15.5px,6.8cqi,21px)] font-bold leading-[1.38] transition group-hover:text-brand">
+      <h3 className="text-pretty font-serif text-[clamp(15.5px,6.8cqi,21px)] font-bold leading-[1.38] transition group-hover:text-brand">
         {item.title}
       </h3>
       {showExcerpt && item.excerpt && (
@@ -103,7 +103,7 @@ export const FeatureCard: React.FC<{ item: NewsItem }> = ({ item }) => (
       {item.type === 'video' && <PlayBadge />}
     </div>
     <div className="flex flex-col gap-2.5 p-4">
-      <h3 className="text-balance font-serif text-[clamp(18px,5.4cqi,28px)] font-extrabold leading-[1.3] transition group-hover:text-brand">
+      <h3 className="text-pretty font-serif text-[clamp(18px,5.4cqi,28px)] font-extrabold leading-[1.3] transition group-hover:text-brand">
         {item.title}
       </h3>
       {item.excerpt && (
@@ -133,7 +133,7 @@ export const ListRow: React.FC<{ item: NewsItem; last?: boolean }> = ({ item, la
       {item.type === 'video' && <PlayBadge />}
     </div>
     <div className="flex min-w-0 flex-col gap-1.5">
-      <h4 className="text-balance font-serif text-[15.5px] font-bold leading-[1.5] transition group-hover:text-brand">
+      <h4 className="text-pretty font-serif text-[15.5px] font-bold leading-[1.5] transition group-hover:text-brand">
         {item.title}
       </h4>
       <TimeStamp date={item.publishedAt} />
@@ -152,7 +152,7 @@ export const PhotoCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     </div>
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.95)] via-[rgba(6,14,9,.4)] to-transparent p-4">
-      <h3 className="text-balance font-serif text-[clamp(16px,7cqi,23px)] font-bold leading-[1.32] text-white">
+      <h3 className="text-pretty font-serif text-[clamp(16px,7cqi,23px)] font-bold leading-[1.32] text-white">
         {item.title}
       </h3>
       <TimeStamp date={item.publishedAt} className="mt-2" onDark />
@@ -176,7 +176,7 @@ export const BentoCard: React.FC<{ item: NewsItem; large?: boolean }> = ({ item,
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.94)] via-[rgba(6,14,9,.25)] to-transparent p-3.5">
-      <h4 className="text-balance font-serif text-[clamp(14.5px,6.2cqi,23px)] font-bold leading-[1.3] text-white">
+      <h4 className="text-pretty font-serif text-[clamp(14.5px,6.2cqi,23px)] font-bold leading-[1.3] text-white">
         {item.title}
       </h4>
       {large && <TimeStamp date={item.publishedAt} className="mt-2" onDark />}
@@ -196,7 +196,7 @@ export const OpinionRow: React.FC<{ item: NewsItem; last?: boolean }> = ({ item,
       </svg>
     </span>
     <div className="min-w-0">
-      <h4 className="text-balance font-serif text-[16.5px] font-bold leading-[1.45] transition group-hover:text-brand">
+      <h4 className="text-pretty font-serif text-[16.5px] font-bold leading-[1.45] transition group-hover:text-brand">
         {item.title}
       </h4>
       <TimeStamp date={item.publishedAt} className="mt-1" />
