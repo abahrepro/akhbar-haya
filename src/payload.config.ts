@@ -27,6 +27,11 @@ export default buildConfig({
   admin: {
     components: {
       beforeDashboard: ['@/components/AdminWelcome#AdminWelcome'],
+      // استبدال شعار Payload بهوية أخبار حياة
+      graphics: {
+        Icon: '@/components/AdminBrand#AdminIcon',
+        Logo: '@/components/AdminBrand#AdminLogo',
+      },
     },
     importMap: {
       baseDir: path.resolve(dirname),

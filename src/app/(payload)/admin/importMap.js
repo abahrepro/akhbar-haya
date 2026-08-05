@@ -22,6 +22,8 @@ import { FolderField as FolderField_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@pa
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { FolderTypeField as FolderTypeField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
+import { AdminIcon as AdminIcon_5fee7b1d7887f8ee4c45775348e4cb18 } from '@/components/AdminBrand'
+import { AdminLogo as AdminLogo_5fee7b1d7887f8ee4c45775348e4cb18 } from '@/components/AdminBrand'
 import { AdminWelcome as AdminWelcome_b9c493a1a8fb40b16e9e26d7240b2334 } from '@/components/AdminWelcome'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
@@ -51,6 +53,8 @@ export const importMap = {
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/next/client#FolderTypeField": FolderTypeField_2b8867833a34864a02ddf429b0728a40,
+  "@/components/AdminBrand#AdminIcon": AdminIcon_5fee7b1d7887f8ee4c45775348e4cb18,
+  "@/components/AdminBrand#AdminLogo": AdminLogo_5fee7b1d7887f8ee4c45775348e4cb18,
   "@/components/AdminWelcome#AdminWelcome": AdminWelcome_b9c493a1a8fb40b16e9e26d7240b2334,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1
 }
