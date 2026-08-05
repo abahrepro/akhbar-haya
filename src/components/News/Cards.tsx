@@ -29,7 +29,7 @@ export const LeadCard: React.FC<{ item: NewsItem }> = ({ item }) => (
           {item.category.title}
         </span>
       )}
-      <h2 className="text-pretty font-serif text-[clamp(29px,6.6cqi,50px)] font-black leading-[1.22] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
+      <h2 className="text-pretty font-serif text-[clamp(29px,6.8cqi,55px)] font-black leading-[1.22] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h2>
       <TimeStamp date={item.publishedAt} className="mt-3" onDark />
@@ -52,7 +52,7 @@ export const HeroSideCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(4,10,7,.97)] via-[rgba(4,10,7,.68)] to-transparent p-3.5 pt-16">
-      <h3 className="line-clamp-3 text-pretty font-serif text-[clamp(16px,7.6cqi,24px)] font-bold leading-[1.32] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
+      <h3 className="line-clamp-3 text-pretty font-serif text-[clamp(16px,7.8cqi,26px)] font-bold leading-[1.32] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h3>
     </div>
@@ -80,7 +80,7 @@ export const NewsCard: React.FC<{ item: NewsItem; showExcerpt?: boolean }> = ({
       )}
     </div>
     <div className="flex flex-1 flex-col gap-2 p-3.5">
-      <h3 className="text-pretty font-serif text-[clamp(17.5px,7cqi,23px)] font-bold leading-[1.38] transition group-hover:text-brand">
+      <h3 className="text-pretty font-serif text-[clamp(17.5px,7.2cqi,25px)] font-bold leading-[1.38] transition group-hover:text-brand">
         {item.title}
       </h3>
       {showExcerpt && item.excerpt && (
@@ -103,7 +103,7 @@ export const FeatureCard: React.FC<{ item: NewsItem }> = ({ item }) => (
       {item.type === 'video' && <PlayBadge />}
     </div>
     <div className="flex flex-col gap-2.5 p-4">
-      <h3 className="text-pretty font-serif text-[clamp(20px,5.6cqi,30px)] font-extrabold leading-[1.3] transition group-hover:text-brand">
+      <h3 className="text-pretty font-serif text-[clamp(20px,5.8cqi,33px)] font-extrabold leading-[1.3] transition group-hover:text-brand">
         {item.title}
       </h3>
       {item.excerpt && (
@@ -152,7 +152,7 @@ export const PhotoCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     </div>
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(4,10,7,.97)] via-[rgba(4,10,7,.7)] to-transparent p-4 pt-20">
-      <h3 className="text-pretty font-serif text-[clamp(18px,7.2cqi,25px)] font-bold leading-[1.32] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
+      <h3 className="text-pretty font-serif text-[clamp(18px,7.4cqi,27px)] font-bold leading-[1.32] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h3>
       <TimeStamp date={item.publishedAt} className="mt-2" onDark />
@@ -176,7 +176,7 @@ export const BentoCard: React.FC<{ item: NewsItem; large?: boolean }> = ({ item,
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}
     <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(4,10,7,.97)] via-[rgba(4,10,7,.68)] to-transparent p-3.5 pt-16">
-      <h4 className="text-pretty font-serif text-[clamp(16.5px,6.4cqi,25px)] font-bold leading-[1.3] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
+      <h4 className="text-pretty font-serif text-[clamp(16.5px,6.6cqi,27px)] font-bold leading-[1.3] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h4>
       {large && <TimeStamp date={item.publishedAt} className="mt-2" onDark />}

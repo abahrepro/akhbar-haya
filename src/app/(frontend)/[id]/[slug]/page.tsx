@@ -163,7 +163,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
               </span>
             )}
 
-            <h1 className="text-pretty font-serif text-[clamp(28px,4.4vw,46px)] font-black leading-[1.24]">
+            <h1 className="text-pretty font-serif text-[clamp(30px,4.6vw,52px)] font-black leading-[1.24]">
               {post.title}
             </h1>
 
@@ -206,7 +206,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
             {/* المحتوى */}
             <div
               id="article-body"
-              className="prose prose-lg max-w-none text-[19px] leading-[1.9] sm:text-[20.5px] sm:leading-[1.95] prose-headings:font-serif prose-a:text-brand"
+              className="prose prose-lg max-w-none text-[19px] leading-[1.9] sm:text-[21px] lg:text-[22.5px] lg:leading-[2] prose-headings:font-serif prose-a:text-brand"
             >
               <RichText data={post.content} enableGutter={false} />
             </div>
