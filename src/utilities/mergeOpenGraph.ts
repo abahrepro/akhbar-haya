@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import { getServerSideURL } from './getURL'
+import { DEFAULT_OG } from './generateMeta'
 
 const defaultOpenGraph: Metadata['openGraph'] = {
   type: 'website',
   description: 'الموقع الإخباري لمجموعة حياة الإعلامية — أخبار محلية وعالمية على مدار الساعة.',
   images: [
     {
-      url: `${getServerSideURL()}/website-template-OG.webp`,
+      url: `${getServerSideURL()}${DEFAULT_OG}`,
     },
   ],
   siteName: 'أخبار حياة',

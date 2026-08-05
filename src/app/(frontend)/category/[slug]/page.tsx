@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 
 import { CategoryView, queryCategory } from './CategoryView'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 export const revalidate = 60
 
@@ -29,8 +30,8 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = '' } = await paramsPromise
   const category = await queryCategory(decodeURIComponent(slug))
   if (!category) return { title: 'قسم غير موجود — أخبار حياة' }
-  return {
-    title: `${category.title} — أخبار حياة`,
-    description: category.description || `آخر أخبار ${category.title} على أخبار حياة.`,
-  }
+  const title = `${category.title} — أخبار حياة`
+  const description = category.description || `آخر أخبار ${category.title} على أخبار حياة.`
+  // صورة الهوية — القسم يمثّل الموقع لا خبراً بعينه
+  return { title, description, openGraph: mergeOpenGraph({ title, description }) }
 }

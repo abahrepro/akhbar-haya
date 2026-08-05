@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import React from 'react'
 
 import { TagView, queryTag } from './TagView'
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 export const revalidate = 60
 
@@ -15,5 +16,8 @@ export default async function TagPage({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
   const tag = await queryTag(decodeURIComponent(slug))
-  return { title: tag ? `${tag.title} — أخبار حياة` : 'وسم غير موجود — أخبار حياة' }
+  if (!tag) return { title: 'وسم غير موجود — أخبار حياة' }
+  const title = `${tag.title} — أخبار حياة`
+  const description = `كل ما نُشر تحت وسم ${tag.title} على أخبار حياة.`
+  return { title, description, openGraph: mergeOpenGraph({ title, description }) }
 }
