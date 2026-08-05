@@ -447,3 +447,108 @@ select {
     inline-size: 100%;
   }
 }
+
+/* ============ زرّ اقتراح الوسوم ============ */
+.ah-tagsuggest {
+  margin-block-start: calc(var(--base) * 0.4);
+
+  &__btn {
+    inline-size: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--ah-brand);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ah-brand);
+    font: inherit;
+    font-weight: 700;
+    font-size: 0.86rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+
+    &:hover:not(:disabled) {
+      background: var(--ah-brand);
+      color: #fff;
+    }
+    &:disabled {
+      opacity: 0.45;
+      cursor: default;
+    }
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-block-start: 12px;
+  }
+
+  &__label {
+    font-size: 0.76rem;
+    color: var(--theme-elevation-500);
+  }
+
+  &__all {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ah-brand);
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 999px;
+    background: var(--theme-elevation-50);
+    color: var(--theme-elevation-800);
+    font: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+
+    span {
+      color: var(--ah-brand);
+      font-weight: 700;
+    }
+    &:hover {
+      border-color: var(--ah-brand);
+      background: var(--theme-elevation-100);
+    }
+  }
+
+  &__hint,
+  &__note,
+  &__error {
+    margin: 8px 0 0;
+    font-size: 0.76rem;
+    line-height: 1.6;
+    color: var(--theme-elevation-500);
+  }
+
+  &__error {
+    color: var(--theme-error-500);
+  }
+
+  &__note {
+    padding-block-start: 8px;
+    border-block-start: 1px solid var(--theme-elevation-100);
+    margin-block-start: 12px;
+  }
+}

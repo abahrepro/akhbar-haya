@@ -11,6 +11,7 @@ import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Tags } from './collections/Tags'
 import { Users } from './collections/Users'
+import { suggestTags } from './endpoints/suggestTags'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -72,6 +73,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Tags, Users],
   cors: [getServerSideURL()].filter(Boolean),
+  endpoints: [suggestTags],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

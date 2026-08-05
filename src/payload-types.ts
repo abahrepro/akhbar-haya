@@ -224,9 +224,12 @@ export interface Post {
   id: number;
   title: string;
   heroImage?: (number | null) | Media;
+  /**
+   * مصدر الصورة أو شرحها — يظهر أسفلها مباشرة.
+   */
   heroCaption?: string | null;
   /**
-   * وصف مختصر يظهر في البطاقات ونتائج البحث ووصف SEO.
+   * اتركه فارغاً — يُكتب تلقائياً من مطلع الخبر. يظهر في البطاقات ونتائج البحث ومعاينة المشاركة.
    */
   excerpt?: string | null;
   content: {
@@ -259,11 +262,8 @@ export interface Post {
   tags?: (number | Tag)[] | null;
   meta?: {
     title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
     description?: string | null;
+    image?: (number | null) | Media;
   };
   publishedAt?: string | null;
   createdBy?: (number | null) | User;
@@ -1249,8 +1249,8 @@ export interface PostsSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
+        image?: T;
       };
   publishedAt?: T;
   createdBy?: T;

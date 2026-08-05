@@ -181,6 +181,14 @@ export const Posts: CollectionConfig<'posts'> = {
               hasMany: true,
               relationTo: 'tags',
             },
+            {
+              name: 'tagSuggest',
+              type: 'ui',
+              admin: {
+                position: 'sidebar',
+                components: { Field: '@/components/AdminTagSuggest#AdminTagSuggest' },
+              },
+            },
           ],
           label: 'التصنيف',
         },
@@ -202,6 +210,15 @@ export const Posts: CollectionConfig<'posts'> = {
                 components: { Field: '@/components/AdminSeoNote#AdminSeoNote' },
               },
             },
+            /**
+             * الحقول الثلاثة مخفيّة عن المحرّر لا محذوفة.
+             * حذفها من المخطّط يُسقطها من الأنواع ويعرّض أعمدتها للحذف عند
+             * مزامنة المخطّط، بينما ما زالت الواجهة تقرؤها كأولوية أولى قبل
+             * الاشتقاق من الخبر — ويبقى تعبئتها ممكنة برمجياً عند الحاجة.
+             */
+            { name: 'title', type: 'text', admin: { hidden: true } },
+            { name: 'description', type: 'textarea', admin: { hidden: true } },
+            { name: 'image', type: 'upload', relationTo: 'media', admin: { hidden: true } },
           ],
         },
       ],
