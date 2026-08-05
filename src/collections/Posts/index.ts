@@ -292,12 +292,21 @@ export const Posts: CollectionConfig<'posts'> = {
       defaultValue: 'news',
       options: [
         { label: 'خبر', value: 'news' },
-        { label: 'مقال رأي', value: 'opinion' },
-        { label: 'صورة وخبر', value: 'photo' },
-        { label: 'فيديو', value: 'video' },
+        { label: 'فيديو (يُظهر أيقونة تشغيل على البطاقة)', value: 'video' },
+        { label: 'معرض صور (يُظهر المعرض داخل الخبر)', value: 'photo' },
       ],
       admin: {
         position: 'sidebar',
+        description: 'اتركه «خبر» إلا إذا كان الخبر فيديو أو معرض صور.',
+        /**
+         * للمدير وحده.
+         * ١٤٥٬٧٤٥ خبراً كلّها من النوع «خبر» — الحقل لم يُستعمل قطّ، وخيار
+         * «صورة وخبر» كان يكرّر قسماً موجوداً فيربك المحرّر بين حقلين
+         * لنفس المعنى. لا نحذفه لأن `video` و`photo` يشغّلان سلوكاً فعلياً
+         * في الواجهة؛ نخفيه فقط عمّن لا يحتاجه.
+         */
+        condition: (_data, _siblingData, { user }) =>
+          (user as { role?: string } | null)?.role === 'admin',
       },
     },
     {
