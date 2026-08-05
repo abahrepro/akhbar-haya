@@ -157,13 +157,25 @@ export const VideoEmbed: React.FC<{ url?: string | null; className?: string }> =
         className="relative h-0 overflow-hidden rounded-[14px] bg-black shadow-sm"
         style={{ paddingTop: pad }}
       >
+        {/**
+         * المقاس بنمط مباشر لا بفئات Tailwind.
+         * `.h-full` لم تكن موجودة في الملف المنشور أصلاً — الماسح لم يلتقط
+         * فئات هذا المكوّن الجديد، فبقي الإطار على مقاسه الأصلي ١٥٠ بكسل.
+         * ثبّت يدوياً في المتصفّح أن `height:100%` يعطي ٧٤٧ حين يُطبَّق.
+         */}
         <iframe
           src={v.src}
           title={v.title}
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
-          className="absolute inset-0 h-full w-full border-0"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            border: 0,
+          }}
         />
       </div>
     </div>
