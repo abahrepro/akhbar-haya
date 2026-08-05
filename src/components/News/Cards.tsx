@@ -23,13 +23,13 @@ export const LeadCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     </div>
     {item.breaking && <BreakingChip />}
     {item.type === 'video' && <PlayBadge size="lg" />}
-    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.94)] via-[rgba(6,14,9,.55)] to-transparent p-6 sm:p-7">
+    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(4,10,7,.97)] via-[rgba(4,10,7,.72)] to-transparent p-6 pt-24 sm:p-7 sm:pt-28">
       {item.category && (
         <span className="mb-3 inline-flex rounded-full bg-brand px-2.5 py-1 text-[11.5px] font-extrabold text-white">
           {item.category.title}
         </span>
       )}
-      <h2 className="text-pretty font-serif text-[clamp(25px,6.4cqi,48px)] font-black leading-[1.22] text-white">
+      <h2 className="text-pretty font-serif text-[clamp(25px,6.4cqi,48px)] font-black leading-[1.22] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h2>
       <TimeStamp date={item.publishedAt} className="mt-3" onDark />
@@ -51,8 +51,8 @@ export const HeroSideCard: React.FC<{ item: NewsItem }> = ({ item }) => (
     </div>
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}
-    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.94)] via-[rgba(6,14,9,.35)] to-transparent p-3.5">
-      <h3 className="line-clamp-3 text-pretty font-serif text-[clamp(14px,7.4cqi,22px)] font-bold leading-[1.32] text-white">
+    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(4,10,7,.97)] via-[rgba(4,10,7,.68)] to-transparent p-3.5 pt-16">
+      <h3 className="line-clamp-3 text-pretty font-serif text-[clamp(14px,7.4cqi,22px)] font-bold leading-[1.32] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h3>
     </div>
@@ -151,8 +151,8 @@ export const PhotoCard: React.FC<{ item: NewsItem }> = ({ item }) => (
       <NewsImage item={item} size="medium" />
     </div>
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
-    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.95)] via-[rgba(6,14,9,.4)] to-transparent p-4">
-      <h3 className="text-pretty font-serif text-[clamp(16px,7cqi,23px)] font-bold leading-[1.32] text-white">
+    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(4,10,7,.97)] via-[rgba(4,10,7,.7)] to-transparent p-4 pt-20">
+      <h3 className="text-pretty font-serif text-[clamp(16px,7cqi,23px)] font-bold leading-[1.32] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h3>
       <TimeStamp date={item.publishedAt} className="mt-2" onDark />
@@ -175,8 +175,8 @@ export const BentoCard: React.FC<{ item: NewsItem; large?: boolean }> = ({ item,
     </div>
     {item.category && <CategoryChip label={item.category.title} color={item.category.color} />}
     {item.type === 'video' && <PlayBadge />}
-    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(6,14,9,.94)] via-[rgba(6,14,9,.25)] to-transparent p-3.5">
-      <h4 className="text-pretty font-serif text-[clamp(14.5px,6.2cqi,23px)] font-bold leading-[1.3] text-white">
+    <div className="absolute inset-x-0 bottom-0 z-3 bg-linear-to-t from-[rgba(4,10,7,.97)] via-[rgba(4,10,7,.68)] to-transparent p-3.5 pt-16">
+      <h4 className="text-pretty font-serif text-[clamp(14.5px,6.2cqi,23px)] font-bold leading-[1.3] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h4>
       {large && <TimeStamp date={item.publishedAt} className="mt-2" onDark />}
