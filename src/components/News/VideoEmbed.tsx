@@ -138,38 +138,34 @@ export const VideoEmbed: React.FC<{ url?: string | null; className?: string }> =
   const v = parseVideoUrl(url)
   if (!v) return null
 
-  // نسبة الإطار تختلف بالمنصّة: الريلز والشورتس رأسية، المنشورات مربّعة
-  const ratio =
-    v.ratio === 'tall'
-      ? 'aspect-9/16 mx-auto max-w-[420px]'
-      : v.ratio === 'square'
-        ? 'aspect-4/5 mx-auto max-w-[560px] sm:aspect-square'
-        : 'aspect-video'
+  /**
+   * الارتفاع بحشوة نسبية لا بـ`aspect-ratio`.
+   *
+   * الإطار عنصر مستبدَل: لا `inset-0` يمدّه ولا `height:100%` — الأول لأن
+   * العناصر المستبدَلة تحتفظ بمقاسها الأصلي (٣٠٠×١٥٠)، والثاني لأن ارتفاع
+   * الأب المشتقّ من `aspect-ratio` ليس ارتفاعاً محدّداً تُحسب عليه النسب.
+   * قِيس الاثنان على الخبر التجريبي: ٤٢٠×١٥٠ ثم ٣٠٠×١٥٠.
+   * الحشوة النسبية تعطي صندوقاً بارتفاع محدّد فينضبط الإطار داخله.
+   */
+  const pad = v.ratio === 'tall' ? '177.78%' : v.ratio === 'square' ? '100%' : '56.25%'
+  const width =
+    v.ratio === 'tall' ? 'mx-auto max-w-[420px]' : v.ratio === 'square' ? 'mx-auto max-w-[560px]' : ''
 
   return (
-    <div
-      className={cn(
-        'not-prose relative my-6 overflow-hidden rounded-[14px] bg-black shadow-sm',
-        ratio,
-        className,
-      )}
-    >
-      {/**
-       * `inset-0` وحده — بلا ارتفاع نسبي.
-       * ارتفاع الحاوية مشتقّ من `aspect-ratio`، وهو ليس ارتفاعاً «محدّداً»
-       * تُحسب عليه النسب المئوية، فـ`height:100%` يعود إلى ارتفاع الإطار
-       * الافتراضي (١٥٠ بكسل) ويترك بقيّة الصندوق سواداً — قِيس على الخبر
-       * التجريبي: حاوية ٤٢٠×٧٤٧ وإطار ٤٢٠×١٥٠. تثبيت الجهات الأربع يمدّه
-       * دون حساب نسب.
-       */}
-      <iframe
-        src={v.src}
-        title={v.title}
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-        className="absolute inset-0 border-0"
-      />
+    <div className={cn('not-prose my-6', width, className)}>
+      <div
+        className="relative h-0 overflow-hidden rounded-[14px] bg-black shadow-sm"
+        style={{ paddingTop: pad }}
+      >
+        <iframe
+          src={v.src}
+          title={v.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="absolute inset-0 h-full w-full border-0"
+        />
+      </div>
     </div>
   )
 }
