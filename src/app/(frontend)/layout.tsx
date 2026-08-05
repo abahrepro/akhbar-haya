@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
-import { alexandria } from '@/fonts'
+import { tajawal } from '@/fonts'
 import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html
-      className={alexandria.variable}
+      className={tajawal.variable}
       dir="rtl"
       lang="ar"
       suppressHydrationWarning

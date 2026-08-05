@@ -43,10 +43,10 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  /* الإسكندرية — عائلة واحدة للنصوص والعناوين، التمييز بالوزن */
-  --font-sans: var(--font-alexandria), 'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui,
+  /* تجوّل — عائلة واحدة للنصوص والعناوين، التمييز بالوزن */
+  --font-sans: var(--font-tajawal), 'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui,
     sans-serif;
-  --font-serif: var(--font-alexandria), 'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui,
+  --font-serif: var(--font-tajawal), 'SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', system-ui,
     sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }

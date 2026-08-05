@@ -6,22 +6,22 @@
  * أسماء الفئات (nav__link وأخواتها) مأخوذة من مصدر Payload لا تخميناً.
  */
 
-/* ===== الإسكندرية — نفس خط الموقع ===== */
+/* ===== تجوّل — نفس خط الموقع ===== */
 @font-face {
-  font-family: 'Alexandria';
-  src: url('/ff/ax-4.woff2') format('woff2');
+  font-family: 'Tajawal';
+  src: url('/ff/tj-4.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Alexandria';
-  src: url('/ff/ax-5.woff2') format('woff2');
+  font-family: 'Tajawal';
+  src: url('/ff/tj-5.woff2') format('woff2');
   font-weight: 500;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Alexandria';
-  src: url('/ff/ax-7.woff2') format('woff2');
+  font-family: 'Tajawal';
+  src: url('/ff/tj-7.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
 }
@@ -31,7 +31,7 @@
   --ah-brand-deep: #014d29;
   --ah-brand-tint: #e6f2ea;
   /* متغيّر Payload الرسمي للخط — يسري على اللوحة كاملة */
-  --font-body: 'Alexandria', 'SF Arabic', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
+  --font-body: 'Tajawal', 'SF Arabic', 'Segoe UI', 'Noto Sans Arabic', system-ui, sans-serif;
 }
 
 html[data-theme='dark'] {

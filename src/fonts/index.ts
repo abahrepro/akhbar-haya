@@ -1,25 +1,28 @@
 import localFont from 'next/font/local'
 
 /**
- * الإسكندرية (Alexandria) — خط الموقع الوحيد.
+ * تجوّل (Tajawal) — خط الموقع الوحيد.
  *
- * عائلة واحدة تخدم النصوص والعناوين معاً؛ التمييز بالوزن لا بعائلة ثانية.
- * نشحن الأوزان المستعملة فعلاً في الكود فقط (٤٠٠–٩٠٠): الأوزان الرفيعة
- * الثلاثة لا يستدعيها أي مكوّن، وشحنها يكلّف ١٦٠ كيلوبايت بلا مقابل.
+ * عائلة واحدة تخدم النصوص والعناوين؛ التمييز بالوزن لا بعائلة ثانية.
+ * نشحن الأوزان المستعملة فعلاً فقط — الرفيعان (٢٠٠ و٣٠٠) لا يستدعيهما
+ * أي مكوّن.
  *
- * الخط بترخيص SIL Open Font License، فالاستضافة وإعادة التوزيع مسموحتان
- * صراحةً — بخلاف الخط السابق الذي قيّد التضمين بصيغ مُحزَّمة.
+ * لا وزن ٦٠٠ في العائلة، و‏`font-semibold` مستعمل في تسعة عشر موضعاً؛
+ * مطابقة CSS تصعد للأثقل فتعرضه بوزن ٧٠٠. نصرّح بذلك هنا كي لا يبدو
+ * لاحقاً خطأً في التنسيق.
+ *
+ * بترخيص SIL Open Font License (نسخته في هذا المجلد) — الاستضافة
+ * وإعادة التوزيع مسموحتان صراحةً.
  */
-export const alexandria = localFont({
+export const tajawal = localFont({
   src: [
-    { path: './alexandria/Alexandria-Regular.woff2', weight: '400', style: 'normal' },
-    { path: './alexandria/Alexandria-Medium.woff2', weight: '500', style: 'normal' },
-    { path: './alexandria/Alexandria-SemiBold.woff2', weight: '600', style: 'normal' },
-    { path: './alexandria/Alexandria-Bold.woff2', weight: '700', style: 'normal' },
-    { path: './alexandria/Alexandria-ExtraBold.woff2', weight: '800', style: 'normal' },
-    { path: './alexandria/Alexandria-Black.woff2', weight: '900', style: 'normal' },
+    { path: './tajawal/Tajawal-Regular.woff2', weight: '400', style: 'normal' },
+    { path: './tajawal/Tajawal-Medium.woff2', weight: '500', style: 'normal' },
+    { path: './tajawal/Tajawal-Bold.woff2', weight: '700', style: 'normal' },
+    { path: './tajawal/Tajawal-ExtraBold.woff2', weight: '800', style: 'normal' },
+    { path: './tajawal/Tajawal-Black.woff2', weight: '900', style: 'normal' },
   ],
-  variable: '--font-alexandria',
+  variable: '--font-tajawal',
   display: 'swap',
   fallback: ['SF Arabic', 'Geeza Pro', 'Noto Sans Arabic', 'system-ui', 'sans-serif'],
   preload: true,
