@@ -116,10 +116,26 @@ export default async function PostPage({ params: paramsPromise }: Args) {
     inLanguage: 'ar',
     articleSection: category?.title,
     mainEntityOfPage: { '@type': 'WebPage', '@id': fullUrl },
+    /**
+     * الكاتب هو المؤسسة لا شخصاً.
+     * جوجل يطلب حقل author، والموقع لا ينسب الأخبار لكُتّابها بقرارٍ
+     * تحريري — فالنسبة للمؤسسة هي التمثيل الصحيح لا حقلٌ مفقود.
+     */
+    author: {
+      '@type': 'NewsMediaOrganization',
+      name: 'أخبار حياة',
+      url: getServerSideURL(),
+    },
     publisher: {
       '@type': 'NewsMediaOrganization',
       name: 'أخبار حياة',
       url: getServerSideURL(),
+      logo: {
+        '@type': 'ImageObject',
+        url: `${getServerSideURL()}/apple-touch-icon.png`,
+        width: 180,
+        height: 180,
+      },
     },
   }
 
@@ -288,7 +304,10 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
   const post = await queryPostBySlug({ slug: decodeURIComponent(slug) })
-  return generateMeta({ doc: post })
+  const meta = await generateMeta({ doc: post })
+  // الرابط المعتمد يحسم أي تكرار: الرقم الخاطئ يحوّل، وهذا يوثّق الأصل
+  if (post) meta.alternates = { canonical: `${getServerSideURL()}${encodeURI(postHref(post))}` }
+  return meta
 }
 
 const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {

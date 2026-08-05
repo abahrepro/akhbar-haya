@@ -3,6 +3,7 @@ import React from 'react'
 
 import { TagView, queryTag } from './TagView'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export const revalidate = 60
 
@@ -19,5 +20,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   if (!tag) return { title: 'وسم غير موجود — أخبار حياة' }
   const title = `${tag.title} — أخبار حياة`
   const description = `كل ما نُشر تحت وسم ${tag.title} على أخبار حياة.`
-  return { title, description, openGraph: mergeOpenGraph({ title, description }) }
+  return {
+    title,
+    description,
+    openGraph: mergeOpenGraph({ title, description }),
+    alternates: { canonical: `${getServerSideURL()}/tag/${encodeURIComponent(tag.slug ?? '')}` },
+  }
 }

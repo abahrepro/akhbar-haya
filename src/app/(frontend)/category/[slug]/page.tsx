@@ -5,6 +5,7 @@ import React from 'react'
 
 import { CategoryView, queryCategory } from './CategoryView'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export const revalidate = 60
 
@@ -33,5 +34,10 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const title = `${category.title} — أخبار حياة`
   const description = category.description || `آخر أخبار ${category.title} على أخبار حياة.`
   // صورة الهوية — القسم يمثّل الموقع لا خبراً بعينه
-  return { title, description, openGraph: mergeOpenGraph({ title, description }) }
+  return {
+    title,
+    description,
+    openGraph: mergeOpenGraph({ title, description }),
+    alternates: { canonical: `${getServerSideURL()}/category/${encodeURIComponent(category.slug ?? '')}` },
+  }
 }
