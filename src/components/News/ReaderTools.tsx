@@ -46,6 +46,19 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
   const [colorMode, setColorMode] = useState(0)
   const [readingMode, setReadingMode] = useState(false)
   const fontStep = useRef(0)
+  const baseFont = useRef(0)
+
+  // استعادة تفضيل حجم الخط من الزيارة السابقة
+  useEffect(() => {
+    const saved = Number(localStorage.getItem('ah-font-step') ?? 0)
+    if (!saved) return
+    const el = document.querySelector(articleSelector) as HTMLElement | null
+    if (!el) return
+    baseFont.current = parseFloat(getComputedStyle(el).fontSize) || 19
+    fontStep.current = saved
+    el.style.fontSize = `${baseFont.current + saved * 1.6}px`
+    el.style.lineHeight = '1.95'
+  }, [articleSelector])
 
   // إيقاف القراءة الصوتية عند مغادرة الصفحة
   useEffect(() => {
@@ -54,7 +67,36 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
     }
   }, [])
 
-  const toggleSpeech = useCallback(() => {
+  /**
+   * أفضل صوت عربي متاح.
+   * `getVoices` يعود فارغاً في أول نداء على أغلب المتصفّحات — الأصوات
+   * تُحمَّل لاحقاً وتُطلق `voiceschanged`. الاعتماد على النداء الأول كان
+   * يترك `voice` فارغاً فيقرأ المتصفّح العربية بصوته الافتراضي (إنجليزي
+   * غالباً) — وهذا سبب النطق الغريب.
+   */
+  const pickArabicVoice = useCallback((): Promise<SpeechSynthesisVoice | undefined> => {
+    const best = () => {
+      const ar = speechSynthesis.getVoices().filter((v) => /^ar/i.test(v.lang))
+      if (!ar.length) return undefined
+      // الأصوات المحسّنة أوضح بكثير من الافتراضية القديمة
+      const score = (v: SpeechSynthesisVoice) =>
+        /premium|enhanced|neural|siri|google/i.test(v.name) ? 2 : v.localService ? 1 : 0
+      return [...ar].sort((a, b) => score(b) - score(a))[0]
+    }
+    const found = best()
+    if (found) return Promise.resolve(found)
+    return new Promise((resolve) => {
+      const done = () => {
+        speechSynthesis.removeEventListener('voiceschanged', done)
+        resolve(best())
+      }
+      speechSynthesis.addEventListener('voiceschanged', done)
+      // لا ننتظر إلى ما لا نهاية إن لم تصل الأصوات
+      setTimeout(done, 1200)
+    })
+  }, [])
+
+  const toggleSpeech = useCallback(async () => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       alert('المتصفّح لا يدعم قراءة النص صوتياً.')
       return
@@ -66,23 +108,56 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
     }
     const el = document.querySelector(articleSelector)
     if (!el) return
-    const u = new SpeechSynthesisUtterance((el as HTMLElement).innerText)
-    u.lang = 'ar-SA'
-    const arVoice = speechSynthesis.getVoices().find((v) => /^ar/i.test(v.lang))
-    if (arVoice) u.voice = arVoice
-    u.onend = () => setSpeaking(false)
-    u.onerror = () => setSpeaking(false)
-    speechSynthesis.cancel()
-    speechSynthesis.speak(u)
-    setSpeaking(true)
-  }, [articleSelector, speaking])
 
+    const voice = await pickArabicVoice()
+    if (!voice) {
+      alert('لا يوجد صوت عربي مثبّت على هذا الجهاز.')
+      return
+    }
+
+    // نصّ نظيف: المسافات المتكرّرة تُنطق كوقفات عشوائية
+    const text = (el as HTMLElement).innerText.replace(/\s+/g, ' ').trim()
+
+    // نقسّم على الجُمل: المحرّكات تبتر النصوص الطويلة، والتقطيع يبقي
+    // الوقفات في مواضعها الطبيعية بدل أن تأتي حيث ينقطع النَفَس
+    const chunks = text.match(/[^.!؟?\n]+[.!؟?]*/g) ?? [text]
+
+    speechSynthesis.cancel()
+    chunks.forEach((chunk, i) => {
+      const u = new SpeechSynthesisUtterance(chunk.trim())
+      u.voice = voice
+      u.lang = voice.lang
+      u.rate = 0.92 // أبطأ قليلاً — العربية بلا تشكيل تحتاج مهلة للفهم
+      u.pitch = 1
+      if (i === chunks.length - 1) u.onend = () => setSpeaking(false)
+      u.onerror = () => setSpeaking(false)
+      speechSynthesis.speak(u)
+    })
+    setSpeaking(true)
+  }, [articleSelector, speaking, pickArabicVoice])
+
+  /**
+   * تكبير النص وتصغيره.
+   * كان المقاس الأساس رقماً ثابتاً (١٨٫٥) بينما المتن اليوم ٢٢٫٥ على
+   * الشاشات الكبيرة — فأول ضغطة على «A+» كانت **تصغّر** النص. نقرأ
+   * المقاس المحسوب فعلياً عند أول استعمال بدل افتراضه.
+   */
   const changeFont = useCallback(
     (dir: 1 | -1) => {
       const el = document.querySelector(articleSelector) as HTMLElement | null
       if (!el) return
-      fontStep.current = Math.max(-2, Math.min(5, fontStep.current + dir))
-      el.style.fontSize = `${18.5 + fontStep.current * 1.5}px`
+      if (baseFont.current === 0) {
+        baseFont.current = parseFloat(getComputedStyle(el).fontSize) || 19
+      }
+      fontStep.current = Math.max(-2, Math.min(6, fontStep.current + dir))
+      const size = baseFont.current + fontStep.current * 1.6
+      el.style.fontSize = `${size}px`
+      el.style.lineHeight = '1.95'
+      try {
+        localStorage.setItem('ah-font-step', String(fontStep.current))
+      } catch {
+        /* التخزين قد يكون معطّلاً */
+      }
     },
     [articleSelector],
   )
