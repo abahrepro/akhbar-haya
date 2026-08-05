@@ -26,7 +26,7 @@ const INFO = [
   },
 ]
 
-const field = 'rounded-[10px] border border-border bg-secondary px-3.5 py-3 text-[15px] outline-none focus:border-brand'
+const field = 'rounded-[10px] border border-border bg-secondary px-3.5 py-3 text-[16px] outline-none focus:border-brand'
 
 export default function ContactPage() {
   return (
@@ -37,19 +37,19 @@ export default function ContactPage() {
       <div className="grid gap-7 rounded-[14px] border border-border bg-card p-6 shadow-sm sm:grid-cols-2">
         <form className="flex flex-col gap-3.5">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[13.5px] font-bold text-ink-soft">الاسم</span>
+            <span className="text-[14.5px] font-bold text-ink-soft">الاسم</span>
             <input type="text" placeholder="اسمك الكامل" className={field} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[13.5px] font-bold text-ink-soft">البريد الإلكتروني</span>
+            <span className="text-[14.5px] font-bold text-ink-soft">البريد الإلكتروني</span>
             <input type="email" placeholder="بريدك الإلكتروني" className={field} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[13.5px] font-bold text-ink-soft">الموضوع</span>
+            <span className="text-[14.5px] font-bold text-ink-soft">الموضوع</span>
             <input type="text" placeholder="موضوع الرسالة" className={field} />
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[13.5px] font-bold text-ink-soft">الرسالة</span>
+            <span className="text-[14.5px] font-bold text-ink-soft">الرسالة</span>
             <textarea rows={4} placeholder="اكتب رسالتك…" className={`${field} resize-y`} />
           </label>
           <button
@@ -72,8 +72,8 @@ export default function ContactPage() {
                 </svg>
               </span>
               <span>
-                <b className="block text-[14.5px]">{row.label}</b>
-                <span className="text-[13px] text-muted-foreground">{row.value}</span>
+                <b className="block text-[15.5px]">{row.label}</b>
+                <span className="text-[14px] text-muted-foreground">{row.value}</span>
               </span>
             </div>
           ))}

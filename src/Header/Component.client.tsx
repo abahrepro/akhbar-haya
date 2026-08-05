@@ -82,7 +82,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
   return (
     <>
       {/* ===== شريط الأدوات العلوي ===== */}
-      <div className="bg-brand-deep text-[13px] text-[#dff0e6] dark:bg-[#0a1712]">
+      <div className="bg-brand-deep text-[14px] text-[#dff0e6] dark:bg-[#0a1712]">
         <div className="container flex h-10 items-center justify-between gap-4">
           <div className="flex items-center gap-2.5 whitespace-nowrap opacity-95">
             <IconCalendar className="size-3.5" />
@@ -94,7 +94,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
           <div className="flex items-center gap-2">
             <Link
               href="/live"
-              className="ah-live-glow relative inline-flex items-center gap-2.5 rounded-full bg-[#c62b1f] px-3 py-1.5 text-[12.5px] font-extrabold text-white"
+              className="ah-live-glow relative inline-flex items-center gap-2.5 rounded-full bg-[#c62b1f] px-3 py-1.5 text-[13.5px] font-extrabold text-white"
             >
               <span className="ah-eq inline-flex h-[13px] items-center gap-[2px]">
                 <i />
@@ -156,7 +156,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
                   <Link
                     key={i}
                     href={t.href}
-                    className="inline-flex items-center gap-10 text-[14.5px] font-medium text-ink-soft transition after:size-[5px] after:rounded-full after:bg-brand after:opacity-60 after:content-[''] hover:text-brand"
+                    className="inline-flex items-center gap-10 text-[15.5px] font-medium text-ink-soft transition after:size-[5px] after:rounded-full after:bg-brand after:opacity-60 after:content-[''] hover:text-brand"
                   >
                     {t.title}
                   </Link>
@@ -180,7 +180,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'whitespace-nowrap rounded-[9px] px-3 py-2 text-[15.5px] font-bold transition',
+                    'whitespace-nowrap rounded-[9px] px-3 py-2 text-[16.5px] font-bold transition',
                     active
                       ? 'bg-brand text-white'
                       : 'text-ink-soft hover:bg-brand-tint hover:text-brand',
@@ -195,7 +195,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
           <div className="ms-auto flex items-center gap-2 lg:ms-0">
             <button
               onClick={() => setSearchOpen(true)}
-              className="hidden w-[190px] cursor-pointer items-center gap-2 rounded-full border border-border bg-secondary px-3.5 py-2 text-[14.5px] text-muted-foreground transition hover:border-brand lg:flex"
+              className="hidden w-[190px] cursor-pointer items-center gap-2 rounded-full border border-border bg-secondary px-3.5 py-2 text-[15.5px] text-muted-foreground transition hover:border-brand lg:flex"
             >
               <IconSearch className="size-4 shrink-0" />
               <span>ابحث في أخبار حياة…</span>
@@ -251,7 +251,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
               setMenuOpen(false)
               setSearchOpen(true)
             }}
-            className="mb-3.5 flex cursor-pointer items-center gap-2 rounded-full border border-border bg-secondary px-4 py-2.5 text-[14.5px] text-muted-foreground"
+            className="mb-3.5 flex cursor-pointer items-center gap-2 rounded-full border border-border bg-secondary px-4 py-2.5 text-[15.5px] text-muted-foreground"
           >
             <IconSearch className="size-4" />
             ابحث في أخبار حياة…
@@ -315,7 +315,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="ابحث عن خبر، موضوع، أو كلمة…"
-                  className="flex-1 border-none bg-transparent text-[17px] text-foreground outline-none"
+                  className="flex-1 border-none bg-transparent text-[18px] text-foreground outline-none"
                 />
               </form>
               <button
@@ -328,7 +328,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
             </div>
 
             <div className="mt-5">
-              <div className="mb-3 text-[12.5px] font-extrabold tracking-wide text-muted-foreground">
+              <div className="mb-3 text-[13.5px] font-extrabold tracking-wide text-muted-foreground">
                 الأكثر بحثاً
               </div>
               <div className="flex flex-wrap gap-2.5">
@@ -336,7 +336,7 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
                   <Link
                     key={p}
                     href={`/search?q=${encodeURIComponent(p)}`}
-                    className="rounded-full border border-border bg-secondary px-4 py-2 text-[13.5px] font-bold text-ink-soft transition hover:border-brand hover:text-brand"
+                    className="rounded-full border border-border bg-secondary px-4 py-2 text-[14.5px] font-bold text-ink-soft transition hover:border-brand hover:text-brand"
                   >
                     {p}
                   </Link>

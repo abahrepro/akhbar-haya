@@ -56,7 +56,7 @@ export default async function LivePage() {
 
   return (
     <main className="container py-6">
-      <nav className="mb-4 flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
+      <nav className="mb-4 flex items-center gap-2 text-[14px] font-medium text-muted-foreground">
         <Link href="/" className="transition hover:text-brand">
           الرئيسية
         </Link>
@@ -68,7 +68,7 @@ export default async function LivePage() {
         {/* المشغّل */}
         <div className="overflow-hidden rounded-[14px] border border-border shadow-sm">
           <div className="relative aspect-video bg-linear-140 from-[#123047] to-[#05121f]">
-            <span className="ah-live-glow absolute start-3.5 top-3.5 z-3 inline-flex items-center gap-2 rounded-full bg-alert px-3 py-1.5 text-[13px] font-extrabold text-white">
+            <span className="ah-live-glow absolute start-3.5 top-3.5 z-3 inline-flex items-center gap-2 rounded-full bg-alert px-3 py-1.5 text-[14px] font-extrabold text-white">
               <span className="size-2 animate-pulse rounded-full bg-white" />
               مباشر
             </span>
@@ -87,12 +87,12 @@ export default async function LivePage() {
                 البث المباشر — قناة حياة
               </h1>
               {nowIdx >= 0 && (
-                <div className="mt-1 text-[13.5px] font-medium text-muted-foreground">
+                <div className="mt-1 text-[14.5px] font-medium text-muted-foreground">
                   يبثّ الآن: {SCHEDULE[nowIdx].name}
                 </div>
               )}
             </div>
-            <span className="inline-flex items-center gap-1.5 text-[13px] font-bold text-alert">
+            <span className="inline-flex items-center gap-1.5 text-[14px] font-bold text-alert">
               <svg viewBox="0 0 24 24" fill="currentColor" className="size-4" aria-hidden="true">
                 <path d="M12 5a7 7 0 0 0-6.9 5.8 1 1 0 0 0 0 .4A7 7 0 1 0 12 5zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" />
               </svg>
@@ -103,7 +103,7 @@ export default async function LivePage() {
 
         {/* جدول اليوم */}
         <aside className="overflow-hidden rounded-[14px] border border-border bg-card shadow-sm">
-          <h3 className="flex items-center gap-2 border-b border-border px-4 py-3.5 font-serif text-[17px] font-extrabold">
+          <h3 className="flex items-center gap-2 border-b border-border px-4 py-3.5 font-serif text-[18px] font-extrabold">
             <svg viewBox="0 0 24 24" fill="currentColor" className="size-4 text-brand" aria-hidden="true">
               <path d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7zm12 7v10H5V9h14z" />
             </svg>
@@ -117,13 +117,13 @@ export default async function LivePage() {
               }`}
             >
               <span
-                className={`text-[13px] font-extrabold tabular-nums ${
+                className={`text-[14px] font-extrabold tabular-nums ${
                   i === nowIdx ? 'text-brand' : 'text-muted-foreground'
                 }`}
               >
                 {p.time}
               </span>
-              <span className="text-[14.5px] font-bold">{p.name}</span>
+              <span className="text-[15.5px] font-bold">{p.name}</span>
               {i === nowIdx && (
                 <span className="ms-auto rounded-full bg-alert px-2 py-0.5 text-[10.5px] font-extrabold text-white">
                   الآن

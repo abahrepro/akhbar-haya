@@ -44,7 +44,7 @@ export default async function NotFound() {
               <Link
                 key={c.slug}
                 href={`/category/${c.slug}`}
-                className="rounded-full border border-border bg-secondary px-4 py-2 text-[13.5px] font-bold text-ink-soft transition hover:border-brand hover:text-brand"
+                className="rounded-full border border-border bg-secondary px-4 py-2 text-[14.5px] font-bold text-ink-soft transition hover:border-brand hover:text-brand"
               >
                 {c.title}
               </Link>

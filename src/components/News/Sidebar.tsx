@@ -27,7 +27,7 @@ export const MostReadWidget: React.FC<{ items: NewsItem[] }> = ({ items }) => {
             <span className="w-[30px] shrink-0 text-[26px] font-extrabold leading-none tabular-nums text-brand opacity-35 transition group-hover:opacity-90">
               {i + 1}
             </span>
-            <h5 className="font-serif text-[14.5px] font-bold leading-[1.55] transition group-hover:text-brand">
+            <h5 className="font-serif text-[15.5px] font-bold leading-[1.55] transition group-hover:text-brand">
               {item.title}
             </h5>
           </Link>
@@ -41,7 +41,7 @@ export const MostReadWidget: React.FC<{ items: NewsItem[] }> = ({ items }) => {
 export const NewsletterWidget: React.FC = () => (
   <div className="rounded-[14px] bg-linear-150 from-brand to-brand-deep p-5 text-white shadow-sm">
     <h4 className="mb-1.5 font-serif text-lg font-extrabold">النشرة البريدية</h4>
-    <p className="mb-3.5 text-[13.5px] leading-relaxed opacity-90">
+    <p className="mb-3.5 text-[14.5px] leading-relaxed opacity-90">
       أهم أخبار اليوم تصلك على بريدك كل صباح. اشترك مجاناً.
     </p>
     <form className="flex gap-2">

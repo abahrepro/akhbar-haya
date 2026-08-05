@@ -100,7 +100,7 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
   }, [])
 
   const btn =
-    'inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-[13px] font-bold text-ink-soft transition hover:border-brand hover:text-brand cursor-pointer'
+    'inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-[14px] font-bold text-ink-soft transition hover:border-brand hover:text-brand cursor-pointer'
   const btnActive = 'bg-brand border-brand text-white hover:text-white'
 
   return (
@@ -109,7 +109,7 @@ export const ReaderTools: React.FC<{ articleSelector?: string }> = ({
       aria-label="أدوات القراءة وإمكانية الوصول"
       className="my-5 flex flex-wrap items-center gap-2 rounded-full border border-border bg-secondary px-3 py-2"
     >
-      <span className="me-1 hidden items-center gap-1.5 text-[12.5px] font-bold text-muted-foreground sm:inline-flex">
+      <span className="me-1 hidden items-center gap-1.5 text-[13.5px] font-bold text-muted-foreground sm:inline-flex">
         <svg viewBox="0 0 24 24" fill="currentColor" className="size-[15px]" aria-hidden="true">
           <path d="M12 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm7 7H5a1 1 0 0 0 0 2h4v3l-2 6h2l1.5-4.5L12 15l1 .5L14.5 20h2l-2-6v-3h4a1 1 0 0 0 0-2z" />
         </svg>

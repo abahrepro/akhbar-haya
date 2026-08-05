@@ -40,7 +40,7 @@ export const CategoryChip: React.FC<{ label: string; color?: string | null; over
 }) => (
   <span
     className={cn(
-      'inline-flex rounded-full px-2.5 py-1 text-[11.5px] font-extrabold text-white',
+      'inline-flex rounded-full px-2.5 py-1 text-[12.5px] font-extrabold text-white',
       overlay && 'absolute start-3 top-3 z-2 backdrop-blur-sm',
     )}
     style={{ backgroundColor: color || 'rgba(0,0,0,.42)' }}
@@ -51,7 +51,7 @@ export const CategoryChip: React.FC<{ label: string; color?: string | null; over
 
 /** شارة عاجل */
 export const BreakingChip: React.FC = () => (
-  <span className="absolute end-3 top-3 z-2 inline-flex items-center gap-1.5 rounded-full bg-alert px-2.5 py-1 text-[11px] font-extrabold text-white">
+  <span className="absolute end-3 top-3 z-2 inline-flex items-center gap-1.5 rounded-full bg-alert px-2.5 py-1 text-[12px] font-extrabold text-white">
     <span className="size-1.5 animate-pulse rounded-full bg-white" />
     عاجل
   </span>
@@ -67,7 +67,7 @@ export const TimeStamp: React.FC<{ date?: string | null; className?: string; onD
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 text-[12.5px] font-medium',
+        'inline-flex items-center gap-1.5 text-[13.5px] font-medium',
         onDark ? 'text-white/80' : 'text-muted-foreground',
         className,
       )}
@@ -81,7 +81,7 @@ export const TimeStamp: React.FC<{ date?: string | null; className?: string; onD
 /** شارة مدّة الفيديو */
 export const DurationChip: React.FC<{ duration?: string | null }> = ({ duration }) =>
   duration ? (
-    <span className="absolute bottom-2 end-2 z-2 rounded-[5px] bg-black/70 px-1.5 py-0.5 text-[11px] font-bold text-white">
+    <span className="absolute bottom-2 end-2 z-2 rounded-[5px] bg-black/70 px-1.5 py-0.5 text-[12px] font-bold text-white">
       {duration}
     </span>
   ) : null

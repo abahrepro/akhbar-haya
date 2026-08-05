@@ -42,7 +42,7 @@ export async function Footer() {
         {/* الهوية */}
         <div>
           <BrandLogo onDark />
-          <p className="mt-3.5 max-w-[34ch] text-[13.5px] leading-[1.8] opacity-80">
+          <p className="mt-3.5 max-w-[34ch] text-[14.5px] leading-[1.8] opacity-80">
             الموقع الإخباري لمجموعة حياة الإعلامية — أخبار محلية وعالمية، اقتصاد، رياضة، وتكنولوجيا،
             على مدار الساعة.
           </p>
@@ -62,12 +62,12 @@ export async function Footer() {
 
         {/* الأقسام */}
         <div>
-          <h5 className="mb-3.5 text-[15px] font-extrabold text-white">الأقسام</h5>
+          <h5 className="mb-3.5 text-[16px] font-extrabold text-white">الأقسام</h5>
           {firstCol.map((c) => (
             <Link
               key={c.id}
               href={`/category/${c.slug}`}
-              className="block py-1.5 text-[13.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
+              className="block py-1.5 text-[14.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
             >
               {c.title}
             </Link>
@@ -76,19 +76,19 @@ export async function Footer() {
 
         {/* المزيد */}
         <div>
-          <h5 className="mb-3.5 text-[15px] font-extrabold text-white">المزيد</h5>
+          <h5 className="mb-3.5 text-[16px] font-extrabold text-white">المزيد</h5>
           {secondCol.map((c) => (
             <Link
               key={c.id}
               href={`/category/${c.slug}`}
-              className="block py-1.5 text-[13.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
+              className="block py-1.5 text-[14.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
             >
               {c.title}
             </Link>
           ))}
           <Link
             href="/live"
-            className="block py-1.5 text-[13.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
+            className="block py-1.5 text-[14.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
           >
             البث المباشر
           </Link>
@@ -96,12 +96,12 @@ export async function Footer() {
 
         {/* عن الموقع */}
         <div>
-          <h5 className="mb-3.5 text-[15px] font-extrabold text-white">عن الموقع</h5>
+          <h5 className="mb-3.5 text-[16px] font-extrabold text-white">عن الموقع</h5>
           {ABOUT_LINKS.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="block py-1.5 text-[13.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
+              className="block py-1.5 text-[14.5px] opacity-80 transition hover:ps-1 hover:opacity-100"
             >
               {l.label}
             </Link>
@@ -110,7 +110,7 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container flex flex-wrap items-center justify-between gap-3 py-4 text-[12.5px] opacity-80">
+        <div className="container flex flex-wrap items-center justify-between gap-3 py-4 text-[13.5px] opacity-80">
           <span>© {year} أخبار حياة — جميع الحقوق محفوظة لمجموعة حياة الإعلامية.</span>
           <span>مصداقية الخبر</span>
         </div>

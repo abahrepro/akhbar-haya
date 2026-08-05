@@ -45,13 +45,13 @@ export const BreakingToast: React.FC<Props> = ({ title, href, id }) => {
           : 'pointer-events-none mb-0 max-h-0 -translate-y-3 px-4 py-0 opacity-0',
       )}
     >
-      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-alert px-3 py-1 text-[13px] font-extrabold text-white">
+      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-alert px-3 py-1 text-[14px] font-extrabold text-white">
         <span className="size-1.5 animate-pulse rounded-full bg-white" />
         عاجل
       </span>
       <Link
         href={href}
-        className="min-w-0 text-[15.5px] font-bold leading-[1.5] transition hover:text-alert"
+        className="min-w-0 text-[16.5px] font-bold leading-[1.5] transition hover:text-alert"
       >
         {title}
       </Link>

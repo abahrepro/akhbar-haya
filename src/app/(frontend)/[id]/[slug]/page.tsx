@@ -138,7 +138,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
         <div className="flex min-w-0 flex-col gap-11 lg:grid lg:items-start lg:grid-cols-[minmax(0,1fr)_320px]">
           <article className="min-w-0">
             {/* مسار التنقّل */}
-            <nav className="ah-hide-in-reading mb-5 flex flex-wrap items-center gap-2 text-[13px] font-medium text-muted-foreground">
+            <nav className="ah-hide-in-reading mb-5 flex flex-wrap items-center gap-2 text-[14px] font-medium text-muted-foreground">
               <Link href="/" className="transition hover:text-brand">
                 الرئيسية
               </Link>
@@ -156,7 +156,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
             {category && (
               <span
-                className="mb-4 inline-block rounded-full px-3.5 py-1.5 text-[13px] font-extrabold text-white"
+                className="mb-4 inline-block rounded-full px-3.5 py-1.5 text-[14px] font-extrabold text-white"
                 style={{ backgroundColor: category.color || 'var(--brand)' }}
               >
                 {category.title}
@@ -169,7 +169,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
             {/* التاريخ والمشاركة — بدون اسم الكاتب */}
             <div className="mt-5 flex flex-wrap items-center gap-4 border-y border-border py-3.5">
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-[13.5px] font-medium text-muted-foreground">
                 <IconClock className="size-3 opacity-80" />
                 {post.publishedAt && (
                   <>
@@ -177,7 +177,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                   </>
                 )}
               </span>
-              <span className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-[13.5px] font-medium text-muted-foreground">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="size-3" aria-hidden="true">
                   <path d="M13 3a9 9 0 1 0 8 8h-2a7 7 0 1 1-6-7V3z" />
                   <path d="M12 8v5l4 2 .8-1.6L13.5 12V8z" />
@@ -196,7 +196,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                   <Media resource={hero} size="medium" fill imgClassName="object-cover" />
                 </div>
                 {post.heroCaption && (
-                  <figcaption className="ah-hide-in-reading mt-2.5 border-s-[3px] border-border ps-2.5 text-[13px] text-muted-foreground">
+                  <figcaption className="ah-hide-in-reading mt-2.5 border-s-[3px] border-border ps-2.5 text-[14px] text-muted-foreground">
                     {post.heroCaption}
                   </figcaption>
                 )}
@@ -206,7 +206,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
             {/* المحتوى */}
             <div
               id="article-body"
-              className="prose prose-lg max-w-none text-[18.5px] leading-[1.95] prose-headings:font-serif prose-a:text-brand"
+              className="prose prose-lg max-w-none text-[19px] leading-[1.9] sm:text-[20.5px] sm:leading-[1.95] prose-headings:font-serif prose-a:text-brand"
             >
               <RichText data={post.content} enableGutter={false} />
             </div>
@@ -222,9 +222,9 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                       <div className="relative aspect-16/9 overflow-hidden rounded-[14px] shadow-sm">
                         <Media resource={img} size="medium" fill imgClassName="object-cover" />
                       </div>
-                      <figcaption className="mt-2 flex items-center justify-between gap-3 border-s-[3px] border-brand ps-2.5 text-[13.5px] text-muted-foreground">
+                      <figcaption className="mt-2 flex items-center justify-between gap-3 border-s-[3px] border-brand ps-2.5 text-[14.5px] text-muted-foreground">
                         <span>{g.caption}</span>
-                        <span className="shrink-0 text-[12.5px] font-extrabold text-brand">
+                        <span className="shrink-0 text-[13.5px] font-extrabold text-brand">
                           {i + 1} / {post.gallery!.length}
                         </span>
                       </figcaption>
@@ -242,7 +242,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                   <Link
                     key={t.id}
                     href={`/tag/${t.slug}`}
-                    className="rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[13.5px] font-medium text-ink-soft transition hover:border-brand hover:text-brand"
+                    className="rounded-full border border-border bg-secondary px-3.5 py-1.5 text-[14.5px] font-medium text-ink-soft transition hover:border-brand hover:text-brand"
                   >
                     {t.title}
                   </Link>
@@ -252,7 +252,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
             {/* مشاركة سفلية */}
             <div className="ah-hide-in-reading mt-6 flex flex-wrap items-center justify-between gap-3.5 rounded-[14px] bg-brand-tint px-5 py-4">
-              <b className="text-[15.5px] font-extrabold text-brand-deep">شارك هذا الخبر</b>
+              <b className="text-[16.5px] font-extrabold text-brand-deep">شارك هذا الخبر</b>
               <ShareButtons url={fullUrl} title={post.title} />
             </div>
           </article>

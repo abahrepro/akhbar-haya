@@ -39,7 +39,7 @@ const WHY = [
 export default function AdvertisePage() {
   return (
     <main className="container py-6">
-      <nav className="mb-4 flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
+      <nav className="mb-4 flex items-center gap-2 text-[14px] font-medium text-muted-foreground">
         <Link href="/" className="transition hover:text-brand">
           الرئيسية
         </Link>
@@ -50,7 +50,7 @@ export default function AdvertisePage() {
       {/* الترويسة */}
       <div className="mb-7 overflow-hidden rounded-[14px] bg-linear-135 from-brand-deep to-brand px-8 py-10 text-white">
         <div className="max-w-[70ch]">
-          <span className="mb-3.5 inline-block rounded-full bg-white/15 px-3 py-1 text-[12.5px] font-extrabold">
+          <span className="mb-3.5 inline-block rounded-full bg-white/15 px-3 py-1 text-[13.5px] font-extrabold">
             أعلن معنا
           </span>
           <h1 className="font-serif text-[clamp(30px,4.6vw,46px)] font-black leading-[1.2]">
@@ -79,7 +79,7 @@ export default function AdvertisePage() {
             <div className="font-serif text-[clamp(26px,3.4vw,36px)] font-black tabular-nums text-brand">
               {s.n}
             </div>
-            <div className="mt-1 text-[13.5px] font-medium text-muted-foreground">{s.l}</div>
+            <div className="mt-1 text-[14.5px] font-medium text-muted-foreground">{s.l}</div>
           </div>
         ))}
       </div>
@@ -95,11 +95,11 @@ export default function AdvertisePage() {
       <div className="mb-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {FORMATS.map((f) => (
           <div key={f.name} className="rounded-[14px] border border-border bg-card p-4 shadow-sm">
-            <div className="mb-3 grid h-[78px] place-items-center rounded-lg border border-dashed border-border bg-secondary text-[12.5px] font-extrabold text-muted-foreground">
+            <div className="mb-3 grid h-[78px] place-items-center rounded-lg border border-dashed border-border bg-secondary text-[13.5px] font-extrabold text-muted-foreground">
               {f.size}
             </div>
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-serif text-[17px] font-extrabold">{f.name}</h3>
+              <h3 className="font-serif text-[18px] font-extrabold">{f.name}</h3>
               <span
                 className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${
                   f.src === 'house'
@@ -110,7 +110,7 @@ export default function AdvertisePage() {
                 {f.src === 'house' ? 'من خلالنا' : 'Google Ads'}
               </span>
             </div>
-            <p className="mt-1.5 text-[13.5px] leading-relaxed text-ink-soft">{f.desc}</p>
+            <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-soft">{f.desc}</p>
           </div>
         ))}
       </div>

@@ -56,7 +56,7 @@ export const TagView: React.FC<{ slug: string; page: number }> = async ({ slug, 
 
   return (
     <main className="container py-6">
-      <nav className="mb-4 flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
+      <nav className="mb-4 flex items-center gap-2 text-[14px] font-medium text-muted-foreground">
         <Link href="/" className="transition hover:text-brand">
           الرئيسية
         </Link>
@@ -75,7 +75,7 @@ export const TagView: React.FC<{ slug: string; page: number }> = async ({ slug, 
       </nav>
 
       <div className="mb-7 border-b border-border pb-5">
-        <span className="text-[13px] font-bold text-muted-foreground">الوسم</span>
+        <span className="text-[14px] font-bold text-muted-foreground">الوسم</span>
         <h1 className="mt-1 font-serif text-[clamp(26px,4vw,40px)] font-black">
           # {tag.title}
           {page > 1 && (

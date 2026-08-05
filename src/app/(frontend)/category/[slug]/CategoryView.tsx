@@ -69,7 +69,7 @@ export const CategoryView: React.FC<{ slug: string; page: number }> = async ({ s
   return (
     <main className="container py-6">
       {/* مسار التنقّل */}
-      <nav className="mb-4 flex items-center gap-2 text-[13px] font-medium text-muted-foreground">
+      <nav className="mb-4 flex items-center gap-2 text-[14px] font-medium text-muted-foreground">
         <Link href="/" className="transition hover:text-brand">
           الرئيسية
         </Link>
@@ -95,7 +95,7 @@ export const CategoryView: React.FC<{ slug: string; page: number }> = async ({ s
         }}
       >
         <div className="relative z-2">
-          <span className="mb-3.5 inline-block rounded-full bg-white/15 px-3 py-1 text-[12.5px] font-extrabold tracking-wide">
+          <span className="mb-3.5 inline-block rounded-full bg-white/15 px-3 py-1 text-[13.5px] font-extrabold tracking-wide">
             قسم
           </span>
           <h1 className="font-serif text-[clamp(30px,4.6vw,48px)] font-black leading-[1.2]">
@@ -112,7 +112,7 @@ export const CategoryView: React.FC<{ slug: string; page: number }> = async ({ s
               {category.description}
             </p>
           )}
-          <span className="mt-4 inline-block rounded-full border border-white/30 px-3.5 py-1 text-[13px] font-bold opacity-90">
+          <span className="mt-4 inline-block rounded-full border border-white/30 px-3.5 py-1 text-[14px] font-bold opacity-90">
             {postsRes.totalDocs.toLocaleString('ar-EG')} خبراً · يُحدَّث باستمرار
           </span>
         </div>

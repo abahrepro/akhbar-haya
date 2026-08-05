@@ -94,7 +94,7 @@ export const ArchivePagination: React.FC<{
         )}
       </div>
 
-      <p className="text-[13px] font-medium text-muted-foreground">
+      <p className="text-[14px] font-medium text-muted-foreground">
         صفحة {page.toLocaleString('ar-EG')} من {totalPages.toLocaleString('ar-EG')}
       </p>
     </nav>
