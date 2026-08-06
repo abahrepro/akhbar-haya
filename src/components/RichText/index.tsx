@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
   DefaultNodeTypes,
@@ -72,6 +73,33 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
       if (parseVideoUrl(url)) return <VideoEmbed url={url} />
     }
     return <p>{nodesToJSX({ nodes: node.children })}</p>
+  },
+  /**
+   * صورة داخل المتن.
+   * المحوّل الافتراضي يخرج <img> عارية بلا مقاس، فتقفز الصفحة عند تحميلها
+   * وتخرج عن عرض العمود. نضبط الأبعاد ونعرض التعليق أسفلها.
+   */
+  upload: ({ node }) => {
+    const value = node.value as Media | number | string | null | undefined
+    if (!value || typeof value !== 'object' || !value.url) return null
+    const caption = (node.fields as { caption?: string } | null)?.caption
+    return (
+      <figure className="my-6">
+        <Image
+          src={value.url}
+          alt={value.alt || caption || ''}
+          width={value.width ?? 1200}
+          height={value.height ?? 800}
+          sizes="(max-width: 768px) 100vw, 760px"
+          className="h-auto w-full rounded-[12px]"
+        />
+        {caption && (
+          <figcaption className="mt-2 text-center text-[14.5px] leading-relaxed text-muted-foreground">
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+    )
   },
   blocks: {
     banner: ({ node }) => <BannerBlock className="col-start-2 mb-4" {...node.fields} />,

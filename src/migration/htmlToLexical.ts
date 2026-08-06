@@ -155,6 +155,18 @@ const parseInline = (html: string): LexNode[] => {
 
 export type ExtractedImage = { src: string; alt: string; caption: string }
 
+/**
+ * علامة موضع الصورة داخل النصّ قبل ربطها بالوسائط.
+ * سلسلة لا ترد في نصّ صحفي، فلا تلتبس بمحتوى حقيقي.
+ */
+export const IMG_MARK = '\u241E'
+
+/** فقرة تحمل علامة صورة فقط ← رقم الصورة، وإلا null */
+export const imageMarkIndex = (text: string): number | null => {
+  const m = new RegExp(`^${IMG_MARK}(\\d+)${IMG_MARK}$`).exec(text.trim())
+  return m ? Number(m[1]) : null
+}
+
 export type ConversionResult = {
   /** جذر Lexical جاهز للحفظ في حقل richText */
   root: { root: LexNode }
@@ -169,37 +181,43 @@ export const htmlToLexical = (html: string): ConversionResult => {
   const images: ExtractedImage[] = []
   const children: LexNode[] = []
 
-  // نلتقط الصور ونزيلها من التدفّق (تُعالَج كوسائط منفصلة)
+  /**
+   * الصورة تُستبدَل بعلامة موضعية لا تُحذف.
+   * حذفها قبل تقطيع الكتل كان يفقد موضعها من الخبر، فتعود لاحقاً في آخر
+   * النصّ أو لا تعود. العلامة تمرّ في تدفّق الكتل فتُستبدل عقدةَ صورة في
+   * مكانها الأصلي بين الفقرات.
+   */
+  const mark = (i: number) => `<p>${IMG_MARK}${i}${IMG_MARK}</p>`
+
   const withoutFigures = html.replace(
     /<figure\b[^>]*>([\s\S]*?)<\/figure>/gi,
     (_, inner: string) => {
       const src = /src=["']([^"']+)["']/i.exec(inner)?.[1]
-      if (src) {
-        images.push({
-          src: decode(src),
-          alt: decode(/alt=["']([^"']*)["']/i.exec(inner)?.[1] ?? ''),
-          caption: decode(
-            (/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i.exec(inner)?.[1] ?? '').replace(
-              /<[^>]+>/g,
-              '',
-            ),
+      if (!src) return ''
+      images.push({
+        src: decode(src),
+        alt: decode(/alt=["']([^"']*)["']/i.exec(inner)?.[1] ?? ''),
+        caption: decode(
+          (/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i.exec(inner)?.[1] ?? '').replace(
+            /<[^>]+>/g,
+            '',
           ),
-        })
-      }
-      return ''
+        ),
+      })
+      return mark(images.length - 1)
     },
   )
 
   // صور خارج figure
   const cleaned = withoutFigures.replace(/<img\b([^>]*)>/gi, (_, attrs: string) => {
     const src = /src=["']([^"']+)["']/i.exec(attrs)?.[1]
-    if (src)
-      images.push({
-        src: decode(src),
-        alt: decode(/alt=["']([^"']*)["']/i.exec(attrs)?.[1] ?? ''),
-        caption: '',
-      })
-    return ''
+    if (!src) return ''
+    images.push({
+      src: decode(src),
+      alt: decode(/alt=["']([^"']*)["']/i.exec(attrs)?.[1] ?? ''),
+      caption: '',
+    })
+    return mark(images.length - 1)
   })
 
   // نمرّ على الكتل بالترتيب

@@ -6,6 +6,7 @@ import {
   HeadingFeature,
   HorizontalRuleFeature,
   InlineToolbarFeature,
+  UploadFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 
@@ -111,6 +112,24 @@ export const Posts: CollectionConfig<'posts'> = {
                     ...rootFeatures,
                     HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
                     BlocksFeature({ blocks: [Banner, Code, MediaBlock, PhotoGallery] }),
+                    /**
+                     * صورة مفردة داخل المتن.
+                     * كان المحرّر بلا وسيلة لإدراج صورة بين الفقرات إلا
+                     * المعرض — وهو لمجموعة صور لا لصورة واحدة في موضعها.
+                     */
+                    UploadFeature({
+                      collections: {
+                        media: {
+                          fields: [
+                            {
+                              name: 'caption',
+                              type: 'text',
+                              label: 'تعليق الصورة (اختياري)',
+                            },
+                          ],
+                        },
+                      },
+                    }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
                     HorizontalRuleFeature(),
