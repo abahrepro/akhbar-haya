@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 
 import { Ads } from './collections/Ads'
 import { Categories } from './collections/Categories'
+import { DailyStats } from './collections/DailyStats'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -87,7 +88,7 @@ export default buildConfig({
       idleTimeoutMillis: 30_000,
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Tags, Users, Ads],
+  collections: [Pages, Posts, Media, Categories, Tags, Users, Ads, DailyStats],
   globals: [AdSettings],
   cors: [getServerSideURL()].filter(Boolean),
   endpoints: [suggestTags, adView, adClick],

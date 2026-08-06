@@ -3,6 +3,7 @@ import React from 'react'
 
 import type { Post } from '@/payload-types'
 import { postHref } from '@/utilities/postUrl'
+import { getDashboard } from './data'
 import { PublishChart, type DayPoint } from './PublishChart'
 
 /**
@@ -38,7 +39,8 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
       user,
     })
 
-  const [series, drafts, total, latest] = await Promise.all([
+  const [dash, series, drafts, total, latest] = await Promise.all([
+    getDashboard(payload),
     // خبر كل يوم من آخر ١٤ يوماً — استعلامات عدّ متوازية على عمود مفهرس
     Promise.all(
       Array.from({ length: DAYS }, (_, i) => {
@@ -149,6 +151,25 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
           <span className="ah-stat__label">الأرشيف المنشور</span>
           <strong className="ah-stat__value">{ar(total.totalDocs)}</strong>
         </div>
+        <div className="ah-stat">
+          <span className="ah-stat__label">أخبار عاجلة نشطة</span>
+          <strong className="ah-stat__value">{ar(dash.breakingActive)}</strong>
+        </div>
+        <div className="ah-stat">
+          <span className="ah-stat__label">محرّرون نشروا اليوم</span>
+          <strong className="ah-stat__value">{ar(dash.editorsToday)}</strong>
+        </div>
+        <div className="ah-stat">
+          <span className="ah-stat__label">مشاهدات أمس</span>
+          <strong className="ah-stat__value">
+            {dash.viewsToday === null ? '—' : ar(dash.viewsToday)}
+          </strong>
+          {dash.viewsDelta !== null && (
+            <span className={`ah-stat__delta ${dash.viewsDelta >= 0 ? 'is-up' : 'is-down'}`}>
+              {dash.viewsDelta >= 0 ? '▲' : '▼'} {ar(Math.abs(dash.viewsDelta))}٪
+            </span>
+          )}
+        </div>
       </div>
 
       {/* ===== المخطط + آخر المنشور ===== */}
@@ -181,6 +202,127 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
               </li>
             ))}
           </ul>
+        </section>
+      </div>
+
+      {/* ===== الأكثر قراءة + أداء المحرّرين ===== */}
+      <div className="ah-dash">
+        <section className="ah-card">
+          <h3 className="ah-card__title">الأكثر قراءة في الأرشيف</h3>
+          {dash.topPosts.length === 0 ? (
+            <p className="ah-empty">لا توجد بيانات مشاهدات بعد.</p>
+          ) : (
+            <table className="ah-table">
+              <thead>
+                <tr>
+                  <th>العنوان</th>
+                  <th>القسم</th>
+                  <th>المشاهدات</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dash.topPosts.map((p) => (
+                  <tr key={p.id}>
+                    <td>
+                      <a href={`/admin/collections/posts/${p.id}`}>{p.title}</a>
+                    </td>
+                    <td>
+                      {p.category ? <span className="ah-chip">{p.category}</span> : '—'}
+                    </td>
+                    <td className="ah-num">{ar(p.views)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </section>
+
+        <section className="ah-card">
+          <h3 className="ah-card__title">أداء المحرّرين</h3>
+          {dash.editors.length === 0 ? (
+            <p className="ah-empty">لا توجد أخبار منسوبة لمحرّرين بعد.</p>
+          ) : (
+            <table className="ah-table">
+              <thead>
+                <tr>
+                  <th>المحرّر</th>
+                  <th>الأخبار</th>
+                  <th>المشاهدات</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dash.editors.map((e) => (
+                  <tr key={e.name}>
+                    <td>{e.name}</td>
+                    <td className="ah-num">{ar(e.posts)}</td>
+                    <td className="ah-num">{ar(e.views)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </section>
+      </div>
+
+      {/* ===== الأقسام + التنبيهات + آخر الصور ===== */}
+      <div className="ah-dash ah-dash--three">
+        <section className="ah-card">
+          <h3 className="ah-card__title">الأقسام الأكثر نشاطاً</h3>
+          <ul className="ah-bars">
+            {dash.categories.map((c) => {
+              const max = dash.categories[0]?.posts || 1
+              return (
+                <li key={c.title} className="ah-bars__row">
+                  <span className="ah-bars__label">{c.title}</span>
+                  <span className="ah-bars__track">
+                    <span
+                      className="ah-bars__fill"
+                      style={{ inlineSize: `${Math.max(4, (c.posts / max) * 100)}%` }}
+                    />
+                  </span>
+                  <span className="ah-bars__value">{ar(c.posts)}</span>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+
+        <section className="ah-card">
+          <h3 className="ah-card__title">يحتاج انتباهاً</h3>
+          <ul className="ah-alerts">
+            <li>
+              <a href="/admin/collections/posts?where[heroImage][exists]=false">
+                أخبار منشورة بلا صورة رئيسية
+              </a>
+              <strong>{ar(dash.missingImage)}</strong>
+            </li>
+            <li>
+              <a href="/admin/collections/posts?where[categories][exists]=false">
+                أخبار منشورة بلا قسم
+              </a>
+              <strong>{ar(dash.missingCategory)}</strong>
+            </li>
+            <li>
+              <a href="/admin/collections/posts?where[_status][equals]=draft">
+                مسودّات بانتظار الإكمال
+              </a>
+              <strong>{ar(drafts.totalDocs)}</strong>
+            </li>
+          </ul>
+        </section>
+
+        <section className="ah-card">
+          <h3 className="ah-card__title">آخر الصور المرفوعة</h3>
+          <div className="ah-thumbs">
+            {dash.latestMedia.map((m) => (
+              <a key={m.id} href={`/admin/collections/media/${m.id}`} className="ah-thumbs__item">
+                {m.url && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={`/api/media/file/${m.url}`} alt={m.alt ?? ''} loading="lazy" />
+                )}
+              </a>
+            ))}
+          </div>
         </section>
       </div>
     </div>

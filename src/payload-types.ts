@@ -74,6 +74,7 @@ export interface Config {
     tags: Tag;
     users: User;
     ads: Ad;
+    'daily-stats': DailyStat;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -98,6 +99,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     ads: AdsSelect<false> | AdsSelect<true>;
+    'daily-stats': DailyStatsSelect<false> | DailyStatsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -875,6 +877,21 @@ export interface Ad {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-stats".
+ */
+export interface DailyStat {
+  id: number;
+  /**
+   * YYYY-MM-DD
+   */
+  date: string;
+  views: number;
+  published: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1090,6 +1107,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'ads';
         value: number | Ad;
+      } | null)
+    | ({
+        relationTo: 'daily-stats';
+        value: number | DailyStat;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1479,6 +1500,17 @@ export interface AdsSelect<T extends boolean = true> {
   priority?: T;
   impressions?: T;
   clicks?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-stats_select".
+ */
+export interface DailyStatsSelect<T extends boolean = true> {
+  date?: T;
+  views?: T;
+  published?: T;
   updatedAt?: T;
   createdAt?: T;
 }
