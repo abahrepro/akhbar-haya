@@ -29,6 +29,19 @@ export default buildConfig({
     supportedLanguages: { ar },
   },
   admin: {
+    /**
+     * هوية تبويب المتصفّح.
+     * الافتراضي يضع «Payload» لاحقةً للعنوان وأيقونتَه في التبويب، فيظهر
+     * اسم أداة لا اسم المؤسّسة أمام المحرّرين وفي سجلّ التصفّح.
+     */
+    meta: {
+      titleSuffix: '— أخبار حياة',
+      icons: [
+        { rel: 'icon', type: 'image/svg+xml', url: '/favicon.svg' },
+        { rel: 'icon', type: 'image/x-icon', url: '/favicon.ico' },
+        { rel: 'apple-touch-icon', url: '/apple-touch-icon.png' },
+      ],
+    },
     components: {
       beforeDashboard: ['@/components/AdminWelcome#AdminWelcome'],
       // استبدال شعار Payload بهوية أخبار حياة
