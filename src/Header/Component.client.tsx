@@ -20,7 +20,7 @@ import {
 import { useTheme } from '@/providers/Theme'
 import { cn } from '@/utilities/ui'
 
-export type NavItem = { label: string; href: string }
+export type NavItem = { label: string; href: string; children?: { label: string; href: string }[] }
 export type TickerItem = { title: string; href: string }
 
 type Props = {
@@ -174,20 +174,56 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
 
           <nav className="hidden flex-1 items-center gap-0.5 lg:flex">
             {navItems.map((item) => {
-              const active = pathname === item.href
+              const active =
+                pathname === item.href || item.children?.some((k) => k.href === pathname)
+              const cls = cn(
+                'whitespace-nowrap rounded-[9px] px-3 py-2 text-[16.5px] font-bold transition',
+                active ? 'bg-brand text-white' : 'text-ink-soft hover:bg-brand-tint hover:text-brand',
+              )
+
+              if (!item.children?.length) {
+                return (
+                  <Link key={item.href} href={item.href} className={cls}>
+                    {item.label}
+                  </Link>
+                )
+              }
+
+              /**
+               * القائمة تُفتح بالمرور وبالتركيز معاً: المرور وحده يقصي من
+               * يتنقّل بلوحة المفاتيح، و`group-focus-within` يبقيها مفتوحة
+               * ما دام التركيز داخلها.
+               */
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    'whitespace-nowrap rounded-[9px] px-3 py-2 text-[16.5px] font-bold transition',
-                    active
-                      ? 'bg-brand text-white'
-                      : 'text-ink-soft hover:bg-brand-tint hover:text-brand',
-                  )}
-                >
-                  {item.label}
-                </Link>
+                <div key={item.href} className="group relative">
+                  <Link href={item.href} className={cn(cls, 'inline-flex items-center gap-1')}>
+                    {item.label}
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="size-3 opacity-70 transition group-hover:rotate-180"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 10l5 5 5-5z" />
+                    </svg>
+                  </Link>
+                  <div className="invisible absolute start-0 top-full z-50 min-w-[190px] translate-y-1 rounded-[12px] border border-border bg-card p-1.5 opacity-0 shadow-lg transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                    {item.children.map((kid) => (
+                      <Link
+                        key={kid.href}
+                        href={kid.href}
+                        className={cn(
+                          'block whitespace-nowrap rounded-[8px] px-3 py-2 text-[15.5px] font-bold transition',
+                          pathname === kid.href
+                            ? 'bg-brand text-white'
+                            : 'text-ink-soft hover:bg-brand-tint hover:text-brand',
+                        )}
+                      >
+                        {kid.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               )
             })}
           </nav>
@@ -259,19 +295,39 @@ export const HeaderClient: React.FC<Props> = ({ navItems, ticker, hijriDate, gre
 
           <nav className="flex flex-col">
             {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  'flex items-center justify-between rounded-[10px] px-3 py-3 text-base font-bold transition',
-                  pathname === item.href
-                    ? 'bg-brand text-white'
-                    : 'text-foreground hover:bg-brand-tint hover:text-brand',
-                )}
-              >
-                {item.label}
-                <IconArrow className="size-[15px] opacity-60" />
-              </Link>
+              <React.Fragment key={item.href}>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    'flex items-center justify-between rounded-[10px] px-3 py-3 text-base font-bold transition',
+                    pathname === item.href
+                      ? 'bg-brand text-white'
+                      : 'text-foreground hover:bg-brand-tint hover:text-brand',
+                  )}
+                >
+                  {item.label}
+                  <IconArrow className="size-[15px] opacity-60" />
+                </Link>
+                {/* على الهاتف تُعرض الفروع مزاحةً — لا قائمة منسدلة تحتاج مروراً */}
+                {item.children?.map((kid) => (
+                  <Link
+                    key={kid.href}
+                    href={kid.href}
+                    className={cn(
+                      'flex items-center justify-between rounded-[10px] py-2.5 pe-3 ps-7 text-[15px] font-bold transition',
+                      pathname === kid.href
+                        ? 'bg-brand text-white'
+                        : 'text-ink-soft hover:bg-brand-tint hover:text-brand',
+                    )}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-muted-foreground opacity-60">—</span>
+                      {kid.label}
+                    </span>
+                    <IconArrow className="size-[14px] opacity-50" />
+                  </Link>
+                ))}
+              </React.Fragment>
             ))}
           </nav>
 

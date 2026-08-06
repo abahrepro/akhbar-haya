@@ -14,9 +14,9 @@ export async function Header() {
       collection: 'categories',
       where: { showInNav: { equals: true } },
       sort: 'order',
-      limit: 10,
+      limit: 50,
       depth: 0,
-      select: { title: true, slug: true },
+      select: { title: true, slug: true, parent: true },
     }),
     payload.find({
       collection: 'posts',
@@ -28,11 +28,41 @@ export async function Header() {
     }),
   ])
 
+  /**
+   * القائمة شجرة لا قائمة مسطّحة.
+   *
+   * أحد عشر قسماً جنب بعضها تملأ العرض وتربك العين. القسم الذي له أب يهبط
+   * تحته في قائمة منسدلة، والترتيب داخل المستوى الواحد بحقل «الترتيب».
+   * الأب يبقى رابطاً لصفحته — لا يصير عنوان قائمة فحسب.
+   */
+  const parentId = (c: { parent?: unknown }): number | null => {
+    const p = c.parent
+    if (typeof p === 'number') return p
+    if (p && typeof p === 'object' && 'id' in p) return Number((p as { id: number }).id)
+    return null
+  }
+
+  const visible = categories.docs.filter((c) => Boolean(c.slug))
+  const byId = new Map(visible.map((c) => [Number(c.id), c]))
+
   const navItems: NavItem[] = [
     { label: 'الرئيسية', href: '/' },
-    ...categories.docs
-      .filter((c) => Boolean(c.slug))
-      .map((c) => ({ label: c.title, href: `/category/${c.slug}` })),
+    ...visible
+      // الأبناء يظهرون تحت آبائهم لا في الصفّ الأعلى
+      .filter((c) => {
+        const pid = parentId(c)
+        return pid === null || !byId.has(pid)
+      })
+      .map((c) => {
+        const children = visible
+          .filter((k) => parentId(k) === Number(c.id))
+          .map((k) => ({ label: k.title, href: `/category/${k.slug}` }))
+        return {
+          label: c.title,
+          href: `/category/${c.slug}`,
+          ...(children.length ? { children } : {}),
+        }
+      }),
   ]
 
   const ticker: TickerItem[] = latest.docs
