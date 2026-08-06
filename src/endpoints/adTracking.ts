@@ -8,6 +8,8 @@
 
 import type { Endpoint } from 'payload'
 
+import { getServerSideURL } from '../utilities/getURL'
+
 const bump = async (
   req: { payload: { db: { pool: { query: (q: string, v: unknown[]) => Promise<unknown> } } } },
   id: number,
@@ -45,8 +47,10 @@ export const adClick: Endpoint = {
   path: '/ad-click',
   method: 'get',
   handler: async (req) => {
+    // Response.redirect يرفض المسار النسبي، فأي رجوع للرئيسية يكون مطلقاً
+    const home = getServerSideURL() || 'https://new.akhbarhayat.com'
     const id = Number(new URL(req.url ?? '', 'http://x').searchParams.get('id'))
-    if (!Number.isInteger(id) || id <= 0) return Response.redirect('/', 302)
+    if (!Number.isInteger(id) || id <= 0) return Response.redirect(home, 302)
 
     const doc = await req.payload
       .findByID({ collection: 'ads', id, depth: 0 })
@@ -55,7 +59,7 @@ export const adClick: Endpoint = {
     const target = typeof doc?.url === 'string' ? doc.url : null
     // وجهة خارجية فقط — لا نسمح للرابط أن يصير أداة تحويل داخلية
     const safe = target && /^https?:\/\//i.test(target) ? target : null
-    if (!safe) return Response.redirect(new URL('/', req.payload.config.serverURL).toString(), 302)
+    if (!safe) return Response.redirect(home, 302)
 
     try {
       await bump(req, id, 'clicks')
