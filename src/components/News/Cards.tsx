@@ -22,7 +22,11 @@ export const LeadCard: React.FC<{ item: NewsItem }> = ({ item }) => (
           {item.category.title}
         </span>
       )}
-      <h2 className="text-pretty font-serif text-[clamp(29px,6.8cqi,55px)] font-black leading-[1.22] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
+      {/*
+        الحدّ الأدنى ٢٩ يبقى كما هو: على الهاتف تنزل القيمة المحسوبة دونه
+        فيحكمها هو وحده — والتصغير مقصود لسطح المكتب لا للهاتف.
+      */}
+      <h2 className="text-pretty font-serif text-[clamp(29px,6.1cqi,48px)] font-black leading-[1.22] text-white [text-shadow:0_1px_3px_rgba(0,0,0,.55)]">
         {item.title}
       </h2>
       <TimeStamp date={item.publishedAt} className="mt-3" onDark />
