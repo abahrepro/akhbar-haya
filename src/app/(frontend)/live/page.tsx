@@ -134,7 +134,7 @@ export default async function LivePage() {
         </aside>
       </div>
 
-      <AdSlot source="google" size="970×90" name="Leaderboard" className="mb-8 h-[104px]" />
+      <AdSlot placement="leaderboard" className="mb-8" />
 
       {clips.length > 0 && (
         <section>

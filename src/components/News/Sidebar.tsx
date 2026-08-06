@@ -65,8 +65,8 @@ export const NewsletterWidget: React.FC = () => (
 export const Sidebar: React.FC<{ mostRead: NewsItem[] }> = ({ mostRead }) => (
   <aside className="sticky top-[90px] flex min-w-0 flex-col gap-6">
     <MostReadWidget items={mostRead} />
-    <AdSlot source="google" size="300×250" name="Medium Rectangle" className="h-[250px]" />
+    <AdSlot placement="sidebar-rect" />
     <NewsletterWidget />
-    <AdSlot source="google" size="300×600" name="Half Page" className="h-[600px]" />
+    <AdSlot placement="sidebar-half" />
   </aside>
 )

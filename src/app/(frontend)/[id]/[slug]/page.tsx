@@ -281,7 +281,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
         {/* ذات صلة */}
         {related.length > 0 && (
           <section className="ah-hide-in-reading mt-10">
-            <AdSlot source="google" size="970×90" name="Leaderboard" className="mb-8 h-[104px]" />
+            <AdSlot placement="leaderboard" className="mb-8" />
             <div className="mb-4 flex items-center gap-3.5">
               <h2 className="relative ps-3.5 font-serif text-[22px] font-extrabold">
                 <span className="absolute start-0 top-1/2 h-[22px] w-[5px] -translate-y-1/2 rounded bg-brand" />

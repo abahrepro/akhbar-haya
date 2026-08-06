@@ -5,13 +5,16 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { Ads } from './collections/Ads'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Tags } from './collections/Tags'
 import { Users } from './collections/Users'
+import { adClick, adView } from './endpoints/adTracking'
 import { suggestTags } from './endpoints/suggestTags'
+import { AdSettings } from './globals/AdSettings'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -71,9 +74,10 @@ export default buildConfig({
       idleTimeoutMillis: 30_000,
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Tags, Users],
+  collections: [Pages, Posts, Media, Categories, Tags, Users, Ads],
+  globals: [AdSettings],
   cors: [getServerSideURL()].filter(Boolean),
-  endpoints: [suggestTags],
+  endpoints: [suggestTags, adView, adClick],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

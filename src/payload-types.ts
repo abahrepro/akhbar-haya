@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     users: User;
+    ads: Ad;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -96,6 +97,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    ads: AdsSelect<false> | AdsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -111,8 +113,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'ad-settings': AdSetting;
+  };
+  globalsSelect: {
+    'ad-settings': AdSettingsSelect<false> | AdSettingsSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -815,6 +821,59 @@ export interface Form {
   createdAt: string;
 }
 /**
+ * إعلاناتك المباعة مباشرة. تظهر قبل إعلانات جوجل في المساحة نفسها.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ads".
+ */
+export interface Ad {
+  id: number;
+  /**
+   * للتنظيم الداخلي فقط — لا يظهر للقارئ.
+   */
+  name: string;
+  placement: 'leaderboard' | 'billboard' | 'sidebar-rect' | 'sidebar-half' | 'in-feed';
+  /**
+   * ارفع الصورة بمقاس المساحة تماماً لأفضل وضوح.
+   */
+  image: number | Media;
+  /**
+   * إن تُركت فارغة تُستخدم الصورة الأساسية. مفيدة للمساحات العريضة.
+   */
+  imageMobile?: (number | null) | Media;
+  /**
+   * إلى أين يذهب القارئ عند الضغط.
+   */
+  url: string;
+  /**
+   * يظهر بشكل بطاقة خبر مع وسم «محتوى مدعوم».
+   */
+  headline?: string | null;
+  sponsor?: string | null;
+  cta?: string | null;
+  /**
+   * اتركه فارغاً ليظهر في كل الموقع، أو اختر أقساماً بعينها.
+   */
+  categories?: (number | Category)[] | null;
+  active?: boolean | null;
+  /**
+   * اتركه فارغاً ليبدأ فوراً.
+   */
+  startsAt?: string | null;
+  /**
+   * اتركه فارغاً ليستمرّ بلا نهاية. تتوقّف الحملة تلقائياً عند هذا التاريخ.
+   */
+  endsAt?: string | null;
+  /**
+   * الأعلى رقماً يظهر أوّلاً عند تزاحم أكثر من إعلان على المساحة نفسها.
+   */
+  priority?: number | null;
+  impressions?: number | null;
+  clicks?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -1027,6 +1086,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'ads';
+        value: number | Ad;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1398,6 +1461,29 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ads_select".
+ */
+export interface AdsSelect<T extends boolean = true> {
+  name?: T;
+  placement?: T;
+  image?: T;
+  imageMobile?: T;
+  url?: T;
+  headline?: T;
+  sponsor?: T;
+  cta?: T;
+  categories?: T;
+  active?: T;
+  startsAt?: T;
+  endsAt?: T;
+  priority?: T;
+  impressions?: T;
+  clicks?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1670,6 +1756,88 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * إعلاناتك المباعة تظهر أوّلاً دائماً. جوجل يملأ المساحة فقط حين لا يوجد إعلان مباع لها.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ad-settings".
+ */
+export interface AdSetting {
+  id: number;
+  /**
+   * المفتاح الرئيسي. أبقِه مغلقاً حتى نقل الموقع إلى النطاق الرئيسي — لا تُحتسب الإعلانات على نطاق تجريبي.
+   */
+  enabled?: boolean | null;
+  /**
+   * يبدأ بـ ca-pub — من حساب AdSense.
+   */
+  publisherId?: string | null;
+  leaderboard?: {
+    enabled?: boolean | null;
+    /**
+     * انسخه من AdSense عند إنشاء الوحدة.
+     */
+    unitId?: string | null;
+  };
+  billboard?: {
+    enabled?: boolean | null;
+    /**
+     * انسخه من AdSense عند إنشاء الوحدة.
+     */
+    unitId?: string | null;
+  };
+  sidebarRect?: {
+    enabled?: boolean | null;
+    /**
+     * انسخه من AdSense عند إنشاء الوحدة.
+     */
+    unitId?: string | null;
+  };
+  sidebarHalf?: {
+    enabled?: boolean | null;
+    /**
+     * انسخه من AdSense عند إنشاء الوحدة.
+     */
+    unitId?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ad-settings_select".
+ */
+export interface AdSettingsSelect<T extends boolean = true> {
+  enabled?: T;
+  publisherId?: T;
+  leaderboard?:
+    | T
+    | {
+        enabled?: T;
+        unitId?: T;
+      };
+  billboard?:
+    | T
+    | {
+        enabled?: T;
+        unitId?: T;
+      };
+  sidebarRect?:
+    | T
+    | {
+        enabled?: T;
+        unitId?: T;
+      };
+  sidebarHalf?:
+    | T
+    | {
+        enabled?: T;
+        unitId?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

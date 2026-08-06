@@ -186,7 +186,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      <AdSlot source="google" size="970×90" name="Leaderboard" className="mb-10 h-[104px]" />
+      <AdSlot placement="leaderboard" className="mb-10" />
 
       <div className="flex min-w-0 flex-col gap-10 lg:grid lg:items-start lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0">
@@ -225,11 +225,7 @@ export default async function HomePage() {
             </section>
           )}
 
-          <NativeAd
-            title="HP EliteBook 8 G1 — إنتاجية مكثّفة تتكيّف مع كل مناسبة"
-            sponsor="MID Teks Inc — الشرق الأوسط لتقنية الحاسب الآلي"
-            className="mb-10"
-          />
+          <NativeAd className="mb-10" />
 
           {/* اقتصاد — مميّز + قائمة */}
           {economy.length > 0 && (
@@ -266,12 +262,7 @@ export default async function HomePage() {
             </section>
           )}
 
-          <AdSlot
-            source="house"
-            size="970×250"
-            name="Billboard · تُباع عبر أخبار حياة مباشرة"
-            className="mb-10 min-h-[250px]"
-          />
+          <AdSlot placement="billboard" className="mb-10" />
 
           {/* صورة وخبر — صور بارزة */}
           {photo.length > 0 && (

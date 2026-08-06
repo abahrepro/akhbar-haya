@@ -118,7 +118,7 @@ export const CategoryView: React.FC<{ slug: string; page: number }> = async ({ s
         </div>
       </div>
 
-      <AdSlot source="google" size="970×90" name="Leaderboard" className="mb-7 h-[104px]" />
+      <AdSlot placement="leaderboard" categoryId={category.id} className="mb-7" />
 
       {items.length === 0 ? (
         <p className="py-16 text-center text-ink-soft">لا توجد أخبار في هذا القسم حالياً.</p>
@@ -141,11 +141,7 @@ export const CategoryView: React.FC<{ slug: string; page: number }> = async ({ s
 
             {secondBatch.length > 0 && (
               <>
-                <NativeAd
-                  title="HP EliteBook 8 G1 — إنتاجية مكثّفة تتكيّف مع كل مناسبة"
-                  sponsor="MID Teks Inc — الشرق الأوسط لتقنية الحاسب الآلي"
-                  className="my-7"
-                />
+                <NativeAd categoryId={category.id} className="my-7" />
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                   {secondBatch.map((item) => (
                     <NewsCard key={item.id} item={item} showExcerpt />
