@@ -27,8 +27,6 @@
 }
 
 :root {
-  --ah-danger: #b42318;
-  --ah-danger-line: #f0c2bd;
   --ah-brand: #026938;
   --ah-brand-deep: #014d29;
   --ah-brand-tint: #e6f2ea;
@@ -37,8 +35,6 @@
 }
 
 html[data-theme='dark'] {
-  --ah-danger: #f97066;
-  --ah-danger-line: #6b241d;
   --ah-brand: #38b46e;
   --ah-brand-deep: #2a8d54;
   --ah-brand-tint: #163024;
@@ -554,37 +550,5 @@ select {
     padding-block-start: 8px;
     border-block-start: 1px solid var(--theme-elevation-100);
     margin-block-start: 12px;
-  }
-}
-
-/* ============ وضوح فعل الحذف ============ */
-/**
- * زرّا الحذف في Payload مبنيّان على %btn-reset: بلا إطار ولا خلفية ولا حشو
- * — كلمةٌ وسط كلمات، لا يقرؤها المحرّر فعلاً خطيراً قبل الضغط. والحذف لا
- * رجعة فيه، فيجب أن يُقرأ كذلك قبل الضغط لا بعده.
- *
- * نكتفي بالزرّين ولا نلوّن نافذة التأكيد: نافذتها مشتركة مع تأكيدات أخرى
- * غير مدمّرة، وتمييزها يحتاج استهدافاً هشّاً ينكسر مع أوّل تحديث.
- *
- * الصنفان من مكوّنَي DeleteDocument وDeleteMany في Payload 3.87.
- */
-.delete-document__toggle,
-.delete-documents__toggle {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 13px;
-  border: 1px solid var(--ah-danger-line);
-  border-radius: 8px;
-  color: var(--ah-danger);
-  font-weight: 700;
-  transition:
-    background 0.15s,
-    color 0.15s,
-    border-color 0.15s;
-
-  &:hover {
-    border-color: var(--ah-danger);
-    background: var(--ah-danger);
-    color: #fff;
   }
 }
