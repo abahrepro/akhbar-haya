@@ -508,3 +508,21 @@ body.ah-reading-mode #article-body {
     min-height: calc(100vh / 0.9);
   }
 }
+
+/**
+ * وضع القراءة على الشاشات الكبيرة.
+ *
+ * إخفاء الشريط الجانبي وحده لا يكفي: عمود الـ٣٢٠ بكسل يظلّ محجوزاً في
+ * الشبكة، فيبقى الخبر محصوراً في عمود اليمين وإلى جانبه فراغ لا شيء فيه.
+ * نعيد الشبكة عموداً واحداً، ثم نحدّ عرض النصّ ونتوسّط به — فالسطر الممتدّ
+ * على ١٣٧٦ بكسل يتعب العين ويُفقدها بداية السطر التالي.
+ */
+@media (min-width: 1024px) {
+  body.ah-reading-mode .ah-article-grid {
+    display: block;
+  }
+  body.ah-reading-mode .ah-article-grid > article {
+    max-inline-size: 750px;
+    margin-inline: auto;
+  }
+}
