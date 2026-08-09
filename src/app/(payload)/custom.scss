@@ -189,14 +189,14 @@ select {
 
     strong {
       display: block;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
     }
 
     small {
       display: block;
       margin-top: 2px;
       color: var(--theme-elevation-500);
-      font-size: 0.85rem;
+      font-size: 0.97rem;
     }
 
     &--primary {
@@ -249,7 +249,7 @@ select {
   background: var(--theme-elevation-0);
 
   &__label {
-    font-size: 0.82rem;
+    font-size: 0.94rem;
     color: var(--theme-elevation-500);
   }
 
@@ -261,7 +261,7 @@ select {
   }
 
   &__delta {
-    font-size: 0.78rem;
+    font-size: 0.9rem;
 
     &.is-up {
       color: var(--ah-brand);
@@ -288,7 +288,7 @@ select {
 
   &__title {
     margin: 0 0 12px;
-    font-size: 0.92rem;
+    font-size: 1.04rem;
     font-weight: 500;
     color: var(--theme-elevation-500);
   }
@@ -315,7 +315,7 @@ select {
   &__title {
     color: var(--theme-text);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 1.06rem;
     line-height: 1.5;
 
     &:hover {
@@ -325,7 +325,7 @@ select {
 
   &__meta {
     flex-shrink: 0;
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     color: var(--theme-elevation-450);
     font-variant-numeric: tabular-nums;
   }
@@ -356,14 +356,14 @@ select {
 
   p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 1.02rem;
     line-height: 1.7;
     color: var(--theme-elevation-700);
   }
 
   &__hint {
     margin-block-start: 6px !important;
-    font-size: 0.82rem !important;
+    font-size: 0.94rem !important;
     color: var(--theme-elevation-500) !important;
   }
 }
@@ -372,7 +372,7 @@ select {
 .ah-seo {
   &__lead {
     margin: 0 0 calc(var(--base) * 0.7);
-    font-size: 0.92rem;
+    font-size: 1.04rem;
     line-height: 1.75;
     color: var(--theme-elevation-600);
   }
@@ -407,7 +407,7 @@ select {
   &__img-empty {
     padding: 8px;
     text-align: center;
-    font-size: 0.78rem;
+    font-size: 0.9rem;
     color: var(--theme-elevation-450);
   }
 
@@ -425,7 +425,7 @@ select {
 
   &__title {
     margin: 0 0 14px;
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 700;
     line-height: 1.5;
     color: var(--ah-brand-deep);
@@ -433,7 +433,7 @@ select {
 
   &__desc {
     margin: 0;
-    font-size: 0.92rem;
+    font-size: 1.04rem;
     line-height: 1.75;
     color: var(--theme-elevation-700);
 
@@ -445,7 +445,7 @@ select {
 
   &__foot {
     margin-block-start: calc(var(--base) * 0.6);
-    font-size: 0.85rem;
+    font-size: 0.97rem;
     color: var(--theme-elevation-500);
   }
 }
@@ -473,7 +473,7 @@ select {
     color: var(--ah-brand);
     font: inherit;
     font-weight: 700;
-    font-size: 0.86rem;
+    font-size: 0.98rem;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
 
@@ -531,7 +531,7 @@ select {
     background: var(--theme-elevation-50);
     color: var(--theme-elevation-800);
     font: inherit;
-    font-size: 0.8rem;
+    font-size: 0.92rem;
     cursor: pointer;
     transition: border-color 0.15s, background 0.15s;
 
@@ -573,7 +573,7 @@ select {
 .ah-table {
   inline-size: 100%;
   border-collapse: collapse;
-  font-size: 0.86rem;
+  font-size: 0.98rem;
 
   th {
     padding-block-end: 8px;
@@ -627,7 +627,7 @@ select {
     align-items: center;
     gap: 9px;
     padding-block: 6px;
-    font-size: 0.83rem;
+    font-size: 0.95rem;
   }
   &__label {
     overflow: hidden;
@@ -664,7 +664,7 @@ select {
     gap: 10px;
     padding-block: 10px;
     border-block-end: 1px solid var(--theme-elevation-100);
-    font-size: 0.85rem;
+    font-size: 0.97rem;
 
     &:last-child {
       border-block-end: 0;
@@ -706,7 +706,7 @@ select {
   margin: 0;
   padding-block: 18px;
   color: var(--theme-elevation-500);
-  font-size: 0.84rem;
+  font-size: 0.95rem;
   text-align: center;
 }
 

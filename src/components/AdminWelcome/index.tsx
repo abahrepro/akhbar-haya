@@ -72,9 +72,13 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
     }),
   ])
 
-  const fmtDay = new Intl.DateTimeFormat('ar', { day: 'numeric', month: 'numeric' })
+  /**
+   * التسمية تُبنى يدوياً لا بمولّد التواريخ العربي: المولّد يدسّ محرف
+   * U+200F بين اليوم والشهر فينقلب ترتيب العرض ويظهر «27/7» بصورة «277/».
+   */
+  const fmtDay = (d: Date) => `${d.getDate()}/${d.getMonth() + 1}`
   const chartData: DayPoint[] = series.map((r, i) => ({
-    label: fmtDay.format(dayStart(DAYS - 1 - i)),
+    label: fmtDay(dayStart(DAYS - 1 - i)),
     count: r.totalDocs,
   }))
 
@@ -83,11 +87,13 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
   const week = series.slice(-7).reduce((a, r) => a + r.totalDocs, 0)
   const delta = today - yesterday
 
-  const ar = (n: number) => n.toLocaleString('ar-EG')
+  /** أرقام لاتينية في لوحة التحكّم — أوضح في القراءة السريعة للإحصاءات */
+  const ar = (n: number) => n.toLocaleString('en-US')
   const name = (user && 'name' in user && user.name) || 'بك'
   const siteURL = process.env.NEXT_PUBLIC_SERVER_URL || '/'
 
-  const fmtTime = new Intl.DateTimeFormat('ar', { hour: 'numeric', minute: '2-digit' })
+  // عربية الكلمات لاتينية الأرقام
+  const fmtTime = new Intl.DateTimeFormat('ar-u-nu-latn', { hour: 'numeric', minute: '2-digit' })
 
   return (
     <div className="ah-welcome">

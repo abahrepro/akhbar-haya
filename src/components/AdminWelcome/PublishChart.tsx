@@ -19,14 +19,14 @@ export const PublishChart: React.FC<{ data: DayPoint[] }> = ({ data }) => (
           dataKey="label"
           tickLine={false}
           axisLine={false}
-          tick={{ fill: 'var(--theme-elevation-450)', fontSize: 11.5 }}
+          tick={{ fill: 'var(--theme-elevation-450)', fontSize: 13, direction: 'ltr' }}
           interval="preserveStartEnd"
         />
         <YAxis
           tickLine={false}
           axisLine={false}
           allowDecimals={false}
-          tick={{ fill: 'var(--theme-elevation-450)', fontSize: 11.5 }}
+          tick={{ fill: 'var(--theme-elevation-450)', fontSize: 13, direction: 'ltr' }}
         />
         <Tooltip
           cursor={{ fill: 'var(--theme-elevation-100)' }}
@@ -35,7 +35,7 @@ export const PublishChart: React.FC<{ data: DayPoint[] }> = ({ data }) => (
             border: '1px solid var(--theme-elevation-150)',
             borderRadius: 10,
             fontFamily: 'inherit',
-            fontSize: 13,
+            fontSize: 14,
           }}
           formatter={(v) => [`${v} خبراً`, 'نُشر']}
         />

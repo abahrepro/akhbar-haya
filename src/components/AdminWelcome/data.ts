@@ -122,9 +122,8 @@ export const getDashboard = async (payload: BasePayload): Promise<Dashboard> => 
 
   // اللقطات تعود تنازلياً؛ نعكسها ونحوّل التراكمي إلى يوميّ
   const snaps = [...stats].reverse()
-  const fmtDay = new Intl.DateTimeFormat('ar', { day: 'numeric', month: 'numeric' })
   const viewSeries: ViewPoint[] = snaps.slice(1).map((s, i) => ({
-    label: fmtDay.format(new Date(s.date)),
+    label: `${new Date(s.date).getDate()}/${new Date(s.date).getMonth() + 1}`,
     views: Math.max(0, Number(s.views) - Number(snaps[i].views)),
   }))
 
