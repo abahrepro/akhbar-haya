@@ -45,8 +45,8 @@ const POST_SELECT = {
  */
 const SECTIONS = [
   { slug: 'jordan', limit: 5 },
-  { slug: 'palestine', limit: 4 },
-  { slug: 'economy', limit: 5 },
+  { slug: 'palestine', limit: 5 },
+  { slug: 'economy', limit: 4 },
   { slug: 'world', limit: 4 },
   { slug: 'photo', limit: 4 },
   { slug: 'technology', limit: 5 },
@@ -209,16 +209,16 @@ export default async function HomePage() {
             </section>
           )}
 
-          {/* فلسطين — شبكة */}
-          {palestine.length > 0 && (
+          {/* اقتصاد — شبكة */}
+          {economy.length > 0 && (
             <section className="mb-10">
               <SectionHead
-                title={catBySlug('palestine')?.title ?? 'فلسطين'}
-                href="/category/palestine"
-                color={catBySlug('palestine')?.color}
+                title={catBySlug('economy')?.title ?? 'اقتصاد'}
+                href="/category/economy"
+                color={catBySlug('economy')?.color}
               />
               <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-                {palestine.slice(0, 4).map((item) => (
+                {economy.slice(0, 4).map((item) => (
                   <NewsCard key={item.id} item={item} />
                 ))}
               </div>
@@ -227,18 +227,18 @@ export default async function HomePage() {
 
           <NativeAd className="mb-10" />
 
-          {/* اقتصاد — مميّز + قائمة */}
-          {economy.length > 0 && (
+          {/* فلسطين — مميّز + قائمة */}
+          {palestine.length > 0 && (
             <section className="mb-10">
               <SectionHead
-                title={catBySlug('economy')?.title ?? 'اقتصاد'}
-                href="/category/economy"
-                color={catBySlug('economy')?.color}
+                title={catBySlug('palestine')?.title ?? 'فلسطين'}
+                href="/category/palestine"
+                color={catBySlug('palestine')?.color}
               />
               <div className="grid gap-5 sm:grid-cols-[1.15fr_1fr]">
-                <FeatureCard item={economy[0]} />
+                <FeatureCard item={palestine[0]} />
                 <div className="flex flex-col">
-                  {economy.slice(1, 5).map((item, i, arr) => (
+                  {palestine.slice(1, 5).map((item, i, arr) => (
                     <ListRow key={item.id} item={item} last={i === arr.length - 1} />
                   ))}
                 </div>
