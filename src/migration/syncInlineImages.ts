@@ -83,8 +83,16 @@ const main = async () => {
   for (const r of mediaRows) ourIdByWpId.set(Number(r.wp_media_id), Number(r.id))
   console.log(`مرفقات ووردبريس: ${wpIdByPath.size} | وسائطنا المرتبطة: ${ourIdByWpId.size}`)
 
-  const resolve = (src: string): number | null => {
-    const path = uploadPath(src)
+  /**
+   * المعرّف المصرّح به في الصنف أوثق من الرابط، فنجرّبه أوّلاً: الرابط قد
+   * يشير إلى نسخة بمقاس مختلف أو مسار أعيدت كتابته فلا يطابق سجلّ المرفق.
+   */
+  const resolve = (img: ExtractedImage): number | null => {
+    if (img.wpId) {
+      const direct = ourIdByWpId.get(img.wpId)
+      if (direct) return direct
+    }
+    const path = uploadPath(img.src)
     if (!path) return null
     const wpId = wpIdByPath.get(path)
     if (!wpId) return null
@@ -167,7 +175,7 @@ const main = async () => {
           continue
         }
 
-        const mediaId = resolve(img.src)
+        const mediaId = resolve(img)
         if (!mediaId) {
           stat.unresolvedOurs++
           continue

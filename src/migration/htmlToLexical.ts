@@ -153,7 +153,17 @@ const parseInline = (html: string): LexNode[] => {
   return out
 }
 
-export type ExtractedImage = { src: string; alt: string; caption: string }
+export type ExtractedImage = {
+  src: string
+  alt: string
+  caption: string
+  /**
+   * معرّف المرفق كما يذكره ووردبريس في صنف الصورة (`wp-image-123`).
+   * أوثق من الرابط: الرابط قد يشير إلى نسخة بمقاس مختلف أو إلى مسار
+   * أعيدت كتابته، بينما المعرّف يدلّ على المرفق نفسه بلا التباس.
+   */
+  wpId?: number
+}
 
 /**
  * علامة موضع الصورة داخل النصّ قبل ربطها بالوسائط.
@@ -195,6 +205,7 @@ export const htmlToLexical = (html: string): ConversionResult => {
       const src = /src=["']([^"']+)["']/i.exec(inner)?.[1]
       if (!src) return ''
       images.push({
+        wpId: Number(/wp-image-(\d+)/i.exec(inner)?.[1]) || undefined,
         src: decode(src),
         alt: decode(/alt=["']([^"']*)["']/i.exec(inner)?.[1] ?? ''),
         caption: decode(
@@ -213,6 +224,7 @@ export const htmlToLexical = (html: string): ConversionResult => {
     const src = /src=["']([^"']+)["']/i.exec(attrs)?.[1]
     if (!src) return ''
     images.push({
+      wpId: Number(/wp-image-(\d+)/i.exec(attrs)?.[1]) || undefined,
       src: decode(src),
       alt: decode(/alt=["']([^"']*)["']/i.exec(attrs)?.[1] ?? ''),
       caption: '',
