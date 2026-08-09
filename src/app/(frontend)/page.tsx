@@ -264,6 +264,38 @@ export default async function HomePage() {
 
           <AdSlot placement="billboard" className="mb-10" />
 
+          {/* مقالات */}
+          {opinion.length > 0 && (
+            <section className="mb-10">
+              <SectionHead
+                title={catBySlug('opinion')?.title ?? 'مقالات'}
+                href="/category/opinion"
+                color={catBySlug('opinion')?.color}
+                moreLabel="كل المقالات"
+              />
+              <div className="rounded-[14px] border border-border bg-card px-5 shadow-sm">
+                {opinion.slice(0, 4).map((item, i, arr) => (
+                  <OpinionRow key={item.id} item={item} last={i === arr.length - 1} />
+                ))}
+              </div>
+            </section>
+          )}
+          {/* رياضة — شبكة */}
+          {sports.length > 0 && (
+            <section className="mb-10">
+              <SectionHead
+                title={catBySlug('sports')?.title ?? 'رياضة'}
+                href="/category/sports"
+                color={catBySlug('sports')?.color}
+              />
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+                {sports.slice(0, 4).map((item) => (
+                  <NewsCard key={item.id} item={item} />
+                ))}
+              </div>
+            </section>
+          )}
+
           {/* صورة وخبر — صور بارزة */}
           {photo.length > 0 && (
             <section className="mb-10">
@@ -297,38 +329,6 @@ export default async function HomePage() {
             </section>
           )}
 
-          {/* رياضة — شبكة */}
-          {sports.length > 0 && (
-            <section className="mb-10">
-              <SectionHead
-                title={catBySlug('sports')?.title ?? 'رياضة'}
-                href="/category/sports"
-                color={catBySlug('sports')?.color}
-              />
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-                {sports.slice(0, 4).map((item) => (
-                  <NewsCard key={item.id} item={item} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* مقالات */}
-          {opinion.length > 0 && (
-            <section className="mb-10">
-              <SectionHead
-                title={catBySlug('opinion')?.title ?? 'مقالات'}
-                href="/category/opinion"
-                color={catBySlug('opinion')?.color}
-                moreLabel="كل المقالات"
-              />
-              <div className="rounded-[14px] border border-border bg-card px-5 shadow-sm">
-                {opinion.slice(0, 4).map((item, i, arr) => (
-                  <OpinionRow key={item.id} item={item} last={i === arr.length - 1} />
-                ))}
-              </div>
-            </section>
-          )}
         </div>
 
         <Sidebar mostRead={mostRead} />
