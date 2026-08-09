@@ -1805,6 +1805,10 @@ export interface AdSetting {
    * يبدأ بـ ca-pub — من حساب AdSense.
    */
   publisherId?: string | null;
+  /**
+   * يرسم إطاراً مكان كل مساحة إعلانية شاغرة ليتبيّن موضعها ومقاسها. أطفئه قبل نقل الموقع إلى النطاق الرئيسي — القارئ لا ينبغي أن يرى مساحات فارغة.
+   */
+  showEmptySlots?: boolean | null;
   leaderboard?: {
     enabled?: boolean | null;
     /**
@@ -1843,6 +1847,7 @@ export interface AdSetting {
 export interface AdSettingsSelect<T extends boolean = true> {
   enabled?: T;
   publisherId?: T;
+  showEmptySlots?: T;
   leaderboard?:
     | T
     | {

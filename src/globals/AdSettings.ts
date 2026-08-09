@@ -62,6 +62,16 @@ export const AdSettings: GlobalConfig = {
       label: 'معرّف الناشر',
       admin: { description: 'يبدأ بـ ca-pub — من حساب AdSense.' },
     },
+    {
+      name: 'showEmptySlots',
+      type: 'checkbox',
+      label: 'إظهار المساحات الفارغة',
+      defaultValue: true,
+      admin: {
+        description:
+          'يرسم إطاراً مكان كل مساحة إعلانية شاغرة ليتبيّن موضعها ومقاسها. أطفئه قبل نقل الموقع إلى النطاق الرئيسي — القارئ لا ينبغي أن يرى مساحات فارغة.',
+      },
+    },
     slot('leaderboard', 'أعلى الصفحة (٩٧٠×٩٠)'),
     slot('billboard', 'مساحة عريضة وسط الرئيسية (٩٧٠×٢٥٠)'),
     slot('sidebarRect', 'العمود الجانبي — مربّع (٣٠٠×٢٥٠)'),

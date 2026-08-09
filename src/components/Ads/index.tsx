@@ -17,11 +17,14 @@ export type Placement = 'leaderboard' | 'billboard' | 'sidebar-rect' | 'sidebar-
  * يصل — وهذا ما تقيسه جوجل في تجربة الصفحة. والصندوق يقصّ أي إعلان أكبر بدل
  * أن يتمدّد فيكسر التصميم.
  */
-const SIZES: Record<Exclude<Placement, 'in-feed'>, { w: number; h: number }> = {
-  leaderboard: { w: 970, h: 90 },
-  billboard: { w: 970, h: 250 },
-  'sidebar-rect': { w: 300, h: 250 },
-  'sidebar-half': { w: 300, h: 600 },
+const SIZES: Record<
+  Exclude<Placement, 'in-feed'>,
+  { w: number; h: number; name: string }
+> = {
+  leaderboard: { w: 970, h: 90, name: 'أعلى الصفحة' },
+  billboard: { w: 970, h: 250, name: 'مساحة عريضة' },
+  'sidebar-rect': { w: 300, h: 250, name: 'العمود الجانبي' },
+  'sidebar-half': { w: 300, h: 600, name: 'العمود الجانبي' },
 }
 
 /** إعدادات جوجل الخاصّة بكل مساحة */
@@ -97,13 +100,19 @@ export const AdSlot = async ({
     settings?.enabled && settings?.publisherId && slot?.enabled && slot?.unitId,
   )
 
-  // لا إعلان مباع ولا جوجل — لا نترك مربّعاً رمادياً فارغاً
-  if (!ad && !googleOn) return null
+  /**
+   * الترتيب: إعلان مباع، فجوجل، فإطار يبيّن المساحة الشاغرة.
+   * الإطار أداة مراجعة لصاحب الموقع لا عنصر تصميم، ولذلك يُطفأ بمفتاح
+   * قبل النقل إلى النطاق الرئيسي — لا معنى لأن يرى القارئ مساحة فارغة.
+   */
+  const showEmpty = Boolean(settings?.showEmptySlots)
+  if (!ad && !googleOn && !showEmpty) return null
 
   return (
     <div
       className={cn(
         'relative mx-auto grid w-full place-items-center overflow-hidden rounded-[9px] bg-secondary',
+        !ad && !googleOn && 'border border-dashed border-border-strong',
         className,
       )}
       style={{ maxWidth: size.w, height: size.h }}
@@ -114,17 +123,29 @@ export const AdSlot = async ({
       </span>
       {ad ? (
         <HouseCreative ad={ad} size={size} />
-      ) : (
+      ) : googleOn ? (
         <GoogleAd
           publisherId={String(settings?.publisherId)}
           unitId={String(slot?.unitId)}
           width={size.w}
           height={size.h}
         />
+      ) : (
+        <EmptySlot w={size.w} h={size.h} name={size.name} />
       )}
     </div>
   )
 }
+
+/** إطار المساحة الشاغرة — يبيّن الموضع والمقاس أثناء المراجعة */
+const EmptySlot: React.FC<{ w: number; h: number; name: string }> = ({ w, h, name }) => (
+  <div className="px-3 text-center text-ink-soft">
+    <div className="text-sm font-bold">
+      مساحة إعلانية {w}×{h}
+    </div>
+    <div className="mt-0.5 text-xs font-medium text-muted-foreground">{name}</div>
+  </div>
+)
 
 /** صورة الإعلان المباع مع تتبّع الظهور والنقر */
 const HouseCreative: React.FC<{ ad: Ad; size: { w: number; h: number } }> = ({ ad, size }) => {
@@ -166,8 +187,24 @@ export const NativeAd = async ({
   categoryId?: number | string
   className?: string
 }) => {
-  const ad = await getHouseAd('in-feed', categoryId)
-  if (!ad) return null
+  const [ad, settings] = await Promise.all([getHouseAd('in-feed', categoryId), getSettings()])
+  if (!ad) {
+    if (!settings?.showEmptySlots) return null
+    return (
+      <div
+        className={cn(
+          'grid min-h-[132px] place-items-center rounded-[14px] border border-dashed border-brand/40 bg-brand-tint/30 text-center',
+          className,
+        )}
+        data-ad-placement="in-feed"
+      >
+        <div className="px-3">
+          <div className="text-sm font-bold text-brand-deep">مساحة إعلان مدعوم</div>
+          <div className="mt-0.5 text-xs font-medium text-muted-foreground">بين الأخبار</div>
+        </div>
+      </div>
+    )
+  }
 
   const img = asMedia(ad.image)
   const href = `/api/ad-click?id=${ad.id}`
