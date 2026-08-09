@@ -52,6 +52,7 @@ const SECTIONS = [
   { slug: 'technology', limit: 5 },
   { slug: 'sports', limit: 4 },
   { slug: 'opinion', limit: 4 },
+  { slug: 'women', limit: 4 },
 ] as const
 
 /** هامش إضافي يُجلب ثم يُقصّ بعد استبعاد أخبار الواجهة */
@@ -166,6 +167,7 @@ export default async function HomePage() {
   const tech = section('technology')
   const sports = section('sports')
   const opinion = section('opinion')
+  const women = section('women')
   const mostRead = all.slice(0, 5)
 
   return (
@@ -324,6 +326,22 @@ export default async function HomePage() {
               <div className="grid auto-rows-[192px] grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
                 {tech.slice(0, 5).map((item, i) => (
                   <BentoCard key={item.id} item={item} large={i === 0} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* بيت حواء — شبكة */}
+          {women.length > 0 && (
+            <section className="mb-10">
+              <SectionHead
+                title={catBySlug('women')?.title ?? 'بيت حواء'}
+                href="/category/women"
+                color={catBySlug('women')?.color}
+              />
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+                {women.slice(0, 4).map((item) => (
+                  <NewsCard key={item.id} item={item} />
                 ))}
               </div>
             </section>
