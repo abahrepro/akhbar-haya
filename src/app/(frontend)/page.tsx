@@ -51,7 +51,7 @@ const SECTIONS = [
   { slug: 'photo', limit: 4 },
   { slug: 'technology', limit: 5 },
   { slug: 'sports', limit: 4 },
-  { slug: 'opinion', limit: 4 },
+  { slug: 'opinion', limit: 8 },
   { slug: 'women', limit: 4 },
 ] as const
 
@@ -275,9 +275,20 @@ export default async function HomePage() {
                 color={catBySlug('opinion')?.color}
                 moreLabel="كل المقالات"
               />
-              <div className="rounded-[14px] border border-border bg-card px-5 shadow-sm">
-                {opinion.slice(0, 4).map((item, i, arr) => (
-                  <OpinionRow key={item.id} item={item} last={i === arr.length - 1} />
+              {/*
+                عمودان صريحان لا شبكة تملأ صفّاً صفّاً: الشبكة توزّع
+                ١ و٢ في الصفّ الأول فيقرأ العمود اليمين ١ ثم ٣ ثم ٥. هنا
+                يأخذ اليمين الأربعة الأولى بترتيبها كما يتوقّع القارئ.
+                وعلى الهاتف يهبط العمودان تحت بعضهما فتصير قائمة واحدة —
+                عمودان على شاشة ضيّقة يجعلان الصورة خمسين بكسلاً لا تُفهم.
+              */}
+              <div className="grid gap-x-8 rounded-[14px] border border-border bg-card px-5 shadow-sm sm:grid-cols-2">
+                {[opinion.slice(0, 4), opinion.slice(4, 8)].map((col, ci) => (
+                  <div key={ci} className="flex flex-col">
+                    {col.map((item, i, arr) => (
+                      <OpinionRow key={item.id} item={item} last={i === arr.length - 1} />
+                    ))}
+                  </div>
                 ))}
               </div>
             </section>

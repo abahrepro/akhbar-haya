@@ -176,22 +176,26 @@ export const BentoCard: React.FC<{ item: NewsItem; large?: boolean }> = ({ item,
   </Link>
 )
 
-/* ============ صف رأي/مقال ============ */
+/* ============ صف مقال — صورة وعنوان ============ */
+/**
+ * المقال يُختار بالعنوان لا بالصورة: القارئ يمسح العناوين ثم يقرّر، والصورة
+ * إشارة بصرية تعينه على التمييز. لذلك صورة مصغّرة وعنوان بمساحة تكفي سطرين،
+ * لا العكس — وهذا ما يتيح عرض ثمانية مقالات في المساحة نفسها.
+ */
 export const OpinionRow: React.FC<{ item: NewsItem; last?: boolean }> = ({ item, last }) => (
   <Link
     href={item.href}
-    className={cn('group flex items-center gap-3.5 py-4', !last && 'border-b border-border')}
+    className={cn('group flex gap-3.5 py-3.5', !last && 'border-b border-border')}
   >
-    <span className="grid size-12 shrink-0 place-items-center rounded-full bg-linear-145 from-[#6d4aa7] to-[#4a2f78] text-white">
-      <svg viewBox="0 0 24 24" fill="currentColor" className="size-6" aria-hidden="true">
-        <path d="M5 4h11l3 3v13H5V4zm2 2v12h10V8h-3V6H7zm2 4h6v1.5H9V10zm0 3h6v1.5H9V13z" />
-      </svg>
-    </span>
-    <div className="min-w-0">
-      <h4 className="text-pretty font-serif text-[17.5px] font-bold leading-[1.45] transition group-hover:text-brand">
+    <div className="relative h-[88px] w-[130px] shrink-0 overflow-hidden rounded-[10px]">
+      <NewsImage item={item} size="thumbnail" />
+      {item.type === 'video' && <PlayBadge />}
+    </div>
+    <div className="flex min-w-0 flex-col gap-1.5">
+      <h4 className="line-clamp-3 text-pretty font-serif text-[17px] font-bold leading-[1.5] transition group-hover:text-brand">
         {item.title}
       </h4>
-      <TimeStamp date={item.publishedAt} className="mt-1" />
+      <TimeStamp date={item.publishedAt} className="mt-auto" />
     </div>
   </Link>
 )
