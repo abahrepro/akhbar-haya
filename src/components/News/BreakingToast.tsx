@@ -49,13 +49,14 @@ export const BreakingToast: React.FC<Props> = ({ title, href, id }) => {
           : 'pointer-events-none mb-0 max-h-0 -translate-y-3 px-4 py-0 opacity-0',
       )}
     >
-      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[15px] font-extrabold text-alert">
+      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-[16px] font-extrabold text-alert">
         <span className="size-1.5 animate-pulse rounded-full bg-alert" />
         عاجل
       </span>
       <Link
         href={href}
-        className="min-w-0 text-[19px] font-bold leading-[1.5] text-white transition hover:underline"
+        /* أصغر على الهاتف: الشريط ضيّق هناك فالعنوان الطويل يتكسّر أسطراً */
+        className="min-w-0 text-[20px] font-bold leading-[1.45] text-white transition hover:underline sm:text-[23px]"
       >
         {title}
       </Link>
