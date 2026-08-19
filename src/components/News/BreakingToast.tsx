@@ -39,26 +39,30 @@ export const BreakingToast: React.FC<Props> = ({ title, href, id }) => {
       role="alert"
       aria-live="assertive"
       className={cn(
-        'grid grid-cols-[auto_1fr_auto] items-center gap-3.5 overflow-hidden rounded-[9px] border-s-4 border-alert bg-alert/10 shadow-sm transition-all duration-500 ease-out',
+        /*
+         * خلفية حمراء ممتلئة لا باهتة: العاجل يجب أن يُرى قبل أن يُقرأ.
+         * والحدّ الجانبي الأحمر يسقط هنا — لا يُرى على خلفية من لونه.
+         */
+        'grid grid-cols-[auto_1fr_auto] items-center gap-3.5 overflow-hidden rounded-[9px] bg-alert shadow-sm transition-all duration-500 ease-out',
         visible
           ? 'mb-5 max-h-[200px] translate-y-0 px-4 py-3 opacity-100'
           : 'pointer-events-none mb-0 max-h-0 -translate-y-3 px-4 py-0 opacity-0',
       )}
     >
-      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-alert px-3 py-1 text-[14px] font-extrabold text-white">
-        <span className="size-1.5 animate-pulse rounded-full bg-white" />
+      <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-3 py-1 text-[15px] font-extrabold text-alert">
+        <span className="size-1.5 animate-pulse rounded-full bg-alert" />
         عاجل
       </span>
       <Link
         href={href}
-        className="min-w-0 text-[16.5px] font-bold leading-[1.5] transition hover:text-alert"
+        className="min-w-0 text-[19px] font-bold leading-[1.5] text-white transition hover:underline"
       >
         {title}
       </Link>
       <button
         onClick={dismiss}
         aria-label="إغلاق الخبر العاجل"
-        className="grid size-7.5 shrink-0 cursor-pointer place-items-center rounded-lg text-muted-foreground transition hover:bg-alert/15 hover:text-alert"
+        className="grid size-7.5 shrink-0 cursor-pointer place-items-center rounded-lg text-white/80 transition hover:bg-white/20 hover:text-white"
       >
         <IconClose className="size-4" />
       </button>
