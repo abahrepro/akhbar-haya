@@ -1,4 +1,5 @@
 import type { Category, Media, Post } from '@/payload-types'
+import { isBreakingNow } from '@/utilities/breaking'
 import { postHref } from '@/utilities/postUrl'
 
 /** الشكل المبسّط الذي تستهلكه بطاقات الأخبار */
@@ -41,5 +42,5 @@ export const toNewsItem = (post: Post): NewsItem => ({
   category: firstCategory(post.categories),
   publishedAt: post.publishedAt,
   type: post.type,
-  breaking: post.breaking,
+  breaking: isBreakingNow(post),
 })

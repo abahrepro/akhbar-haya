@@ -33,6 +33,7 @@ const POST_SELECT = {
   publishedAt: true,
   type: true,
   breaking: true,
+  breakingUntil: true,
   featured: true,
   meta: true,
 } as const

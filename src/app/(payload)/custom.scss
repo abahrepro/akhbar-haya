@@ -715,3 +715,43 @@ select {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============ حالة الخبر العاجل ============ */
+.ah-breaking {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-block-start: -6px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+
+  &__dot {
+    flex-shrink: 0;
+    inline-size: 8px;
+    block-size: 8px;
+    margin-block-start: 6px;
+    border-radius: 999px;
+    background: currentColor;
+  }
+
+  &--live {
+    background: rgba(216, 53, 42, 0.1);
+    color: #b42318;
+    .ah-breaking__dot {
+      animation: ah-pulse 1.4s ease-in-out infinite;
+    }
+  }
+  &--ended,
+  &--pending {
+    background: var(--theme-elevation-100);
+    color: var(--theme-elevation-600);
+  }
+}
+
+@keyframes ah-pulse {
+  50% {
+    opacity: 0.35;
+  }
+}

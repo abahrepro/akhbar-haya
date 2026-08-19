@@ -288,9 +288,14 @@ export interface Post {
    */
   type?: ('news' | 'video' | 'photo') | null;
   /**
-   * يظهر في شريط العاجل والتنبيه المنبثق.
+   * يظهر في شريط العاجل أعلى الصفحة وعلى بطاقته.
    */
   breaking?: boolean | null;
+  /**
+   * الرقم بالدقائق. اتركه فارغاً وستكون المدّة ٦٠ دقيقة.
+   */
+  breakingMinutes?: number | null;
+  breakingUntil?: string | null;
   /**
    * خبر واحد فقط يكون مميّزاً. تعليم خبر جديد يُلغي التعليم عن السابق تلقائياً. إن لم يُعلَّم أي خبر، يظهر الأحدث.
    */
@@ -1342,6 +1347,8 @@ export interface PostsSelect<T extends boolean = true> {
   views?: T;
   type?: T;
   breaking?: T;
+  breakingMinutes?: T;
+  breakingUntil?: T;
   featured?: T;
   authors?: T;
   populatedAuthors?:

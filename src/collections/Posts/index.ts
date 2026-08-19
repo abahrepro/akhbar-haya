@@ -20,6 +20,8 @@ import { populateAuthors } from './hooks/populateAuthors'
 import { exclusiveFeatured } from './hooks/exclusiveFeatured'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { autoExcerpt } from './hooks/autoExcerpt'
+import { breakingWindow } from './hooks/breakingWindow'
+import { exclusiveBreaking } from './hooks/exclusiveBreaking'
 
 import { slugField } from 'payload'
 
@@ -331,9 +333,47 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'checkbox',
       label: 'خبر عاجل',
       defaultValue: false,
+      index: true,
       admin: {
         position: 'sidebar',
-        description: 'يظهر في شريط العاجل والتنبيه المنبثق.',
+        description: 'يظهر في شريط العاجل أعلى الصفحة وعلى بطاقته.',
+      },
+    },
+    {
+      name: 'breakingMinutes',
+      type: 'number',
+      label: 'مدّة العاجل',
+      min: 1,
+      max: 1440,
+      admin: {
+        position: 'sidebar',
+        description: 'الرقم بالدقائق. اتركه فارغاً وستكون المدّة ٦٠ دقيقة.',
+        condition: (data) => Boolean(data?.breaking),
+      },
+    },
+    {
+      name: 'breakingStatus',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        condition: (data) => Boolean(data?.breaking),
+        components: { Field: '@/components/AdminBreakingStatus#AdminBreakingStatus' },
+      },
+    },
+    {
+      /**
+       * لحظة انتهاء العاجل — تُحسب عند الحفظ لا تُكتب يدوياً.
+       * الموقع يقارن بها بدل أن ننتظر مهمّة مجدولة تفكّ التأشير: المقارنة
+       * دقيقة إلى الدقيقة، والمهمّة المجدولة تتأخّر بقدر فترتها.
+       */
+      name: 'breakingUntil',
+      type: 'date',
+      label: 'ينتهي العاجل في',
+      index: true,
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+        hidden: true,
       },
     },
     {
@@ -397,8 +437,8 @@ export const Posts: CollectionConfig<'posts'> = {
     }),
   ],
   hooks: {
-    beforeChange: [autoExcerpt],
-    afterChange: [revalidatePost, exclusiveFeatured],
+    beforeChange: [autoExcerpt, breakingWindow],
+    afterChange: [revalidatePost, exclusiveFeatured, exclusiveBreaking],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },
