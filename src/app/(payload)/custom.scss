@@ -755,3 +755,35 @@ select {
     opacity: 0.35;
   }
 }
+
+/* ============ موضع الخبر في السلايدر ============ */
+.ah-hero-slot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-block-start: -6px;
+  padding: 9px 11px;
+  border-radius: 8px;
+  background: var(--ah-brand-tint);
+  color: var(--ah-brand-deep);
+  font-size: 0.88rem;
+  line-height: 1.6;
+
+  &__num {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    inline-size: 22px;
+    block-size: 22px;
+    border-radius: 6px;
+    background: var(--ah-brand);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  em {
+    color: var(--theme-elevation-500);
+    font-style: normal;
+  }
+}

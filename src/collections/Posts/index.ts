@@ -17,7 +17,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { PhotoGallery } from '../../blocks/PhotoGallery/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
-import { exclusiveFeatured } from './hooks/exclusiveFeatured'
+import { exclusiveHeroSlot } from './hooks/exclusiveHeroSlot'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 import { autoExcerpt } from './hooks/autoExcerpt'
 import { breakingWindow } from './hooks/breakingWindow'
@@ -377,16 +377,43 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
-      name: 'featured',
-      type: 'checkbox',
-      label: 'مميّز (يظهر في الهيرو)',
-      defaultValue: false,
+      name: 'heroSlot',
+      type: 'select',
+      label: 'الموضع في السلايدر',
       index: true,
+      options: [
+        { label: 'الموضع ١ — البطاقة الكبيرة', value: '1' },
+        { label: 'الموضع ٢', value: '2' },
+        { label: 'الموضع ٣', value: '3' },
+        { label: 'الموضع ٤', value: '4' },
+        { label: 'الموضع ٥', value: '5' },
+      ],
       admin: {
         position: 'sidebar',
         description:
-          'خبر واحد فقط يكون مميّزاً. تعليم خبر جديد يُلغي التعليم عن السابق تلقائياً. إن لم يُعلَّم أي خبر، يظهر الأحدث.',
+          'ثبّت الخبر في موضع من مواضع السلايدر الخمسة. المواضع غير المثبّتة تُملأ بالأحدث تلقائياً.',
       },
+    },
+    {
+      name: 'heroStatus',
+      type: 'ui',
+      admin: {
+        position: 'sidebar',
+        condition: (data) => Boolean(data?.heroSlot),
+        components: { Field: '@/components/AdminHeroStatus#AdminHeroStatus' },
+      },
+    },
+    {
+      /**
+       * «مميّز» مخفيّ لا محذوف: حلّ محلّه `heroSlot` الذي يثبّت أي موضع من
+       * الخمسة لا الأول وحده، وحذف العمود يُسقطه من الأنواع ويعرّضه للحذف
+       * عند مزامنة المخطّط.
+       */
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      index: true,
+      admin: { hidden: true },
     },
     // حقل داخلي لتتبّع من كتب الخبر — لا يُعرض للجمهور
     {
@@ -438,7 +465,7 @@ export const Posts: CollectionConfig<'posts'> = {
   ],
   hooks: {
     beforeChange: [autoExcerpt, breakingWindow],
-    afterChange: [revalidatePost, exclusiveFeatured, exclusiveBreaking],
+    afterChange: [revalidatePost, exclusiveHeroSlot, exclusiveBreaking],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
   },

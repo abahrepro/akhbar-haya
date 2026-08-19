@@ -34,7 +34,7 @@ const POST_SELECT = {
   type: true,
   breaking: true,
   breakingUntil: true,
-  featured: true,
+  heroSlot: true,
   meta: true,
 } as const
 
@@ -55,6 +55,9 @@ const SECTIONS = [
   { slug: 'opinion', limit: 8 },
   { slug: 'women', limit: 4 },
 ] as const
+
+/** مواضع السلايدر: بطاقة كبيرة وأربع جانبية */
+const HERO_SLOTS = 5
 
 /** هامش إضافي يُجلب ثم يُقصّ بعد استبعاد أخبار الواجهة */
 const SECTION_BUFFER = 5
@@ -86,13 +89,13 @@ export default async function HomePage() {
       depth: 1,
       select: POST_SELECT,
     }),
-    // الخبر المميّز يُجلب مستقلاً كي يظهر في الهيرو ولو لم يكن ضمن الأحدث
+    // المثبّتون يُجلبون مستقلّين كي يظهروا في السلايدر ولو لم يكونوا ضمن الأحدث
     payload.find({
       collection: 'posts',
       where: {
-        and: [{ _status: { equals: 'published' } }, { featured: { equals: true } }],
+        and: [{ _status: { equals: 'published' } }, { heroSlot: { exists: true } }],
       },
-      limit: 1,
+      limit: HERO_SLOTS,
       depth: 1,
       select: POST_SELECT,
     }),
@@ -115,9 +118,12 @@ export default async function HomePage() {
   const heroDocs = heroRes.docs as Post[]
   const all: NewsItem[] = heroDocs.map((p) => toNewsItem(p))
 
-  /** الخبر المُعلَّم «مميّز» — واحد فقط، ويحلّ محلّ الأحدث في مكان الهيرو */
-  const featuredDoc = (featuredRes.docs as Post[])[0]
-  const featuredItem = featuredDoc ? toNewsItem(featuredDoc) : null
+  /** المثبّتون مفهرسون برقم الموضع */
+  const pinned = new Map<number, NewsItem>()
+  for (const doc of featuredRes.docs as Post[]) {
+    const slot = Number(doc.heroSlot)
+    if (slot >= 1 && slot <= HERO_SLOTS) pinned.set(slot, toNewsItem(doc))
+  }
 
   /** نتائج الأقسام مفهرسة بالـ slug */
   const bySection = new Map<string, NewsItem[]>()
@@ -147,12 +153,21 @@ export default async function HomePage() {
   const breaking = all.find((p) => p.breaking)
 
   /**
-   * مكان الهيرو الكبير: الخبر المميّز إن وُجد، وإلا الأحدث.
-   * البطاقات الأربع بجانبه: الأحدث بعده.
+   * السلايدر خمسة مواضع: المثبّت يأخذ موضعه وما بقي يُملأ بالأحدث.
+   * التثبيت جزئي بطبعه — يثبّت المحرّر ما يهمّه ويترك الباقي يتجدّد وحده.
    */
-  const lead = featuredItem ?? all[0]
-  const heroSide = all.filter((p) => p.id !== lead?.id).slice(0, 4)
-  const used = new Set<NewsItem['id']>([lead?.id, ...heroSide.map((h) => h.id)])
+  const pinnedIds = new Set([...pinned.values()].map((p) => p.id))
+  const fillers = all.filter((p) => !pinnedIds.has(p.id))
+  let next = 0
+  const hero: NewsItem[] = []
+  for (let slot = 1; slot <= HERO_SLOTS; slot++) {
+    const item = pinned.get(slot) ?? fillers[next++]
+    if (item) hero.push(item)
+  }
+
+  const lead = hero[0]
+  const heroSide = hero.slice(1)
+  const used = new Set<NewsItem['id']>(hero.map((h) => h.id))
 
   /** أخبار القسم بعد استبعاد ما ظهر في الواجهة، مقصوصة للعدد المطلوب */
   const section = (slug: string) => {

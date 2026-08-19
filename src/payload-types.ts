@@ -297,8 +297,9 @@ export interface Post {
   breakingMinutes?: number | null;
   breakingUntil?: string | null;
   /**
-   * خبر واحد فقط يكون مميّزاً. تعليم خبر جديد يُلغي التعليم عن السابق تلقائياً. إن لم يُعلَّم أي خبر، يظهر الأحدث.
+   * ثبّت الخبر في موضع من مواضع السلايدر الخمسة. المواضع غير المثبّتة تُملأ بالأحدث تلقائياً.
    */
+  heroSlot?: ('1' | '2' | '3' | '4' | '5') | null;
   featured?: boolean | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
@@ -1349,6 +1350,7 @@ export interface PostsSelect<T extends boolean = true> {
   breaking?: T;
   breakingMinutes?: T;
   breakingUntil?: T;
+  heroSlot?: T;
   featured?: T;
   authors?: T;
   populatedAuthors?:
