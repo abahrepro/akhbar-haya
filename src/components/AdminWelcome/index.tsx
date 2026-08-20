@@ -102,7 +102,7 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
       {/* ===== إجراءات سريعة ===== */}
       <div className="ah-welcome__actions">
         <a
-          href="/admin/collections/posts/create"
+          href="/tahrir/collections/posts/create"
           className="ah-welcome__action ah-welcome__action--primary"
         >
           <span className="ah-welcome__action-icon">＋</span>
@@ -111,14 +111,14 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
             <small>اكتب وانشر مباشرة</small>
           </span>
         </a>
-        <a href="/admin/collections/posts?where[_status][equals]=draft" className="ah-welcome__action">
+        <a href="/tahrir/collections/posts?where[_status][equals]=draft" className="ah-welcome__action">
           <span className="ah-welcome__action-icon">📝</span>
           <span>
             <strong>المسودّات</strong>
             <small>{ar(drafts.totalDocs)} مسودّة بانتظار الإكمال</small>
           </span>
         </a>
-        <a href="/admin/collections/media" className="ah-welcome__action">
+        <a href="/tahrir/collections/media" className="ah-welcome__action">
           <span className="ah-welcome__action-icon">🖼</span>
           <span>
             <strong>الوسائط</strong>
@@ -190,7 +190,7 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
           <ul className="ah-latest">
             {(latest.docs as Post[]).map((p) => (
               <li key={p.id} className="ah-latest__row">
-                <a href={`/admin/collections/posts/${p.id}`} className="ah-latest__title">
+                <a href={`/tahrir/collections/posts/${p.id}`} className="ah-latest__title">
                   {p.title}
                 </a>
                 <span className="ah-latest__meta">
@@ -230,7 +230,7 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
                 {dash.topPosts.map((p) => (
                   <tr key={p.id}>
                     <td>
-                      <a href={`/admin/collections/posts/${p.id}`}>{p.title}</a>
+                      <a href={`/tahrir/collections/posts/${p.id}`}>{p.title}</a>
                     </td>
                     <td>
                       {p.category ? <span className="ah-chip">{p.category}</span> : '—'}
@@ -297,19 +297,19 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
           <h3 className="ah-card__title">يحتاج انتباهاً</h3>
           <ul className="ah-alerts">
             <li>
-              <a href="/admin/collections/posts?where[heroImage][exists]=false">
+              <a href="/tahrir/collections/posts?where[heroImage][exists]=false">
                 أخبار منشورة بلا صورة رئيسية
               </a>
               <strong>{ar(dash.missingImage)}</strong>
             </li>
             <li>
-              <a href="/admin/collections/posts?where[categories][exists]=false">
+              <a href="/tahrir/collections/posts?where[categories][exists]=false">
                 أخبار منشورة بلا قسم
               </a>
               <strong>{ar(dash.missingCategory)}</strong>
             </li>
             <li>
-              <a href="/admin/collections/posts?where[_status][equals]=draft">
+              <a href="/tahrir/collections/posts?where[_status][equals]=draft">
                 مسودّات بانتظار الإكمال
               </a>
               <strong>{ar(drafts.totalDocs)}</strong>
@@ -321,7 +321,7 @@ export const AdminWelcome: React.FC<ServerProps> = async ({ payload, user }) => 
           <h3 className="ah-card__title">آخر الصور المرفوعة</h3>
           <div className="ah-thumbs">
             {dash.latestMedia.map((m) => (
-              <a key={m.id} href={`/admin/collections/media/${m.id}`} className="ah-thumbs__item">
+              <a key={m.id} href={`/tahrir/collections/media/${m.id}`} className="ah-thumbs__item">
                 {m.url && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={`/api/media/file/${m.url}`} alt={m.alt ?? ''} loading="lazy" />

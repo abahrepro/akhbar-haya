@@ -93,7 +93,7 @@ const nextConfig: NextConfig = {
       },
       // لوحة التحكّم لا تُفهرس ولا تُخزَّن في وسيط
       {
-        source: '/admin/:path*',
+        source: '/tahrir/:path*',
         headers: [
           { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
           { key: 'Cache-Control', value: 'no-store' },

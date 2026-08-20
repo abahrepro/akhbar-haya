@@ -141,7 +141,7 @@ export default async function HomePage() {
           لا توجد أخبار منشورة بعد. أضف أول خبر من لوحة التحكّم لتظهر الصفحة الرئيسية بمحتواها.
         </p>
         <a
-          href="/admin/collections/posts/create"
+          href="/tahrir/collections/posts/create"
           className="rounded-full bg-brand px-6 py-3 font-bold text-white transition hover:bg-brand-deep"
         >
           إضافة خبر جديد
