@@ -16,7 +16,6 @@ import { CodeBlock, CodeBlockProps } from '@/blocks/Code/Component'
 
 import type {
   BannerBlock as BannerBlockProps,
-  CallToActionBlock as CTABlockProps,
   Media,
   MediaBlock as MediaBlockProps,
 } from '@/payload-types'
@@ -29,7 +28,6 @@ type PhotoGalleryProps = {
   blockType: 'photoGallery'
 }
 import { BannerBlock } from '@/blocks/Banner/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/ui'
 import { PhotoGalleryBlock } from '@/blocks/PhotoGallery/Component'
 import { VideoEmbed, parseVideoUrl } from '@/components/News/VideoEmbed'
@@ -38,7 +36,7 @@ import { postHref } from '@/utilities/postUrl'
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps | PhotoGalleryProps
+      MediaBlockProps | BannerBlockProps | CodeBlockProps | PhotoGalleryProps
     >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -115,7 +113,6 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
       />
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
-    cta: ({ node }) => <CallToActionBlock {...node.fields} />,
   },
 })
 

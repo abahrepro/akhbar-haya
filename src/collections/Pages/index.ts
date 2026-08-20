@@ -1,26 +1,31 @@
 import type { CollectionConfig } from 'payload'
 
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { canManageTaxonomy, hideFromNonAdmins } from '../../access/roles'
-import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
-import { Content } from '../../blocks/Content/config'
-import { FormBlock } from '../../blocks/Form/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { hero } from '@/heros/config'
+import {
+  FixedToolbarFeature,
+  HeadingFeature,
+  HorizontalRuleFeature,
+  InlineToolbarFeature,
+  UploadFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
 import { slugField } from 'payload'
+
+import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { isAdmin } from '../../access/roles'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
-import {
-  MetaDescriptionField,
-  MetaImageField,
-  MetaTitleField,
-  OverviewField,
-  PreviewField,
-} from '@payloadcms/plugin-seo/fields'
-
+/**
+ * الصفحات الثابتة — للمدير وحده.
+ *
+ * كانت مبنية على «الكتل»: نظامٌ يركّب الصفحة من مكوّنات تسويقية (بطل،
+ * أعمدة، دعوة لإجراء، أرشيف). صفحة «من نحن» نصٌّ لا تركيب، والنظام بقي
+ * فارغاً منذ بدء المشروع ولم تُنشأ به صفحة واحدة. محرّرٌ واحد — نفس محرّر
+ * الخبر — يكفيها ويعرفه صاحب الموقع من أوّل لحظة بلا تدريب.
+ *
+ * والقسم مخفيّ عن المحرّرين كما تُخفى «المستخدمون»: الصفحات ليست عملهم.
+ */
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   labels: {
@@ -28,102 +33,74 @@ export const Pages: CollectionConfig<'pages'> = {
     plural: 'الصفحات',
   },
   access: {
-    create: canManageTaxonomy,
-    delete: canManageTaxonomy,
+    create: isAdmin,
+    delete: isAdmin,
     read: authenticatedOrPublished,
-    update: canManageTaxonomy,
+    update: isAdmin,
   },
-  // This config controls what's populated by default when a page is referenced
-  // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
-  // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'pages'>
   defaultPopulate: {
     title: true,
     slug: true,
   },
   admin: {
     group: 'المحتوى',
-    hidden: hideFromNonAdmins,
     defaultColumns: ['title', 'slug', 'updatedAt'],
+    useAsTitle: 'title',
+    description: 'صفحات ثابتة مثل «من نحن» و«اتصل بنا». تظهر على رابطها مباشرة.',
+    hidden: ({ user }) => (user as { role?: string } | null)?.role !== 'admin',
     livePreview: {
       url: ({ data, req }) =>
-        generatePreviewPath({
-          slug: data?.slug,
-          collection: 'pages',
-          req,
-        }),
+        generatePreviewPath({ slug: data?.slug, collection: 'pages', req }),
     },
     preview: (data, { req }) =>
-      generatePreviewPath({
-        slug: data?.slug as string,
-        collection: 'pages',
-        req,
-      }),
-    useAsTitle: 'title',
+      generatePreviewPath({ slug: data?.slug as string, collection: 'pages', req }),
   },
   fields: [
     {
       name: 'title',
       type: 'text',
+      label: 'عنوان الصفحة',
       required: true,
     },
     {
-      type: 'tabs',
-      tabs: [
-        {
-          fields: [hero],
-          label: 'الواجهة',
-        },
-        {
-          fields: [
-            {
-              name: 'layout',
-              type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
-              required: true,
-              admin: {
-                initCollapsed: true,
+      name: 'content',
+      type: 'richText',
+      label: 'محتوى الصفحة',
+      required: true,
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => [
+          ...rootFeatures,
+          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+          UploadFeature({
+            collections: {
+              media: {
+                fields: [{ name: 'caption', type: 'text', label: 'تعليق الصورة (اختياري)' }],
               },
             },
-          ],
-          label: 'المحتوى',
-        },
-        {
-          name: 'meta',
-          label: 'تحسين محركات البحث',
-          fields: [
-            OverviewField({
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-              imagePath: 'meta.image',
-            }),
-            MetaTitleField({
-              hasGenerateFn: true,
-            }),
-            MetaImageField({
-              relationTo: 'media',
-            }),
-
-            MetaDescriptionField({}),
-            PreviewField({
-              // if the `generateUrl` function is configured
-              hasGenerateFn: true,
-
-              // field paths to match the target field for data
-              titlePath: 'meta.title',
-              descriptionPath: 'meta.description',
-            }),
-          ],
-        },
-      ],
+          }),
+          FixedToolbarFeature(),
+          InlineToolbarFeature(),
+          HorizontalRuleFeature(),
+        ],
+      }),
     },
     {
       name: 'publishedAt',
       type: 'date',
-      admin: {
-        position: 'sidebar',
-      },
+      label: 'تاريخ النشر',
+      admin: { position: 'sidebar', date: { pickerAppearance: 'dayAndTime' } },
     },
-    slugField(),
+    slugField({
+      // الافتراضي يمسح الحروف العربية؛ هذه النسخة تُبقيها
+      slugify: ({ valueToSlugify }) =>
+        String(valueToSlugify ?? '')
+          .trim()
+          .replace(/[\s_]+/g, '-')
+          .replace(/[^\p{L}\p{N}-]+/gu, '')
+          .replace(/-{2,}/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .toLowerCase(),
+    }),
   ],
   hooks: {
     afterChange: [revalidatePage],
@@ -131,12 +108,7 @@ export const Pages: CollectionConfig<'pages'> = {
     afterDelete: [revalidateDelete],
   },
   versions: {
-    drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
-      },
-      schedulePublish: true,
-    },
-    maxPerDoc: 50,
+    drafts: { autosave: { interval: 100 }, schedulePublish: true },
+    maxPerDoc: 20,
   },
 }

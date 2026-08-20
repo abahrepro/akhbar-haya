@@ -1,109 +1,83 @@
 import type { Metadata } from 'next'
-
-import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
-import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
+import { getPayload } from 'payload'
 import React, { cache } from 'react'
 
-import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { RenderHero } from '@/heros/RenderHero'
-import { generateMeta } from '@/utilities/generateMeta'
-import PageClient from './page.client'
+import type { Page } from '@/payload-types'
+import RichText from '@/components/RichText'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { generateMeta } from '@/utilities/generateMeta'
+
+/**
+ * الصفحات الثابتة.
+ *
+ * كانت تُركّب من «الكتل»؛ صارت نصّاً واحداً يكتبه صاحب الموقع في محرّر
+ * يعرفه. والمسار يبقى `/الرابط` بلا بادئة كي لا تتغيّر روابط منشورة.
+ */
+
+export const revalidate = 300
+export const dynamicParams = true
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
     collection: 'pages',
     draft: false,
-    limit: 1000,
-    overrideAccess: false,
+    limit: 200,
     pagination: false,
-    select: {
-      slug: true,
-    },
+    overrideAccess: false,
+    select: { slug: true },
   })
 
-  const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home'
-    })
-    .map(({ slug }) => {
-      return { id: slug as string }
-    })
-
-  return params
+  return pages.docs
+    .filter((doc) => doc.slug && doc.slug !== 'home')
+    .map(({ slug }) => ({ id: slug as string }))
 }
 
-type Args = {
-  params: Promise<{
-    /** اسم الصفحة اللطيف. سُمّي `id` لأن Next يفرض اسماً موحّداً
-     *  لهذا الموضع، وجاره `[id]/[slug]` يستعمله لرقم الخبر. */
-    id?: string
-  }>
-}
-
-export default async function Page({ params: paramsPromise }: Args) {
+const queryPage = cache(async (slug: string) => {
   const { isEnabled: draft } = await draftMode()
-  const { id: slug = 'home' } = await paramsPromise
-  // Decode to support slugs with special characters
-  const decodedSlug = decodeURIComponent(slug)
-  const url = '/' + decodedSlug
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
-
-  page = await queryPageBySlug({
-    slug: decodedSlug,
-  })
-
-  if (!page) {
-    return <PayloadRedirects url={url} />
-  }
-
-  const { hero, layout } = page
-
-  return (
-    <article className="pt-16 pb-24">
-      <PageClient />
-      {/* Allows redirects for valid pages too */}
-      <PayloadRedirects disableNotFound url={url} />
-
-      {draft && <LivePreviewListener />}
-
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
-    </article>
-  )
-}
-
-export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { id: slug = 'home' } = await paramsPromise
-  // Decode to support slugs with special characters
-  const decodedSlug = decodeURIComponent(slug)
-  const page = await queryPageBySlug({
-    slug: decodedSlug,
-  })
-
-  return generateMeta({ doc: page })
-}
-
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
+  const res = await payload.find({
     collection: 'pages',
+    where: { slug: { equals: slug } },
     draft,
     limit: 1,
     pagination: false,
     overrideAccess: draft,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
   })
-
-  return result.docs?.[0] || null
+  return (res.docs?.[0] as Page | undefined) ?? null
 })
+
+type Args = { params: Promise<{ id?: string }> }
+
+export default async function StaticPage({ params: paramsPromise }: Args) {
+  const { id = '' } = await paramsPromise
+  const slug = decodeURIComponent(id)
+  const page = await queryPage(slug)
+  if (!page) notFound()
+
+  const { isEnabled: draft } = await draftMode()
+
+  return (
+    <main className="container py-8">
+      {draft && <LivePreviewListener />}
+      <article className="mx-auto max-w-[760px]">
+        <h1 className="mb-6 border-b border-border pb-4 font-serif text-[clamp(26px,4vw,38px)] font-black">
+          {page.title}
+        </h1>
+        <div className="ah-static">
+          {page.content && <RichText data={page.content} enableGutter={false} enableProse={false} />}
+        </div>
+      </article>
+    </main>
+  )
+}
+
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { id = '' } = await paramsPromise
+  const page = await queryPage(decodeURIComponent(id))
+  if (!page) return { title: 'صفحة غير موجودة — أخبار حياة' }
+  return generateMeta({ doc: page })
+}

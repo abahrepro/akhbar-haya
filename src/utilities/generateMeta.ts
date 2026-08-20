@@ -33,7 +33,11 @@ const getImageURL = (...candidates: (Media | Config['db']['defaultIDType'] | nul
 export const generateMeta = async (args: {
   doc: Partial<Page> | Partial<Post> | null
 }): Promise<Metadata> => {
-  const { doc } = args
+  /**
+   * الصفحات الثابتة بلا حقول ميتا — عنوانها ونصّها يكفيان. النوع الموحّد
+   * بين الأخبار والصفحات لا يحمل `meta` إلا لأحدهما، فنقرأه بحذر.
+   */
+  const doc = args.doc as (Partial<Post> & { meta?: Partial<Post>['meta'] }) | null
 
   const ogImage = getImageURL(
     doc?.meta?.image,
