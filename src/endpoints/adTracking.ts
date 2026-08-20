@@ -9,6 +9,7 @@
 import type { Endpoint } from 'payload'
 
 import { getServerSideURL } from '../utilities/getURL'
+import { allowOnce, clientIp } from '../utilities/rateLimit'
 
 const bump = async (
   req: { payload: { db: { pool: { query: (q: string, v: unknown[]) => Promise<unknown> } } } },
@@ -33,6 +34,15 @@ export const adView: Endpoint = {
       /* جسم غير صالح */
     }
     if (!Number.isInteger(id) || id <= 0) return new Response(null, { status: 204 })
+
+    /**
+     * القارئ الحقيقي يرى الإعلان مرّة في الجلسة، فخمس دقائق لا تُنقصه
+     * شيئاً وتُبطل السكربت. والردّ 204 في الحالتين كي لا يتعلّم المهاجم
+     * من الفرق متى حُسب طلبه ومتى رُفض.
+     */
+    if (!allowOnce(`view:${clientIp(req.headers)}:${id}`, 5 * 60_000)) {
+      return new Response(null, { status: 204 })
+    }
 
     try {
       await bump(req, id, 'impressions')
@@ -61,10 +71,17 @@ export const adClick: Endpoint = {
     const safe = target && /^https?:\/\//i.test(target) ? target : null
     if (!safe) return Response.redirect(home, 302)
 
-    try {
-      await bump(req, id, 'clicks')
-    } catch {
-      /* لا نمنع القارئ من الوصول لأجل عدّاد */
+    /**
+     * النقرة تُحتسب مرّة في الساعة: تكرار النقر على الإعلان نفسه من
+     * العنوان نفسه ليس سلوك قارئ. والتحويل يتمّ في الحالتين — لا نعاقب
+     * القارئ بحجب وجهته لأجل عدّاد.
+     */
+    if (allowOnce(`click:${clientIp(req.headers)}:${id}`, 60 * 60_000)) {
+      try {
+        await bump(req, id, 'clicks')
+      } catch {
+        /* لا نمنع القارئ من الوصول لأجل عدّاد */
+      }
     }
     return Response.redirect(safe, 302)
   },
