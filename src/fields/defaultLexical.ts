@@ -1,9 +1,13 @@
 import type { TextFieldSingleValidation } from 'payload'
 import {
+  BlockquoteFeature,
   BoldFeature,
   ItalicFeature,
   LinkFeature,
+  OrderedListFeature,
   ParagraphFeature,
+  StrikethroughFeature,
+  UnorderedListFeature,
   lexicalEditor,
   UnderlineFeature,
   type LinkFields,
@@ -15,6 +19,16 @@ export const defaultLexical = lexicalEditor({
     UnderlineFeature(),
     BoldFeature(),
     ItalicFeature(),
+    StrikethroughFeature(),
+    /**
+     * القوائم والاقتباس لم تكن مسجّلة، والأرشيف يحوي ١٬٧٠٩ خبراً بقوائم
+     * و٥١٩ باقتباسات جاءت من ووردبريس. المحرّر كان يرفض فتحها بخطأ
+     * «عقدة غير مسجّلة» — والقارئ يراها سليمة لأن العرض لا يمرّ بالمحرّر،
+     * فبقيت العلّة مخفيّة حتى فُتح أوّل خبر منها.
+     */
+    UnorderedListFeature(),
+    OrderedListFeature(),
+    BlockquoteFeature(),
     LinkFeature({
       enabledCollections: ['pages', 'posts'],
       fields: ({ defaultFields }) => {
