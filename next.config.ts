@@ -45,6 +45,12 @@ const nextConfig: NextConfig = {
     return webpackConfig
   },
   reactStrictMode: true,
+
+  /**
+   * الترويسة الافتراضية تعلن «Next.js, Payload» لكل زائر — وهي أوّل ما
+   * يقرؤه ماسح آليّ ليختار الثغرات المعروفة لهذه التقنيات بالذات.
+   */
+  poweredByHeader: false,
   redirects,
   /**
    * صفحات HTML تُراجَع مع الخادم في كل زيارة.
@@ -56,7 +62,26 @@ const nextConfig: NextConfig = {
    * أصول ‎_next/static‎ لا يمسّها هذا — أسماؤها مبصومة وتخزينها سنة سليم.
    */
   async headers() {
+    /**
+     * ترويسات الأمان — لم تكن على الموقع ولا واحدة.
+     *
+     * إطارُ موقعٍ آخر يحمل صفحتنا هو أداة تصيّد جاهزة: يضع المهاجم صفحة
+     * دخولنا داخل صفحته ويلتقط ما يُكتب فيها. ومنع تخمين نوع الملف يقطع
+     * حيلة رفع سكربت باسم صورة. والمُحيل الكامل يسرّب عناوين صفحاتنا
+     * الداخلية إلى كل موقع نرسل إليه القارئ.
+     */
+    const security = [
+      // يفرض التشفير سنة كاملة، فلا تُختطف أوّل زيارة على http
+      { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+      { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      // لا نطلب هذه الأذونات، وإغلاقها يمنع أي سكربت مدسوس من طلبها
+      { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=()' },
+    ]
+
     return [
+      { source: '/:path*', headers: security },
       {
         source: '/((?!_next/|api/).*)',
         headers: [
@@ -64,6 +89,14 @@ const nextConfig: NextConfig = {
             key: 'Cache-Control',
             value: 'public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=300',
           },
+        ],
+      },
+      // لوحة التحكّم لا تُفهرس ولا تُخزَّن في وسيط
+      {
+        source: '/admin/:path*',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+          { key: 'Cache-Control', value: 'no-store' },
         ],
       },
     ]
