@@ -43,7 +43,15 @@ export const AdSettings: GlobalConfig = {
       'إعلاناتك المباعة تظهر أوّلاً دائماً. جوجل يملأ المساحة فقط حين لا يوجد إعلان مباع لها.',
   },
   hooks: {
-    afterChange: [() => void revalidatePath('/', 'layout')],
+    afterChange: [
+      () => {
+        try {
+          revalidatePath('/', 'layout')
+        } catch {
+          /* خارج سياق طلب Next — الصفحات تتجدّد بدورتها المعتادة */
+        }
+      },
+    ],
   },
   fields: [
     {

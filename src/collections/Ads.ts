@@ -13,6 +13,19 @@ export const PLACEMENTS = [
   { label: 'بين الأخبار — إعلان مدعوم', value: 'in-feed' },
 ] as const
 
+/**
+ * تفريغ ذاكرة الصفحات لا يعمل خارج سياق طلب Next: أي سكربت يعدّل إعلاناً
+ * كان ينهار عند هذا السطر. الفشل هنا يعني صفحة قديمة لدقيقة، لا سبباً
+ * لإسقاط العملية.
+ */
+const purge = () => {
+  try {
+    revalidatePath('/', 'layout')
+  } catch {
+    /* خارج سياق الطلب — الصفحات تتجدّد بدورتها المعتادة */
+  }
+}
+
 export const Ads: CollectionConfig = {
   slug: 'ads',
   labels: { singular: 'إعلان', plural: 'الإعلانات' },
@@ -31,8 +44,8 @@ export const Ads: CollectionConfig = {
   },
   hooks: {
     // الصفحات مخزّنة مسبقاً، فتغيير الإعلان لا يظهر حتى تُفرَّغ ذاكرتها
-    afterChange: [() => void revalidatePath('/', 'layout')],
-    afterDelete: [() => void revalidatePath('/', 'layout')],
+    afterChange: [purge],
+    afterDelete: [purge],
   },
   fields: [
     {
